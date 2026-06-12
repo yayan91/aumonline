@@ -917,6 +917,23 @@
         /* Tab pane control */
         .tab-pane { display: none; }
         .tab-pane.active { display: block; animation: fadeUp 0.3s ease-out; }
+		
+		.pagination-wrap {
+			display:flex; align-items:center; justify-content:space-between;
+			margin-top:16px; padding-top:16px;
+			border-top:1px solid var(--ink-600);
+		}
+		.pagination-info { font-size:13px; color:var(--ink-400); font-weight:600; }
+		.pagination-btns { display:flex; align-items:center; gap:8px; }
+		.btn-page {
+			background:var(--ink-700); border:1px solid var(--ink-600);
+			color:var(--ink-300); border-radius:8px; padding:7px 14px;
+			font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;
+		}
+		.btn-page:hover:not(:disabled) { border-color:var(--blue-400); color:var(--blue-300); }
+		.btn-page:disabled { opacity:0.35; cursor:not-allowed; }
+		.btn-page.active { background:var(--blue-600); border-color:var(--blue-400); color:white; }
+		
     </style>
 </head>
 <body>
@@ -1185,19 +1202,23 @@
                         <div class="guru-nip" id="guruProfileNIP"><i class="fas fa-id-badge"></i> NIP: —</div>
                     </div>
                     <div class="sidebar-nav">
-                        <a class="sidebar-link active" onclick="switchGuruMenu('panel-analytics',this)">
-                            <div class="link-icon"><i class="fas fa-chart-pie"></i></div>
-                            Analytics Utama
-                        </a>
-                        <a class="sidebar-link" onclick="switchGuruMenu('panel-token',this)">
-                            <div class="link-icon"><i class="fas fa-key"></i></div>
-                            Pengaturan Token
-                        </a>
-                        <a class="sidebar-link" onclick="switchGuruMenu('panel-hasil',this)">
-                            <div class="link-icon"><i class="fas fa-file-pdf"></i></div>
-                            Laporan &amp; Cetak
-                        </a>
-                    </div>
+						<a class="sidebar-link active" onclick="switchGuruMenu('panel-analytics',this)">
+							<div class="link-icon"><i class="fas fa-house"></i></div>
+							Beranda
+						</a>
+						<a class="sidebar-link" onclick="switchGuruMenu('panel-token',this)">
+							<div class="link-icon"><i class="fas fa-key"></i></div>
+							Token
+						</a>
+						<a class="sidebar-link" onclick="switchGuruMenu('panel-hasil',this)">
+							<div class="link-icon"><i class="fas fa-user-graduate"></i></div>
+							Cetak Siswa
+						</a>
+						<a class="sidebar-link" onclick="switchGuruMenu('panel-cetak-kelas',this)">
+							<div class="link-icon"><i class="fas fa-users"></i></div>
+							Cetak Kelas
+						</a>
+					</div>
                 </div>
 
                 <!-- KONTEN -->
@@ -1264,11 +1285,12 @@
                             <div class="table-responsive">
                                 <table class="table-dark-clean" id="tblToken">
                                     <thead>
-                                        <tr>
-                                            <th>Token</th><th>Kelas</th><th>ID Tingkat</th>
-                                            <th>Tahun</th><th>Status</th><th>Aksi</th>
-                                        </tr>
-                                    </thead>
+										<tr>
+											<th>No.</th><th>Token</th><th>Kelas</th>
+											<th>Tingkat</th><th>Jenjang</th><th>Tahun Ajaran</th>
+											<th>Status</th><th style="text-align:right;">Aksi</th>
+										</tr>
+									</thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
@@ -1286,8 +1308,29 @@
                                     Rekapitulasi &amp; Cetak Profil
                                 </div>
                             </div>
+							
+							<div class="row g-3 mb-4">
+							<div class="col-md-4">
+								<label class="field-label">Filter Kelas</label>
+								<select class="field-input" id="filterKelasHasil" onchange="filterCetakSiswa()">
+									<option value="">— Semua Kelas —</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label class="field-label">Filter Nama Siswa</label>
+								<select class="field-input" id="filterNamaHasil" onchange="filterCetakSiswa()">
+									<option value="">— Semua Siswa —</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label class="field-label">Cari Siswa</label>
+								<input type="text" class="field-input" id="cariSiswaHasil" 
+									placeholder="Ketik nama siswa..." oninput="filterCetakSiswa()">
+							</div>
+						</div>
+							
                             <div class="table-responsive">
-                                <table class="table-dark-clean" id="tblHasil">
+								<table class="table-dark-clean" id="tblHasil">
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th><th>Nama Siswa</th><th>Kelas</th>
@@ -1296,9 +1339,71 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
+								
+								<div class="pagination-wrap" id="paginasiHasil">
+									<div class="pagination-info" id="infoHasil"></div>
+									<div class="pagination-btns" id="btnHasil"></div>
+								</div>
+								
                             </div>
                         </div>
                     </div>
+					
+					<!-- PANEL: Cetak Perkelas -->
+					<div id="panel-cetak-kelas" class="guru-panel">
+						<div class="panel-content">
+							<div class="panel-header">
+								<div class="panel-title">
+									<div class="panel-title-icon" style="background:rgba(201,168,76,0.12);color:var(--gold-400);">
+										<i class="fas fa-layer-group"></i>
+									</div>
+									Cetak Laporan Perkelas
+								</div>
+							</div>
+
+							<div class="row g-3 mb-4">
+								<div class="col-md-5">
+									<label class="field-label">Filter Tahun Ajaran</label>
+									<select class="field-input" id="filterTahunKelas">
+										<option value="">— Semua Tahun —</option>
+									</select>
+								</div>
+								<div class="col-md-5">
+									<label class="field-label">Filter Kelas</label>
+									<select class="field-input" id="filterNamaKelas">
+										<option value="">— Semua Kelas —</option>
+									</select>
+								</div>
+								<div class="col-md-2 d-flex align-items-end">
+									<button class="btn-action-blue w-100" onclick="filterTabelCetakKelas()">
+										<i class="fas fa-filter"></i> Tampilkan
+									</button>
+								</div>
+							</div>
+
+							<div class="table-responsive">
+								<table class="table-dark-clean" id="tblCetakKelas">
+									<thead>
+										<tr>
+											<th>Kelas</th>
+											<th>Tingkat</th>
+											<th>Tahun Ajaran</th>
+											<th>Peserta Mengisi</th>
+											<th>Terdaftar</th>
+											<th style="text-align:right;">Aksi</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+								
+								<div class="pagination-wrap" id="paginasiKelas">
+									<div class="pagination-info" id="infoKelas"></div>
+									<div class="pagination-btns" id="btnKelas"></div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
 
                 </div>
             </div>
@@ -1313,6 +1418,47 @@
         </div>
         <div class="footer-sub">Owner Muhammad Hasratul &nbsp;·&nbsp; &copy; 2026 Hak Cipta Dilindungi Undang-Undang</div>
     </footer>
+	
+	<!-- MODAL LIHAT TOKEN -->
+	<div class="modal fade" id="modalLihatToken" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content modal-content-dark">
+				<div class="modal-header-dark">
+					<span class="modal-title-dark"><i class="fas fa-eye me-2"></i>Detail Token Kelas</span>
+					<button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body-dark">
+					<!-- Info Token -->
+					<div style="background:var(--ink-700);border:1px solid var(--ink-600);border-radius:12px;padding:16px;margin-bottom:20px;">
+						<div class="row g-2" id="lihatTokenInfo"></div>
+					</div>
+					<!-- Daftar Siswa -->
+					<div class="panel-title mb-3">
+						<div class="panel-title-icon" style="background:rgba(59,130,246,0.12);color:var(--blue-400);">
+							<i class="fas fa-users"></i>
+						</div>
+						Daftar Siswa
+					</div>
+					<div class="table-responsive">
+						<table class="table-dark-clean" id="tblLihatSiswa">
+							<thead>
+								<tr>
+									<th>No.</th>
+									<th>Nama Siswa</th>
+									<th>Status Risiko</th>
+									<th>Rata-rata Kebutuhan</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer-dark">
+					<button class="btn-modal-cancel" data-bs-dismiss="modal">Tutup</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- MODAL TOKEN -->
     <div class="modal fade" id="modalToken" tabindex="-1">
@@ -1370,7 +1516,7 @@
             "KAR-01":"Eksplorasi Karir","KAR-02":"Perencanaan Masa depan","KAR-03":"Kemandirian dan Keputusan"
         };
 
-        let dbTokens=[],dbSiswa=[],dbSoal=[],dbProgram=[],dbHasil=[],dbSekolah={};
+        let dbTokens=[],dbSiswa=[],dbSoal=[],dbProgram=[],dbHasil=[],dbSekolah={},dbTahun=[],dbTingkat=[];
         let sessionToken=null,sessionSiswa=null,curSoal=[],curIdx=0,ansMap={};
         let chartInstance=null;
 
@@ -1531,33 +1677,81 @@
         function lompatSoal(idx){ curIdx=idx; renderSoal(); }
 
         async function kunciDanKirim() {
-            if(Object.keys(ansMap).length<curSoal.length){
-                return Swal.fire('Belum Selesai','Anda wajib menjawab seluruh soal sebelum mengirim. Cek palet nomor yang masih kosong.','warning');
-            }
-            Swal.fire({title:'Kunci Jawaban?',icon:'question',text:'Jawaban akan disimpan permanen.',showCancelButton:true,confirmButtonText:'Kirim Permanen'}).then(async(res)=>{
-                if(res.isConfirmed){
-                    try {
-                        loadShow("Mengirim Data...");
-                        let ttl={},yes={};
-                        curSoal.forEach(s=>{ttl[s.ID_Bidang_Tes]=(ttl[s.ID_Bidang_Tes]||0)+1;if(ansMap[s.ID_Soal]==="Ya") yes[s.ID_Bidang_Tes]=(yes[s.ID_Bidang_Tes]||0)+1;});
-                        let rank=Object.keys(ttl).map(k=>({kode:k,bidang:KAMUS_AUM[k]||k,pct:Math.round(((yes[k]||0)/ttl[k])*100),skor:yes[k]||0})).sort((a,b)=>b.pct-a.pct);
-                        let t3=rank.slice(0,3);let b3=rank.slice(-3).reverse();
-                        const rProg=await fetchAPI("read&sheet=Program Layanan"); dbProgram=rProg.data||[];
-                        const mapProg=(arr)=>arr.map(x=>{
-                            let p=dbProgram.find(y=>y.ID_Bidang_Tes===x.kode&&y.ID_Tingkat===sessionSiswa.ID_Tingkat)||{};
-                            return{bidang:x.bidang,pct:`${x.pct}`,kat:p.Kategori||'-',strat:p.Strategi_Layanan||'-',topik:p.Topik_Materi||'-',tjn:p.Tujuan_Layanan||'-',met:p.Metode||'-',med:p.Media||'-',ev:p.Evaluasi||'-'};
-                        });
-                        const payload={sheet:"Hasil Skoring",log_jawaban:{ID_Tahun:sessionToken.ID_Tahun,ID_Tingkat:sessionSiswa.ID_Tingkat,ID_Siswa:sessionSiswa.ID_Siswa,Data_Jawaban:JSON.stringify(ansMap)},hasil_skoring:{ID_Siswa:sessionSiswa.ID_Siswa,ID_Tahun:sessionToken.ID_Tahun,ID_Tingkat:sessionSiswa.ID_Tingkat,Skor_Akhir:JSON.stringify({seluruh:rank,top3:mapProg(t3),bot3:mapProg(b3)}),Rekomendasi:"Tersimpan Komprehensif"}};
-                        await fetchAPI("submit_ujian",payload);
-                        localStorage.removeItem(`SOBATBK_DRAFT_${sessionSiswa.ID_Siswa}`);
-                        loadHide();
-                        Swal.fire({icon:'success',title:'Selesai',text:'Data sukses tersimpan di server.',allowOutsideClick:false});
-                        document.getElementById('cbtButtonArea').innerHTML=`<div style="background:rgba(16,185,129,0.1);border:1px solid var(--green-500);border-radius:12px;padding:16px 24px;color:#6EE7B7;font-weight:700;display:flex;align-items:center;gap:10px;"><i class="fas fa-lock"></i> Tes Selesai. Sesi Pengisian Ditutup.</div>`;
-                        switchView('view-dashboard-siswa');
-                    } catch(e){ loadHide(); Swal.fire('Gagal Menyimpan',e.message,'error'); }
-                }
-            });
-        }
+			if(Object.keys(ansMap).length < curSoal.length){
+				return Swal.fire('Belum Selesai','Anda wajib menjawab seluruh soal sebelum mengirim. Cek palet nomor yang masih kosong.','warning');
+			}
+			
+			Swal.fire({
+				title: 'Kunci Jawaban?',
+				icon: 'question',
+				text: 'Jawaban akan disimpan permanen.',
+				showCancelButton: true,
+				confirmButtonText: 'Kirim Permanen'
+			}).then(async(res) => {
+				if(res.isConfirmed){
+					try {
+						loadShow("Mengirim Data...");
+						
+						// --- BAGIAN YANG DIPERBARUI: Pelacakan Butir Soal ---
+						let ttl = {}, yes = {}, butirYa = {};
+						
+						// Menghitung jumlah soal, jawaban YA, dan melacak nomor urut soal
+						curSoal.forEach((s, index) => {
+							let nomorUrutSoal = index + 1;
+							ttl[s.ID_Bidang_Tes] = (ttl[s.ID_Bidang_Tes] || 0) + 1;
+							
+							if(ansMap[s.ID_Soal] === "Ya") {
+								yes[s.ID_Bidang_Tes] = (yes[s.ID_Bidang_Tes] || 0) + 1;
+								if(!butirYa[s.ID_Bidang_Tes]) butirYa[s.ID_Bidang_Tes] = [];
+								butirYa[s.ID_Bidang_Tes].push(nomorUrutSoal);
+							}
+						});
+						
+						// Merangking prioritas masalah dan menyisipkan data butir_ya
+						let rank = Object.keys(ttl).map(k => ({
+							kode: k, 
+							bidang: KAMUS_AUM[k] || k, 
+							pct: Math.round(((yes[k] || 0) / ttl[k]) * 100), 
+							skor: yes[k] || 0,
+							item_ya: butirYa[k] || [] // <-- Ini data tambahan nomor soalnya
+						})).sort((a,b) => b.pct - a.pct);
+						// ---------------------------------------------------
+						
+						let t3 = rank.slice(0,3);
+						let b3 = rank.slice(-3).reverse();
+						
+						const payload = {
+							sheet: "Hasil Skoring",
+							log_jawaban: {
+								ID_Tahun: sessionToken.ID_Tahun,
+								ID_Tingkat: sessionSiswa.ID_Tingkat,
+								ID_Siswa: sessionSiswa.ID_Siswa,
+								Data_Jawaban: JSON.stringify(ansMap)
+							},
+							hasil_skoring: {
+								ID_Siswa: sessionSiswa.ID_Siswa,
+								ID_Tahun: sessionToken.ID_Tahun,
+								ID_Tingkat: sessionSiswa.ID_Tingkat,
+								Skor_Akhir: JSON.stringify({ seluruh: rank, top3: t3, bot3: b3 }), 
+								Rekomendasi: "Tersimpan Terpusat"
+							}
+						};
+						
+						await fetchAPI("submit_ujian", payload);
+						localStorage.removeItem(`SOBATBK_DRAFT_${sessionSiswa.ID_Siswa}`);
+						loadHide();
+						
+						Swal.fire({icon:'success', title:'Selesai', text:'Data sukses tersimpan di server.', allowOutsideClick:false});
+						document.getElementById('cbtButtonArea').innerHTML = `<div style="background:rgba(16,185,129,0.1);border:1px solid var(--green-500);border-radius:12px;padding:16px 24px;color:#6EE7B7;font-weight:700;display:flex;align-items:center;gap:10px;"><i class="fas fa-lock"></i> Tes Selesai. Sesi Pengisian Ditutup.</div>`;
+						switchView('view-dashboard-siswa');
+						
+					} catch(e) { 
+						loadHide(); 
+						Swal.fire('Gagal Menyimpan', e.message, 'error'); 
+					}
+				}
+			});
+		}
 
         async function prosesLoginGuru() {
             let u=document.getElementById('loginUserGuru').value.trim();
@@ -1565,12 +1759,14 @@
             if(!u||!p) return Swal.fire('Info','Kredensial kosong.','warning');
             try {
                 loadShow("Otorisasi Akses Admin...");
-                const [rGuru,rHas,rSek,rSis,rTok]=await Promise.all([fetchAPI("read&sheet=Guru"),fetchAPI("read&sheet=Hasil Skoring"),fetchAPI("read&sheet=Sekolah"),fetchAPI("read&sheet=Siswa"),fetchAPI("read&sheet=Token Kelas")]);
+                const [rGuru,rHas,rSek,rSis,rTok,rThn,rTkt]=await Promise.all([fetchAPI("read&sheet=Guru"),fetchAPI("read&sheet=Hasil Skoring"),fetchAPI("read&sheet=Sekolah"),fetchAPI("read&sheet=Siswa"),fetchAPI("read&sheet=Token Kelas"),fetchAPI("read&sheet=Tahun Ajaran"),fetchAPI("read&sheet=Tingkat Kelas")]);
                 let arrGuru=Array.isArray(rGuru.data)?rGuru.data:[];
                 dbSekolah=Array.isArray(rSek.data)?rSek.data[0]:{};
                 dbHasil=Array.isArray(rHas.data)?rHas.data:[];
                 dbSiswa=Array.isArray(rSis.data)?rSis.data:[];
                 dbTokens=Array.isArray(rTok.data)?rTok.data:[];
+				dbTahun=Array.isArray(rThn.data)?rThn.data:[];
+				dbTingkat=Array.isArray(rTkt.data)?rTkt.data:[];
                 let matchAdmin=arrGuru.find(x=>String(x.Username).trim()===u&&String(x.Password).trim()===p);
                 if(!matchAdmin) throw new Error("Username atau Kata Sandi Salah.");
                 document.getElementById('guruProfileName').innerText=matchAdmin.Nama_Guru||"Admin BK";
@@ -1578,7 +1774,7 @@
                 document.getElementById('guruAvatarImg').src=`https://ui-avatars.com/api/?name=${encodeURIComponent(matchAdmin.Nama_Guru||'Admin')}&background=1A3A6B&color=C9A84C&bold=true`;
                 document.getElementById('statResponden').innerText=dbHasil.length;
                 document.getElementById('statToken').innerText=dbTokens.filter(x=>x.Status==="Aktif").length;
-                renderChart(); renderTblToken(); renderTblHasil();
+                renderChart(); renderTblToken(); renderTblHasil(); renderTabelCetakKelas();
                 loadHide(); switchView('view-dashboard-guru');
             } catch(e){ loadHide(); Swal.fire('Ditolak',e.message,'error'); }
         }
@@ -1627,38 +1823,56 @@
         const modTkn=new bootstrap.Modal(document.getElementById('modalToken'));
 
         function renderTblToken() {
-            let b=document.querySelector('#tblToken tbody'); b.innerHTML="";
-            dbTokens.forEach(t=>{
-                b.innerHTML+=`<tr>
-                    <td><span class="badge-token">${t.Token}</span></td>
-                    <td style="font-weight:700;color:var(--ink-000);">${t.Nama_Kelas}</td>
-                    <td>${t.ID_Tingkat}</td>
-                    <td>${t.ID_Tahun}</td>
-                    <td><span class="${t.Status==='Aktif'?'badge-aktif':'badge-selesai'}">${t.Status}</span></td>
-                    <td><button class="btn-edit-sm" onclick="bukaModalToken('Edit','${t.Token}')"><i class="fas fa-edit me-1"></i>Edit</button></td>
-                </tr>`;
-            });
-        }
+			let b=document.querySelector('#tblToken tbody'); b.innerHTML="";
+			dbTokens.forEach((t,i)=>{
+				const namaTkt = (dbTingkat.find(x=>x.ID_Tingkat===t.ID_Tingkat)||{}).Nama_Tingkat||t.ID_Tingkat;
+				const namaThn = (dbTahun.find(x=>x.ID_Tahun===t.ID_Tahun)||{}).Nama_Tahun||t.ID_Tahun;
+				const namaJnj = t.ID_Jenjang||'-';
+				b.innerHTML+=`<tr>
+					<td>${i+1}</td>
+					<td><span class="badge-token">${t.Token}</span></td>
+					<td style="font-weight:700;color:var(--ink-000);">${t.Nama_Kelas}</td>
+					<td>${namaTkt}</td>
+					<td>${namaJnj}</td>
+					<td>${namaThn}</td>
+					<td><span class="${t.Status==='Aktif'?'badge-aktif':'badge-selesai'}">${t.Status}</span></td>
+					<td>
+						<div style="display:flex;gap:6px;justify-content:flex-end;">
+							<button class="btn-edit-sm" onclick="bukaModalLihat('${t.Token}')"><i class="fas fa-eye me-1"></i>Lihat</button>
+							<button class="btn-edit-sm" onclick="bukaModalToken('Edit','${t.Token}')"><i class="fas fa-edit me-1"></i>Edit</button>
+						</div>
+					</td>
+				</tr>`;
+			});
+		}
 
-        function bukaModalToken(mode,tkn="") {
-            document.getElementById('frmMode').value=mode;
-            document.getElementById('modalTitle').innerText=`${mode} Token`;
-            if(mode==='Edit'){
-                let d=dbTokens.find(x=>x.Token===tkn);
-                document.getElementById('frmToken').value=d.Token;
-                document.getElementById('frmToken').readOnly=true;
-                document.getElementById('frmKelas').value=d.Nama_Kelas;
-                document.getElementById('frmTingkat').value=d.ID_Tingkat;
-                document.getElementById('frmStatus').value=d.Status;
-            } else {
-                document.getElementById('frmToken').value="";
-                document.getElementById('frmToken').readOnly=false;
-                document.getElementById('frmKelas').value="";
-                document.getElementById('frmTingkat').value="";
-                document.getElementById('frmStatus').value="Aktif";
-            }
-            modTkn.show();
-        }
+        function generateToken(len=6) {
+			const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			let result='';
+			for(let i=0;i<len;i++) result+=chars[Math.floor(Math.random()*chars.length)];
+			return result;
+		}
+
+		function bukaModalToken(mode,tkn="") {
+			document.getElementById('frmMode').value=mode;
+			document.getElementById('modalTitle').innerText=`${mode} Token`;
+			if(mode==='Edit'){
+				let d=dbTokens.find(x=>x.Token===tkn);
+				if(!d) return Swal.fire('Error','Data token tidak ditemukan.','error');
+				document.getElementById('frmToken').value=d.Token;
+				document.getElementById('frmToken').readOnly=true;
+				document.getElementById('frmKelas').value=d.Nama_Kelas;
+				document.getElementById('frmTingkat').value=d.ID_Tingkat;
+				document.getElementById('frmStatus').value=d.Status;
+			} else {
+				document.getElementById('frmToken').value=generateToken();
+				document.getElementById('frmToken').readOnly=true;
+				document.getElementById('frmKelas').value="";
+				document.getElementById('frmTingkat').value="";
+				document.getElementById('frmStatus').value="Aktif";
+			}
+			modTkn.show();
+		}
 
         async function simpanToken() {
             const py={Token:document.getElementById('frmToken').value.trim().toUpperCase(),Nama_Kelas:document.getElementById('frmKelas').value.trim(),ID_Tingkat:document.getElementById('frmTingkat').value.trim(),ID_Jenjang:"SMP",ID_Tahun:"2026/2027",Status:document.getElementById('frmStatus').value};
@@ -1672,121 +1886,880 @@
         }
 
         function renderTblHasil() {
-            let b=document.querySelector('#tblHasil tbody'); b.innerHTML="";
-            dbHasil.forEach(h=>{
-                let n=(dbSiswa.find(s=>s.ID_Siswa===h.ID_Siswa)||{}).Nama_Siswa||h.ID_Siswa;
-                let kls=(dbSiswa.find(s=>s.ID_Siswa===h.ID_Siswa)||{}).Kelas||"-";
-                let t="-"; try{t=JSON.parse(h.Skor_Akhir).top3[0].bidang;}catch(e){}
-                b.innerHTML+=`<tr>
-                    <td style="color:var(--ink-400);font-size:12px;">${new Date(h.Timestamp).toLocaleDateString('id')}</td>
-                    <td style="font-weight:700;color:var(--ink-000);">${n}</td>
-                    <td>${kls}</td>
-                    <td style="color:#FCA5A5;font-weight:600;font-size:12px;">${t}</td>
-                    <td style="text-align:right;"><button class="btn-print-sm" onclick="cetakPDF('${h.ID_Hasil}')"><i class="fas fa-print"></i> Cetak</button></td>
-                </tr>`;
-            });
-        }
+			const thead = document.querySelector('#tblHasil thead tr');
+			thead.innerHTML=`<th>No.</th><th>Tanggal</th><th>Nama Siswa</th><th>Kelas</th><th>Masalah Tertinggi</th><th style="text-align:right;">Cetak</th>`;
+
+			// Isi dropdown kelas
+			const selKelas = document.getElementById('filterKelasHasil');
+			const kelasSet = [...new Set(dbHasil.map(h=>(dbSiswa.find(s=>s.ID_Siswa===h.ID_Siswa)||{}).Kelas).filter(Boolean))].sort();
+			selKelas.innerHTML='<option value="">— Semua Kelas —</option>';
+			kelasSet.forEach(k => selKelas.innerHTML+=`<option value="${k}">${k}</option>`);
+
+			buatPaginasi(dbHasil, renderTblHasilPage, 'infoHasil', 'btnHasil');
+		}
 
         async function cetakPDF(id) {
-            try {
-                loadShow("Persiapan Cetak PDF...");
-                const h=dbHasil.find(x=>x.ID_Hasil===id);
-                const s=dbSiswa.find(x=>x.ID_Siswa===h.ID_Siswa)||{Nama_Siswa:"-",Kelas:"-"};
-                let bdl={}; try{bdl=JSON.parse(h.Skor_Akhir);}catch(e){throw new Error('Format data skoring rusak.');}
-                let totalPct=bdl.seluruh.reduce((acc,curr)=>acc+parseInt(curr.pct),0);
-                let rataRata=Math.round(totalPct/bdl.seluruh.length);
-                let statusData={label:"STABIL",color:[22,163,74]};
-                if(rataRata>=70) statusData={label:"KRISIS",color:[220,38,38]};
-                else if(rataRata>=40) statusData={label:"WASPADA",color:[202,138,4]};
-                const getBidangLayanan=(namaSub)=>{
-                    const teks=String(namaSub).toLowerCase();
-                    if(teks.includes("kesehatan")||teks.includes("spiritual")||teks.includes("fisik")||teks.includes("mental")||teks.includes("moral")) return "Pribadi";
-                    if(teks.includes("teman")||teks.includes("keluarga")||teks.includes("sosial")||teks.includes("digital")||teks.includes("asuh")) return "Sosial";
-                    if(teks.includes("belajar")||teks.includes("waktu")||teks.includes("akademik")||teks.includes("literasi")||teks.includes("motivasi")) return "Belajar";
-                    return "Karier";
-                };
-                const [resThn,resTingkat,resProg]=await Promise.all([fetchAPI("read&sheet=Tahun Ajaran"),fetchAPI("read&sheet=Tingkat Kelas"),fetchAPI("read&sheet=Program Layanan")]);
-                const namaTahunAjaran=((resThn.data||[]).find(t=>t.ID_Tahun===h.ID_Tahun)||{}).Nama_Tahun||h.ID_Tahun;
-                const namaTingkat=((resTingkat.data||[]).find(t=>t.ID_Tingkat===h.ID_Tingkat)||{}).Nama_Tingkat||h.ID_Tingkat;
-                const dbProg=resProg.data||[];
-                const formatTglIsi=new Date(h.Timestamp).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-                const formatTglTtd=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
-                const{jsPDF}=window.jspdf;const doc=new jsPDF('p','mm','a4');
-                const mLeft=20;const mRight=20;const mTop=20;const mBottom=20;
-                const pageWidth=doc.internal.pageSize.width;const mCenter=pageWidth/2;
-                doc.setFont("times","bold");doc.setFontSize(14);
-                doc.text(`${dbSekolah.Pemerintah||'PEMERINTAH KOTA MAKASSAR'}`,mCenter,mTop,{align:"center"});
-                doc.text(`${dbSekolah.Instansi||'DINAS PENDIDIKAN DAN KEBUDAYAAN'}`,mCenter,mTop+6,{align:"center"});
-                doc.setFontSize(16);doc.text(`${dbSekolah.Nama_Sekolah||'SMP NEGERI KOTA MAKASSAR'}`,mCenter,mTop+13,{align:"center"});
-                doc.setFont("times","normal");doc.setFontSize(10);
-                doc.text(`${dbSekolah.Alamat||'Sistem Bimbingan & Konseling Terpadu'}`,mCenter,mTop+18,{align:"center"});
-                doc.setLineWidth(0.8);doc.line(mLeft,mTop+22,pageWidth-mRight,mTop+22);
-                doc.setLineWidth(0.3);doc.line(mLeft,mTop+23.5,pageWidth-mRight,mTop+23.5);
-                doc.setFont("times","bold");doc.setFontSize(12);
-                doc.text("LAPORAN ANALISIS PROFIL KEBUTUHAN SISWA (AUM - ONLINE)",mCenter,mTop+35,{align:"center"});
-                doc.autoTable({startY:mTop+40,margin:{left:mLeft,right:mRight},body:[['Nama Lengkap',':',s.Nama_Siswa,'Tgl. Asesmen',':',formatTglIsi],['Tingkat / Kelas',':',`${namaTingkat} / ${s.Kelas}`,'Tahun Ajaran',':',namaTahunAjaran]],theme:'plain',styles:{font:'times',fontSize:10,cellPadding:1,textColor:[0,0,0]},columnStyles:{0:{fontStyle:'bold',cellWidth:30},1:{cellWidth:3},2:{cellWidth:60},3:{fontStyle:'bold',cellWidth:25},4:{cellWidth:3},5:{cellWidth:40}}});
-                let yStatus=doc.lastAutoTable.finalY+5;
-                doc.setFillColor(248,250,252);doc.rect(mLeft,yStatus,pageWidth-mLeft-mRight,10,'F');
-                doc.setFont("times","bold");doc.setFontSize(11);doc.text("Status Risiko Global :",mLeft+2,yStatus+7);
-                doc.setTextColor(statusData.color[0],statusData.color[1],statusData.color[2]);doc.text(statusData.label,mLeft+45,yStatus+7);
-                doc.setTextColor(0,0,0);doc.setFontSize(9);doc.setFont("times","italic");doc.text(`(Rata-rata Kebutuhan: ${rataRata}%)`,mLeft+65,yStatus+7);
-                let rekap4={"Pribadi":{pct:0,count:0,desc:"Pengembangan potensi diri, penyelesaian masalah psikologis, fisik, mental, dan nilai spiritual."},"Sosial":{pct:0,count:0,desc:"Kemampuan beradaptasi dan berinteraksi sehat dengan teman sebaya, keluarga, dan lingkungan sosial."},"Belajar":{pct:0,count:0,desc:"Pembentukan kebiasaan belajar efektif, motivasi akademik, dan penyelesaian hambatan studi."},"Karier":{pct:0,count:0,desc:"Pemetaan bakat, minat, serta perencanaan studi lanjutan dan wawasan karier masa depan."}};
-                let mapKategori={};let mapStrategi={};let totalSkorYa=0;
-                bdl.seluruh.forEach(x=>{let b2=getBidangLayanan(x.bidang);rekap4[b2].pct+=parseInt(x.pct);rekap4[b2].count+=1;totalSkorYa+=x.skor;let refProg=dbProg.find(p=>p.ID_Bidang_Tes===x.kode&&p.ID_Tingkat===h.ID_Tingkat)||{};let kat=refProg.Kategori||"Belum Terpetakan";let strat=refProg.Strategi_Layanan||"Belum Terpetakan";if(!mapKategori[kat]) mapKategori[kat]=0;mapKategori[kat]+=x.skor;if(!mapStrategi[strat]) mapStrategi[strat]=0;mapStrategi[strat]+=x.skor;});
-                let dataTabelA=Object.keys(rekap4).map(k=>{let avg=rekap4[k].count>0?Math.round(rekap4[k].pct/rekap4[k].count):0;let ket=avg>=60?"Tinggi (Prioritas)":(avg>=30?"Sedang (Perhatian)":"Rendah (Stabil)");return[k,rekap4[k].desc,`${avg}%`,ket];});
-                let dataKategori=Object.keys(mapKategori).map(k=>({nama:k,skor:mapKategori[k],pct:totalSkorYa>0?Math.round((mapKategori[k]/totalSkorYa)*100):0})).sort((a,b)=>b.pct-a.pct);
-                let dataStrategi=Object.keys(mapStrategi).map(k=>({nama:k,skor:mapStrategi[k],pct:totalSkorYa>0?Math.round((mapStrategi[k]/totalSkorYa)*100):0})).sort((a,b)=>b.pct-a.pct);
-                let topKat=dataKategori.length>0?dataKategori[0]:{nama:"-",pct:0};
-                let topStrat=dataStrategi.length>0?dataStrategi[0]:{nama:"-",pct:0};
-                const corpStyles={font:'times',fontSize:9.5,halign:'center',valign:'middle',lineColor:[0,0,0],lineWidth:0.2,textColor:[0,0,0]};
-                const corpHeadStyles={fillColor:[230,230,230],textColor:[0,0,0],fontStyle:'bold',halign:'center',valign:'middle',lineColor:[0,0,0],lineWidth:0.2};
-                let yInfo=yStatus+12;
-                let kalimatInfo="";
-                if(rataRata>=70) kalimatInfo="Status KRISIS: Siswa berada dalam kondisi yang membutuhkan intervensi konseling intensif segera karena profil masalah telah melampaui ambang batas toleransi psikologis.";
-                else if(rataRata>=40) kalimatInfo="Status WASPADA: Siswa memerlukan perhatian khusus dan bimbingan berkelanjutan melalui program layanan BK agar hambatan perkembangan tidak berkembang menjadi krisis.";
-                else kalimatInfo="Status STABIL: Kondisi psikologis siswa berada dalam rentang wajar. Fokus layanan BK tetap pada pengembangan potensi dan pemeliharaan kesehatan mental.";
-                doc.setFont("times","italic");doc.setFontSize(9);doc.setTextColor(80,80,80);
-                let splitTeks=doc.splitTextToSize(kalimatInfo,pageWidth-mLeft-mRight);
-                doc.text(splitTeks,mLeft,yInfo);doc.setTextColor(0,0,0);
-                let nY=yInfo+(splitTeks.length*4.5)+5;
-                doc.setFont("times","bold");doc.setFontSize(11);doc.text("A. Rekapitulasi 4 Bidang Layanan Dasar",mLeft,nY);
-                doc.autoTable({startY:nY+3,margin:{left:mLeft,right:mRight,bottom:mBottom},head:[['Bidang Layanan','Deskripsi / Fokus Pembinaan','Rata-rata Kebutuhan','Keterangan Masalah']],body:dataTabelA,theme:'grid',headStyles:corpHeadStyles,styles:corpStyles,columnStyles:{1:{halign:'left'}}});
-                nY=doc.lastAutoTable.finalY+10;if(nY>(297-mBottom-30)){doc.addPage();nY=mTop;}
-                doc.setFont("times","bold");doc.text("B. Rincian Pemetaan Seluruh Area Masalah",mLeft,nY);
-                doc.autoTable({startY:nY+3,margin:{left:mLeft,right:mRight,bottom:mBottom},head:[['Bidang Layanan','Area Kebutuhan / Masalah Asesmen','Persentase Indikasi','Intensitas Terkonfirmasi']],body:bdl.seluruh.map(x=>[getBidangLayanan(x.bidang),x.bidang,`${x.pct}%`,`${x.skor} Indikator`]),theme:'grid',headStyles:corpHeadStyles,styles:corpStyles,columnStyles:{1:{halign:'left'}}});
-                nY=doc.lastAutoTable.finalY+10;if(nY>(297-mBottom-40)){doc.addPage();nY=mTop;}
-                doc.setFont("times","bold");doc.text("C. Rekomendasi Program Intervensi Prioritas (3 Masalah Tertinggi)",mLeft,nY);
-                doc.autoTable({startY:nY+3,margin:{left:mLeft,right:mRight,bottom:mBottom},head:[['Bidang','Fokus Masalah','Kategori (Strategi)','Topik Materi','Tujuan Intervensi','Metode & Media','Evaluasi']],body:bdl.top3.map(x=>[getBidangLayanan(x.bidang),`${x.bidang}\n(${x.pct}%)`,`${x.kat}\n(${x.strat})`,x.topik,x.tjn,`${x.met}\n(${x.med})`,x.ev]),theme:'grid',headStyles:corpHeadStyles,styles:{...corpStyles,fontSize:8.5}});
-                nY=doc.lastAutoTable.finalY+10;if(nY>(297-mBottom-40)){doc.addPage();nY=mTop;}
-                doc.setFont("times","bold");doc.text("D. Rekomendasi Program Preventif & Pemeliharaan (Area Stabil)",mLeft,nY);
-                doc.autoTable({startY:nY+3,margin:{left:mLeft,right:mRight,bottom:mBottom},head:[['Bidang','Fokus Penguatan','Kategori (Strategi)','Topik Materi','Tujuan Pembinaan','Metode & Media','Evaluasi']],body:bdl.bot3.map(x=>[getBidangLayanan(x.bidang),`${x.bidang}\n(${x.pct}%)`,`${x.kat}\n(${x.strat})`,x.topik,x.tjn,`${x.met}\n(${x.med})`,x.ev]),theme:'grid',headStyles:corpHeadStyles,styles:{...corpStyles,fontSize:8.5}});
-                nY=doc.lastAutoTable.finalY+10;if(nY>(297-mBottom-50)){doc.addPage();nY=mTop;}
-                doc.setFont("times","bold");doc.setFontSize(11);doc.text("E. Analisis Proporsi Komponen Kategori Layanan",mLeft,nY);
-                doc.autoTable({startY:nY+3,margin:{left:mLeft,right:mRight,bottom:mBottom},head:[['Komponen Kategori Layanan BK','Jumlah Indikator Ditemukan','Persentase Beban Kebutuhan']],body:dataKategori.map(x=>[x.nama,`${x.skor} Indikator`,`${x.pct}%`]),theme:'grid',headStyles:corpHeadStyles,styles:corpStyles});
-                nY=doc.lastAutoTable.finalY+6;
-                doc.setFont("times","italic");doc.setFontSize(10);
-                let teksKat=`Kesimpulan Analisis: Berdasarkan pemetaan di atas, beban persentase tertinggi menunjukkan bahwa siswa sangat membutuhkan komponen penanganan berupa ${topKat.nama} sebesar ${topKat.pct}%. Hal ini mengindikasikan bahwa layanan tersebut harus menjadi prioritas penanganan utama oleh Guru BK.`;
-                let splitKat=doc.splitTextToSize(teksKat,pageWidth-mLeft-mRight);
-                doc.text(splitKat,mLeft,nY);nY+=(splitKat.length*5)+5;
-                if(nY>(297-mBottom-50)){doc.addPage();nY=mTop;}
-                doc.setFont("times","bold");doc.setFontSize(11);doc.text("F. Analisis Proporsi Strategi Layanan (Intervensi)",mLeft,nY);
-                doc.autoTable({startY:nY+3,margin:{left:mLeft,right:mRight,bottom:mBottom},head:[['Rekomendasi Strategi Layanan','Jumlah Indikator Ditemukan','Persentase Skala Rekomendasi']],body:dataStrategi.map(x=>[x.nama,`${x.skor} Indikator`,`${x.pct}%`]),theme:'grid',headStyles:corpHeadStyles,styles:corpStyles});
-                nY=doc.lastAutoTable.finalY+6;
-                doc.setFont("times","italic");doc.setFontSize(10);
-                let teksStrat=`Kesimpulan Analisis: Berdasarkan pola distribusi masalah yang dialami oleh siswa, pendekatan intervensi yang paling relevan dan efektif untuk segera diimplementasikan adalah strategi ${topStrat.nama} dengan skala kesesuaian mencapai ${topStrat.pct}%.`;
-                let splitStrat=doc.splitTextToSize(teksStrat,pageWidth-mLeft-mRight);
-                doc.text(splitStrat,mLeft,nY);
-                nY=doc.lastAutoTable.finalY+25;
-                if(nY>(297-mBottom-30)){doc.addPage();nY=mTop;}
-                doc.setFont("times","normal");doc.setFontSize(10);
-                const signX=pageWidth-mRight-60;
-                doc.text(`Makassar, ${formatTglTtd}`,signX,nY);doc.text("Guru Bimbingan dan Konseling,",signX,nY+5);
-                doc.setFont("times","bold");doc.text(document.getElementById('guruProfileName').innerText,signX,nY+25);
-                doc.setFont("times","normal");doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace('NIP: ','').replace('NIP. ','')}`,signX,nY+30);
-                window.open(doc.output('bloburl'),'_blank');
-                loadHide();
-            } catch(err){ loadHide(); Swal.fire('Gagal Mencetak',err.message,'error'); }
-        }
+			try {
+				loadShow("Persiapan Cetak PDF...");
+				const h = dbHasil.find(x => x.ID_Hasil === id);
+				const s = dbSiswa.find(x => x.ID_Siswa === h.ID_Siswa) || { Nama_Siswa: "-", Kelas: "-" };
+				
+				let bdl = {}; 
+				try { bdl = JSON.parse(h.Skor_Akhir); } 
+				catch(e) { throw new Error('Format data skoring rusak.'); }
+				
+				let totalPct = bdl.seluruh.reduce((acc, curr) => acc + parseInt(curr.pct), 0);
+				let rataRata = Math.round(totalPct / bdl.seluruh.length);
+				
+				let statusData = { label: "STABIL", color: [22, 163, 74] };
+				if (rataRata >= 71) statusData = { label: "KRISIS", color: [220, 38, 38] };
+				else if (rataRata >= 41) statusData = { label: "WASPADA", color: [202, 138, 4] };
+				
+				const getBidangLayanan = (namaSub) => {
+					const teks = String(namaSub).toLowerCase();
+					if (teks.includes("kesehatan") || teks.includes("spiritual") || teks.includes("fisik") || teks.includes("mental") || teks.includes("moral")) return "Pribadi";
+					if (teks.includes("teman") || teks.includes("keluarga") || teks.includes("sosial") || teks.includes("digital") || teks.includes("asuh")) return "Sosial";
+					if (teks.includes("belajar") || teks.includes("waktu") || teks.includes("akademik") || teks.includes("literasi") || teks.includes("motivasi")) return "Belajar";
+					return "Karier";
+				};
+				
+				const [resThn, resTingkat, resProg] = await Promise.all([
+					fetchAPI("read&sheet=Tahun Ajaran"), 
+					fetchAPI("read&sheet=Tingkat Kelas"), 
+					fetchAPI("read&sheet=Program Layanan")
+				]);
+				
+				const namaTahunAjaran = ((resThn.data || []).find(t => t.ID_Tahun === h.ID_Tahun) || {}).Nama_Tahun || h.ID_Tahun;
+				const namaTingkat = ((resTingkat.data || []).find(t => t.ID_Tingkat === h.ID_Tingkat) || {}).Nama_Tingkat || h.ID_Tingkat;
+				const dbProg = resProg.data || [];
+				
+				const formatTglIsi = new Date(h.Timestamp).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+				const formatTglTtd = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+				
+				// --- HELPER: RAKIT MULTI PROGRAM LAYANAN ---
+				const rakitProgramLayanan = (kodeBidang, tingkat) => {
+					let programs = dbProg.filter(p => p.ID_Bidang_Tes === kodeBidang && p.ID_Tingkat === tingkat);
+					if (programs.length === 0) return { kat: "-", strat: "-", topik: "-", tjn: "-", met: "-", ev: "-" };
+					if (programs.length === 1) {
+						let p = programs[0];
+						return { kat: p.Kategori || "-", strat: p.Strategi_Layanan || "-", topik: p.Topik_Materi || "-", tjn: p.Tujuan_Layanan || "-", met: `${p.Metode || "-"}\n(${p.Media || "-"})`, ev: p.Evaluasi || "-" };
+					}
+					let res = { kat: "", strat: "", topik: "", tjn: "", met: "", ev: "" };
+					programs.forEach((p, idx) => {
+						let no = `${idx + 1}. `;
+						let enter = idx < programs.length - 1 ? "\n" : "";
+						if (idx === 0) { res.kat = p.Kategori || "-"; res.strat = p.Strategi_Layanan || "-"; }
+						res.topik += `${no}${p.Topik_Materi || "-"}${enter}`;
+						res.tjn += `${no}${p.Tujuan_Layanan || "-"}${enter}`;
+						res.met += `${no}${p.Metode || "-"} (${p.Media || "-"})${enter}`;
+						res.ev += `${no}${p.Evaluasi || "-"}${enter}`;
+					});
+					return res;
+				};
+
+				// --- SETUP DATA E & F (PROPORSI) ---
+				let rekap4 = {"Pribadi":{pct:0,count:0,desc:"Pengembangan potensi diri, penyelesaian masalah psikologis."}, "Sosial":{pct:0,count:0,desc:"Kemampuan beradaptasi dan berinteraksi sehat."}, "Belajar":{pct:0,count:0,desc:"Pembentukan kebiasaan belajar efektif, motivasi."}, "Karier":{pct:0,count:0,desc:"Pemetaan bakat, minat, serta perencanaan masa depan."}};
+				let mapKategori = {}, mapStrategi = {}, totalSkorYa = 0;
+				
+				bdl.seluruh.forEach(x => {
+					let b2 = getBidangLayanan(x.bidang);
+					rekap4[b2].pct += parseInt(x.pct); rekap4[b2].count += 1; totalSkorYa += x.skor;
+					let refProg = dbProg.find(p => p.ID_Bidang_Tes === x.kode && p.ID_Tingkat === h.ID_Tingkat) || {};
+					let kat = refProg.Kategori || "Belum Terpetakan"; let strat = refProg.Strategi_Layanan || "Belum Terpetakan";
+					mapKategori[kat] = (mapKategori[kat] || 0) + x.skor;
+					mapStrategi[strat] = (mapStrategi[strat] || 0) + x.skor;
+				});
+				
+				let dataTabelA = Object.keys(rekap4).map(k => { let avg = rekap4[k].count > 0 ? Math.round(rekap4[k].pct / rekap4[k].count) : 0; let ket = avg >= 60 ? "Tinggi (Prioritas)" : (avg >= 30 ? "Sedang (Perhatian)" : "Rendah (Stabil)"); return [k, rekap4[k].desc, `${avg}%`, ket]; });
+				let dataKategori = Object.keys(mapKategori).map(k => ({nama:k, skor:mapKategori[k], pct:totalSkorYa > 0 ? Math.round((mapKategori[k]/totalSkorYa)*100) : 0})).sort((a,b)=>b.pct-a.pct);
+				let dataStrategi = Object.keys(mapStrategi).map(k => ({nama:k, skor:mapStrategi[k], pct:totalSkorYa > 0 ? Math.round((mapStrategi[k]/totalSkorYa)*100) : 0})).sort((a,b)=>b.pct-a.pct);
+				let topKat = dataKategori.length > 0 ? dataKategori[0] : {nama:"-", pct:0};
+				let topStrat = dataStrategi.length > 0 ? dataStrategi[0] : {nama:"-", pct:0};
+
+				// --- INISIALISASI PDF (AWAL: PORTRAIT) ---
+				const { jsPDF } = window.jspdf; 
+				const doc = new jsPDF('p', 'mm', 'a4');
+				const mLeft = 20, mRight = 20, mTop = 20, mBottom = 20;
+				let currentWidth = doc.internal.pageSize.getWidth();
+				let mCenter = currentWidth / 2;
+				
+				// GAYA TABEL GLOBAL: Dibuat super rapat (compact) untuk semua bagian
+				const corpStyles = { font: 'times', fontSize: 8.5, halign: 'center', valign: 'middle', lineColor: [0, 0, 0], lineWidth: 0.2, textColor: [0, 0, 0], cellPadding: 1.5 };
+				const corpHeadStyles = { fillColor: [230, 230, 230], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center', valign: 'middle', lineColor: [0, 0, 0], lineWidth: 0.2, cellPadding: 1.5 };
+
+				// --- BAGIAN HEADER & IDENTITAS ---
+				const [logoKiriB64, logoKananB64] = await Promise.all([
+					urlToBase64(dbSekolah.Logo_Kiri  || ''),
+					urlToBase64(dbSekolah.Logo_Kanan || '')
+				]);
+				if(logoKiriB64)  doc.addImage(logoKiriB64,  'PNG', mLeft,      mTop - 4, 22, 22);
+				if(logoKananB64) doc.addImage(logoKananB64, 'PNG', currentWidth - mRight - 22, mTop - 4, 22, 22);
+
+				doc.setFont("times", "bold"); doc.setFontSize(14);
+				doc.text(`${dbSekolah.Pemerintah || 'PEMERINTAH DAERAH'}`, mCenter, mTop, { align: "center" });
+				doc.text(`${dbSekolah.Instansi || 'DINAS PENDIDIKAN DAN KEBUDAYAAN'}`, mCenter, mTop + 6, { align: "center" });
+				doc.setFontSize(16); doc.text(`${dbSekolah.Nama_Sekolah || 'SEKOLAH KITA'}`, mCenter, mTop + 13, { align: "center" });
+				doc.setFont("times", "normal"); doc.setFontSize(10);
+				doc.text(`${dbSekolah.Alamat || 'Alamat Sekolah'}`, mCenter, mTop + 18, { align: "center" });
+				doc.setLineWidth(0.8); doc.line(mLeft, mTop + 22, currentWidth - mRight, mTop + 22);
+				doc.setLineWidth(0.3); doc.line(mLeft, mTop + 23.5, currentWidth - mRight, mTop + 23.5);
+				
+				doc.setFont("times", "bold"); doc.setFontSize(12);
+				doc.text("LAPORAN ANALISIS PROFIL KEBUTUHAN SISWA (AUM - ONLINE)", mCenter, mTop + 35, { align: "center" });
+				
+				doc.autoTable({ startY: mTop + 40, margin: { left: mLeft, right: mRight }, body: [['Nama Lengkap', ':', s.Nama_Siswa, 'Tgl. Asesmen', ':', formatTglIsi], ['Tingkat / Kelas', ':', `${namaTingkat} / ${s.Kelas}`, 'Tahun Ajaran', ':', namaTahunAjaran]], theme: 'plain', styles: { font: 'times', fontSize: 10, cellPadding: 1, textColor: [0, 0, 0] }, columnStyles: { 0: { fontStyle: 'bold', cellWidth: 30 }, 1: { cellWidth: 3 }, 2: { cellWidth: 60 }, 3: { fontStyle: 'bold', cellWidth: 25 }, 4: { cellWidth: 3 }, 5: { cellWidth: 40 } } });
+				
+				// =========================================================
+				// KOTAK STATUS RISIKO GLOBAL (Biasa, Informatif, & Rapi)
+				// =========================================================
+				let yStatus = doc.lastAutoTable.finalY + 6;
+
+				let kalimatInfo = rataRata >= 71 
+					? "Rekomendasi Intervensi: Membutuhkan tindakan responsif segera melalui konseling individual intensif dan modifikasi perilaku untuk memulihkan fungsi adaptif siswa di sekolah." 
+					: (rataRata >= 41 
+						? "Rekomendasi Intervensi: Memerlukan bimbingan berkelanjutan dan pemantauan proaktif guna mencegah hambatan kedisiplinan, penurunan motivasi belajar, serta isu dinamika sosial." 
+						: "Rekomendasi Intervensi: Kondisi adaptif dan stabil. Layanan difokuskan pada bimbingan preventif untuk mengoptimalkan prestasi, kemandirian, dan resiliensi siswa.");
+
+				// Mencegah teks bablas: Memotong teks panjang menjadi beberapa baris sesuai lebar margin
+				doc.setFontSize(9.5);
+				let splitInfo = doc.splitTextToSize(kalimatInfo, currentWidth - mLeft - mRight - 10);
+
+				// Menghitung tinggi kotak secara dinamis menyesuaikan jumlah baris teks
+				let boxHeight = 10 + (splitInfo.length * 4.5);
+
+				// Membuat kotak latar
+				doc.setFillColor(248, 250, 252); 
+				doc.setDrawColor(0, 0, 0); doc.setLineWidth(0.2);
+				doc.rect(mLeft, yStatus, currentWidth - mLeft - mRight, boxHeight, 'FD'); 
+
+				// Baris 1: Judul Status & Persentase
+				doc.setFont("times", "bold"); doc.setFontSize(11); 
+				doc.text("Status Risiko Global :", mLeft + 5, yStatus + 6.5);
+
+				doc.setTextColor(statusData.color[0], statusData.color[1], statusData.color[2]); 
+				doc.text(statusData.label, mLeft + 43, yStatus + 6.5);
+
+				doc.setTextColor(0, 0, 0); doc.setFontSize(10); doc.setFont("times", "italic"); 
+				doc.text(`(Rata-rata Kebutuhan: ${rataRata}%)`, mLeft + 70, yStatus + 6.5);
+
+				// Baris 2: Kalimat Penjelasan yang sudah terbungkus rapi
+				doc.setFontSize(9.5); doc.setFont("times", "normal");
+				doc.text(splitInfo, mLeft + 5, yStatus + 12.5);
+
+				// Jarak dinamis untuk Tabel A di bawahnya
+				let nY = yStatus + boxHeight + 6;
+
+				// --- BAGIAN A & B (PORTRAIT) ---
+				doc.setFont("times", "bold"); doc.setFontSize(11); doc.text("A. Rekapitulasi 4 Bidang Layanan Dasar", mLeft, nY);
+				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Bidang Layanan', 'Deskripsi / Fokus Pembinaan', 'Rata-rata', 'Keterangan']], body: dataTabelA, theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles, columnStyles: { 1: { halign: 'left' } } });
+				
+				nY = doc.lastAutoTable.finalY + 8; if (nY > (297 - mBottom - 30)) { doc.addPage(); nY = mTop; }
+				doc.setFont("times", "bold"); doc.text("B. Rincian Pemetaan Seluruh Area Masalah", mLeft, nY);
+				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Bidang', 'Area Kebutuhan / Masalah', 'Persentase', 'Intensitas']], body: bdl.seluruh.map(x => [getBidangLayanan(x.bidang), x.bidang, `${x.pct}%`, `${x.skor} Indikator`]), theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles, columnStyles: { 1: { halign: 'left' } } });
+
+				// =========================================================
+				// HALAMAN LANDSCAPE (KHUSUS BAGIAN C)
+				// =========================================================
+				doc.addPage("a4", "landscape");
+				currentWidth = doc.internal.pageSize.getWidth(); 
+				nY = mTop;
+
+				let bodyTop3 = bdl.top3.map(x => { let p = rakitProgramLayanan(x.kode, h.ID_Tingkat); return [getBidangLayanan(x.bidang), `${x.bidang}\n(${x.pct}%)`, `${p.kat}\n(${p.strat})`, p.topik, p.tjn, p.met, p.ev]; });
+				doc.setFont("times", "bold"); doc.text("C. Rekomendasi Program Intervensi Prioritas (3 Masalah Tertinggi)", mLeft, nY);
+				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Bidang', 'Fokus Masalah', 'Kategori (Strategi)', 'Topik Materi', 'Tujuan Intervensi', 'Metode & Media', 'Evaluasi']], body: bodyTop3, theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles, columnStyles: { 3: { halign: 'left' }, 4: { halign: 'left' }, 5: { halign: 'left' }, 6: { halign: 'left' } } });
+
+				// =========================================================
+				// HALAMAN LANDSCAPE (KHUSUS BAGIAN D) - SELALU HALAMAN BARU
+				// =========================================================
+				doc.addPage("a4", "landscape"); 
+				nY = mTop;
+
+				let bodyBot3 = bdl.bot3.map(x => { let p = rakitProgramLayanan(x.kode, h.ID_Tingkat); return [getBidangLayanan(x.bidang), `${x.bidang}\n(${x.pct}%)`, `${p.kat}\n(${p.strat})`, p.topik, p.tjn, p.met, p.ev]; });
+				doc.setFont("times", "bold"); doc.text("D. Rekomendasi Program Preventif & Pemeliharaan ", mLeft, nY);
+				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Bidang', 'Fokus Penguatan', 'Kategori (Strategi)', 'Topik Materi', 'Tujuan Pembinaan', 'Metode & Media', 'Evaluasi']], body: bodyBot3, theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles, columnStyles: { 3: { halign: 'left' }, 4: { halign: 'left' }, 5: { halign: 'left' }, 6: { halign: 'left' } } });
+
+				// =========================================================
+				// KEMBALI KE HALAMAN PORTRAIT UNTUK BAGIAN E, F, G & TTD
+				// =========================================================
+				doc.addPage("a4", "portrait");
+				currentWidth = doc.internal.pageSize.getWidth();
+				nY = mTop;
+
+				doc.setFont("times", "bold"); doc.setFontSize(11); doc.text("E. Analisis Proporsi Komponen Kategori Layanan", mLeft, nY);
+				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Komponen Kategori Layanan BK', 'Jumlah Indikator', 'Persentase Beban']], body: dataKategori.map(x => [x.nama, `${x.skor} Indikator`, `${x.pct}%`]), theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles });
+				
+				nY = doc.lastAutoTable.finalY + 4; doc.setFont("times", "italic"); doc.setFontSize(10);
+				let teksKat = `Kesimpulan Analisis: Beban penanganan tertinggi menunjukkan siswa sangat membutuhkan layanan ${topKat.nama} sebesar ${topKat.pct}%.`;
+				let splitKat = doc.splitTextToSize(teksKat, currentWidth - mLeft - mRight);
+				doc.text(splitKat, mLeft, nY); 
+				nY += (splitKat.length * 4) + 6;
+				
+				if (nY > (297 - mBottom - 40)) { doc.addPage("a4", "portrait"); nY = mTop; }
+				
+				doc.setFont("times", "bold"); doc.setFontSize(11); doc.text("F. Analisis Proporsi Strategi Layanan (Intervensi)", mLeft, nY);
+				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Rekomendasi Strategi Layanan', 'Jumlah Indikator', 'Skala Kesesuaian']], body: dataStrategi.map(x => [x.nama, `${x.skor} Indikator`, `${x.pct}%`]), theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles });
+				
+				nY = doc.lastAutoTable.finalY + 4; doc.setFont("times", "italic"); doc.setFontSize(10);
+				let teksStrat = `Kesimpulan Analisis: Pendekatan intervensi yang paling relevan untuk segera diimplementasikan adalah strategi ${topStrat.nama} dengan skala kesesuaian mencapai ${topStrat.pct}%.`;
+				let splitStrat = doc.splitTextToSize(teksStrat, currentWidth - mLeft - mRight);
+				doc.text(splitStrat, mLeft, nY);
+				
+				// PENTING: Perbaikan jarak agar G tidak menimpa teks kesimpulan F
+				nY += (splitStrat.length * 4) + 8; 
+				if (nY > (297 - mBottom - 40)) { doc.addPage("a4", "portrait"); nY = mTop; }
+				
+				doc.setFont("times", "bold"); doc.setFontSize(11); 
+				doc.text("G. Rincian Butir Masalah yang Dialami ", mLeft, nY);
+				
+				const urutanBidang = { "PRB": 1, "SOS": 2, "BLJ": 3, "KAR": 4 };
+				let dataTabelG = [...bdl.seluruh]
+					.filter(x => x.item_ya && x.item_ya.length > 0)
+					.sort((a, b) => {
+						let prefixA = a.kode.split("-")[0]; 
+						let prefixB = b.kode.split("-")[0];
+						if (urutanBidang[prefixA] !== urutanBidang[prefixB]) {
+							return urutanBidang[prefixA] - urutanBidang[prefixB];
+						}
+						return a.kode.localeCompare(b.kode); 
+					})
+					.map(x => [
+						getBidangLayanan(x.bidang), 
+						x.bidang, 
+						x.item_ya.sort((n1, n2) => n1 - n2).join(", ")
+					]);
+					
+				if(dataTabelG.length === 0) dataTabelG = [["-", "Tidak terdeteksi masalah", "-"]];
+
+				doc.autoTable({ 
+					startY: nY + 2, 
+					margin: { left: mLeft, right: mRight, bottom: mBottom }, 
+					head: [['Bidang Layanan', 'Fokus Masalah', 'Nomor Butir Instrumen']], 
+					body: dataTabelG, 
+					theme: 'grid', 
+					headStyles: corpHeadStyles, 
+					styles: corpStyles, 
+					columnStyles: { 
+						0: { cellWidth: 35 }, 
+						1: { cellWidth: 55 }, 
+						2: { halign: 'left', fontStyle: 'bold' } 
+					} 
+				});
+
+				// =========================================================
+				// TANDA TANGAN GURU BK
+				// =========================================================
+				nY = doc.lastAutoTable.finalY + 10;
+				if (nY > (297 - mBottom - 30)) { doc.addPage("a4", "portrait"); nY = mTop; }
+				
+				doc.setFont("times", "normal"); doc.setFontSize(10);
+				const signX = currentWidth - mRight - 60;
+				doc.text(`Makassar, ${formatTglTtd}`, signX, nY); 
+				doc.text("Guru Bimbingan dan Konseling,", signX, nY + 5);
+				doc.setFont("times", "bold"); doc.text(document.getElementById('guruProfileName').innerText, signX, nY + 25);
+				doc.setFont("times", "normal"); doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace('NIP: ', '').replace('NIP. ', '')}`, signX, nY + 30);
+				
+				window.open(doc.output('bloburl'), '_blank');
+				loadHide();
+			} catch (err) { 
+				loadHide(); 
+				Swal.fire('Gagal Mencetak', err.message, 'error'); 
+			}
+		}
+		
+		// ================================================================
+		// CETAK PERKELAS — Render Tabel & Fungsi PDF
+		// ================================================================
+
+		function renderTabelCetakKelas() {
+			// Isi dropdown filter tahun
+			const selTahun = document.getElementById('filterTahunKelas');
+			const selKelas = document.getElementById('filterNamaKelas');
+			const tahunSet = [...new Set(dbHasil.map(h => h.ID_Tahun).filter(Boolean))];
+			selTahun.innerHTML = '<option value="">— Semua Tahun —</option>';
+			tahunSet.forEach(id => {
+				const nama = (dbTahun.find(t => t.ID_Tahun === id) || {}).Nama_Tahun || id;
+				selTahun.innerHTML += `<option value="${id}">${nama}</option>`;
+			});
+
+			const kelasSet = [...new Set(dbSiswa.map(s => s.Kelas).filter(Boolean))].sort();
+			selKelas.innerHTML = '<option value="">— Semua Kelas —</option>';
+			kelasSet.forEach(k => selKelas.innerHTML += `<option value="${k}">${k}</option>`);
+
+			// Bangun baris tabel: group by Kelas + ID_Tahun
+			const grouped = {};
+			dbHasil.forEach(h => {
+				const siswa = dbSiswa.find(s => s.ID_Siswa === h.ID_Siswa) || {};
+				const key = `${siswa.Kelas}||${h.ID_Tahun}||${h.ID_Tingkat}`;
+				if (!grouped[key]) grouped[key] = { kelas: siswa.Kelas || '-', tingkat: h.ID_Tingkat || '-', tahun: h.ID_Tahun || '-', hasilList: [] };
+				grouped[key].hasilList.push(h);
+			});
+
+			const dataKelas = Object.keys(grouped).sort().map(key => {
+				const g = grouped[key];
+				g.terdaftar = dbSiswa.filter(s => s.Kelas === g.kelas && s.ID_Tingkat === g.tingkat).length;
+				return g;
+			});
+			buatPaginasi(dataKelas, renderTblKelasPage, 'infoKelas', 'btnKelas');
+		}
+
+		function filterTabelCetakKelas() {
+			const tahun = document.getElementById('filterTahunKelas').value;
+			const kelas = document.getElementById('filterNamaKelas').value;
+			document.querySelectorAll('#tblCetakKelas tbody tr').forEach(tr => {
+				const cocokTahun = !tahun || tr.dataset.tahun === tahun;
+				const cocokKelas = !kelas || tr.dataset.kelas === kelas;
+				tr.style.display = cocokTahun && cocokKelas ? '' : 'none';
+			});
+		}
+
+		async function cetakPDFKelas(namaKelas, idTahun, idTingkat) {
+			try {
+				loadShow("Menyiapkan Data Kelas...");
+
+				// --- Ambil data program & referensi ---
+				const [resThn, resTingkatRef, resProg] = await Promise.all([
+					fetchAPI("read&sheet=Tahun Ajaran"),
+					fetchAPI("read&sheet=Tingkat Kelas"),
+					fetchAPI("read&sheet=Program Layanan")
+				]);
+				const dbProg       = resProg.data || [];
+				const namaTahun    = ((resThn.data || []).find(t => t.ID_Tahun === idTahun) || {}).Nama_Tahun || idTahun;
+				const namaTingkat  = ((resTingkatRef.data || []).find(t => t.ID_Tingkat === idTingkat) || {}).Nama_Tingkat || idTingkat;
+
+				// --- Kumpulkan hasil siswa kelas ini ---
+				const hasilKelas = dbHasil.filter(h => {
+					const s = dbSiswa.find(x => x.ID_Siswa === h.ID_Siswa) || {};
+					return s.Kelas === namaKelas && h.ID_Tahun === idTahun;
+				});
+				if (hasilKelas.length === 0) { loadHide(); return Swal.fire('Info', 'Belum ada siswa yang mengisi untuk kelas ini.', 'info'); }
+
+				const siswaKelas    = dbSiswa.filter(s => s.Kelas === namaKelas && s.ID_Tingkat === idTingkat);
+				const belumPartisipasi = siswaKelas.filter(s => !hasilKelas.some(h => h.ID_Siswa === s.ID_Siswa));
+
+				// --- Helper ---
+				const getBidangLayanan = (nama) => {
+					const t = String(nama).toLowerCase();
+					if (t.includes("kesehatan") || t.includes("spiritual") || t.includes("fisik") || t.includes("mental") || t.includes("moral") || t.includes("jasmani") || t.includes("psikologis") || t.includes("agama")) return "Pribadi";
+					if (t.includes("teman") || t.includes("keluarga") || t.includes("sosial") || t.includes("digital") || t.includes("asuh") || t.includes("pergaulan") || t.includes("hubungan") || t.includes("etika")) return "Sosial";
+					if (t.includes("belajar") || t.includes("waktu") || t.includes("akademik") || t.includes("literasi") || t.includes("motivasi") || t.includes("prestasi") || t.includes("kebiasaan")) return "Belajar";
+					return "Karier";
+				};
+
+				const rakitProg = (kodeBidang) => {
+					const programs = dbProg.filter(p => p.ID_Bidang_Tes === kodeBidang && p.ID_Tingkat === idTingkat);
+					if (!programs.length) return { kat: "-", strat: "-", topik: "-", tjn: "-", met: "-", ev: "-" };
+					if (programs.length === 1) {
+						const p = programs[0];
+						return { kat: p.Kategori || "-", strat: p.Strategi_Layanan || "-", topik: p.Topik_Materi || "-", tjn: p.Tujuan_Layanan || "-", met: `${p.Metode || "-"} (${p.Media || "-"})`, ev: p.Evaluasi || "-" };
+					}
+					let r = { kat: "", strat: "", topik: "", tjn: "", met: "", ev: "" };
+					programs.forEach((p, i) => {
+						const no = `${i + 1}. `, br = i < programs.length - 1 ? "\n" : "";
+						if (i === 0) { r.kat = p.Kategori || "-"; r.strat = p.Strategi_Layanan || "-"; }
+						r.topik += `${no}${p.Topik_Materi || "-"}${br}`;
+						r.tjn   += `${no}${p.Tujuan_Layanan || "-"}${br}`;
+						r.met   += `${no}${p.Metode || "-"} (${p.Media || "-"})${br}`;
+						r.ev    += `${no}${p.Evaluasi || "-"}${br}`;
+					});
+					return r;
+				};
+
+				// --- Agregasi skor kelas ---
+				// Akumulasi per sub-bidang
+				const ttlPerBidang = {}, yesPerBidang = {}, skorPerBidang = {};
+				hasilKelas.forEach(h => {
+					let bdl = {};
+					try { bdl = JSON.parse(h.Skor_Akhir); } catch(e) { return; }
+					(bdl.seluruh || []).forEach(x => {
+						ttlPerBidang[x.kode]  = (ttlPerBidang[x.kode]  || 0) + 1;          // jumlah siswa yang punya data kode ini
+						yesPerBidang[x.kode]  = (yesPerBidang[x.kode]  || 0) + x.pct;      // akumulasi pct
+						skorPerBidang[x.kode] = (skorPerBidang[x.kode] || 0) + x.skor;     // akumulasi skor mentah
+					});
+				});
+
+				// Rata-rata pct per sub-bidang, urutkan sesuai KAMUS_AUM agar konsisten
+				const urutan = Object.keys(KAMUS_AUM);
+				const rincianKelas = urutan
+					.filter(k => ttlPerBidang[k])
+					.map(k => ({
+						kode:   k,
+						bidang: KAMUS_AUM[k] || k,
+						pct:    Math.round(yesPerBidang[k] / ttlPerBidang[k]),
+						skor:   skorPerBidang[k]
+					}))
+					.sort((a, b) => b.pct - a.pct);   // urutkan tertinggi→terendah untuk bagian D
+
+				// Rekap 4 bidang
+				const rekap4 = { "Pribadi": { total: 0, count: 0 }, "Sosial": { total: 0, count: 0 }, "Belajar": { total: 0, count: 0 }, "Karier": { total: 0, count: 0 } };
+				rincianKelas.forEach(x => { const b = getBidangLayanan(x.bidang); rekap4[b].total += x.pct; rekap4[b].count += 1; });
+
+				// Peta risiko kelas
+				let stabil = 0, waspada = 0, krisis = 0, siswaKrisis = [];
+				hasilKelas.forEach(h => {
+					let bdl = {}; try { bdl = JSON.parse(h.Skor_Akhir); } catch(e) {}
+					const allPct = (bdl.seluruh || []).map(x => x.pct);
+					const rata   = allPct.length ? Math.round(allPct.reduce((a, b) => a + b, 0) / allPct.length) : 0;
+					const siswa  = dbSiswa.find(s => s.ID_Siswa === h.ID_Siswa) || { Nama_Siswa: h.ID_Siswa };
+					if (rata >= 71)       { krisis++;  siswaKrisis.push({ nama: siswa.Nama_Siswa, rata }); }
+					else if (rata >= 41)  { waspada++; }
+					else                  { stabil++;  }
+				});
+
+				// Analisis proporsi E & F (agregat kelas)
+				let totalSkorYaKelas = 0, mapKategoriKelas = {}, mapStrategiKelas = {};
+				rincianKelas.forEach(x => {
+					totalSkorYaKelas += x.skor;
+					const refProg = dbProg.find(p => p.ID_Bidang_Tes === x.kode && p.ID_Tingkat === idTingkat) || {};
+					const kat   = refProg.Kategori          || "Belum Terpetakan";
+					const strat = refProg.Strategi_Layanan  || "Belum Terpetakan";
+					mapKategoriKelas[kat]   = (mapKategoriKelas[kat]   || 0) + x.skor;
+					mapStrategiKelas[strat] = (mapStrategiKelas[strat] || 0) + x.skor;
+				});
+				const dataKategoriKelas  = Object.keys(mapKategoriKelas).map(k => ({ nama: k, skor: mapKategoriKelas[k],  pct: totalSkorYaKelas > 0 ? Math.round((mapKategoriKelas[k]  / totalSkorYaKelas) * 100) : 0 })).sort((a, b) => b.pct - a.pct);
+				const dataStrategiKelas  = Object.keys(mapStrategiKelas).map(k => ({ nama: k, skor: mapStrategiKelas[k], pct: totalSkorYaKelas > 0 ? Math.round((mapStrategiKelas[k] / totalSkorYaKelas) * 100) : 0 })).sort((a, b) => b.pct - a.pct);
+				const topKatKelas   = dataKategoriKelas[0]  || { nama: "-", pct: 0 };
+				const topStratKelas = dataStrategiKelas[0]  || { nama: "-", pct: 0 };
+
+				const formatTglTtd = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+				// ================================================================
+				// INISIALISASI PDF
+				// ================================================================
+				const { jsPDF } = window.jspdf;
+				const doc = new jsPDF('p', 'mm', 'a4');
+				const mL = 20, mR = 20, mT = 20, mB = 20;
+				let cW = doc.internal.pageSize.getWidth();
+				let cX = cW / 2;
+
+				const corpStyles     = { font: 'times', fontSize: 8.5, halign: 'center', valign: 'middle', lineColor: [0,0,0], lineWidth: 0.2, textColor: [0,0,0], cellPadding: 1.5 };
+				const corpHeadStyles = { fillColor: [230,230,230], textColor: [0,0,0], fontStyle: 'bold', halign: 'center', valign: 'middle', lineColor: [0,0,0], lineWidth: 0.2, cellPadding: 1.5 };
+
+				// ================================================================
+				// HALAMAN 1 — PORTRAIT: Header, Identitas, Status Partisipasi, A, B, C
+				// ================================================================
+
+				// Header kop
+				const [logoKiriB64, logoKananB64] = await Promise.all([
+					urlToBase64(dbSekolah.Logo_Kiri  || ''),
+					urlToBase64(dbSekolah.Logo_Kanan || '')
+				]);
+				if(logoKiriB64)  doc.addImage(logoKiriB64,  'PNG', mL,      mT - 4, 22, 22);
+				if(logoKananB64) doc.addImage(logoKananB64, 'PNG', cW - mR - 22, mT - 4, 22, 22);
+
+				doc.setFont("times","bold"); doc.setFontSize(14);
+				doc.text(`${dbSekolah.Pemerintah || 'PEMERINTAH DAERAH'}`, cX, mT, { align:"center" });
+				doc.text(`${dbSekolah.Instansi   || 'DINAS PENDIDIKAN DAN KEBUDAYAAN'}`, cX, mT+6, { align:"center" });
+				doc.setFontSize(16); doc.text(`${dbSekolah.Nama_Sekolah || 'SEKOLAH KITA'}`, cX, mT+13, { align:"center" });
+				doc.setFont("times","normal"); doc.setFontSize(10);
+				doc.text(`${dbSekolah.Alamat || ''}`, cX, mT+18, { align:"center" });
+				doc.setLineWidth(0.8); doc.line(mL, mT+22, cW-mR, mT+22);
+				doc.setLineWidth(0.3); doc.line(mL, mT+23.5, cW-mR, mT+23.5);
+
+				doc.setFont("times","bold"); doc.setFontSize(12);
+				doc.text("LAPORAN ANALISIS KEBUTUHAN SISWA PERKELAS (AUM - ONLINE)", cX, mT+33, { align:"center" });
+
+				// Identitas kelas
+				doc.autoTable({
+					startY: mT+38, margin: { left:mL, right:mR },
+					body: [
+						['Kelas', ':', namaKelas, 'Tahun Ajaran', ':', namaTahun],
+						['Tingkat', ':', namaTingkat, 'Jumlah Peserta Mengisi', ':', `${hasilKelas.length} Siswa`]
+					],
+					theme: 'plain',
+					styles: { font:'times', fontSize:10, cellPadding:1, textColor:[0,0,0] },
+					columnStyles: { 0:{fontStyle:'bold',cellWidth:25}, 1:{cellWidth:3}, 2:{cellWidth:55}, 3:{fontStyle:'bold',cellWidth:40}, 4:{cellWidth:3}, 5:{cellWidth:30} }
+				});
+
+				// Status partisipasi
+				let nY = doc.lastAutoTable.finalY + 5;
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("Status Partisipasi Kelas", mL, nY);
+				const dataPart = [
+					['Terdaftar', `${siswaKelas.length} Siswa`, ''],
+					['Sudah Mengisi', `${hasilKelas.length} Siswa`, `${Math.round((hasilKelas.length/siswaKelas.length)*100)}%`],
+					['Belum Mengisi', `${belumPartisipasi.length} Siswa`, belumPartisipasi.map(s => s.Nama_Siswa).join(", ") || '-']
+				];
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR},
+					head:[['Status','Jumlah','Keterangan / Nama Siswa']],
+					body: dataPart, theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
+					columnStyles:{2:{halign:'left'}}
+				});
+
+				// Bagian A
+				nY = doc.lastAutoTable.finalY + 6;
+				const descMap = { "Pribadi":"Pengembangan potensi diri, penyelesaian masalah psikologis.", "Sosial":"Kemampuan beradaptasi dan berinteraksi sehat.", "Belajar":"Pembentukan kebiasaan belajar efektif, motivasi.", "Karier":"Pemetaan bakat, minat, serta perencanaan masa depan." };
+				const dataTabelA = Object.keys(rekap4).map(k => {
+					const avg = rekap4[k].count > 0 ? Math.round(rekap4[k].total / rekap4[k].count) : 0;
+					const ket = avg >= 60 ? "Tinggi (Prioritas)" : (avg >= 30 ? "Sedang (Perhatian)" : "Rendah (Stabil)");
+					return [k, descMap[k] || "-", `${avg}%`, ket];
+				});
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("A. Rekapitulasi 4 Bidang Layanan Dasar (Rata-rata Kelas)", mL, nY);
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Bidang Layanan','Deskripsi / Fokus Pembinaan','Rata-rata Kelas','Keterangan']],
+					body: dataTabelA, theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
+					columnStyles:{1:{halign:'left'}}
+				});
+
+				// Bagian B — urutan KAMUS_AUM (tidak di-sort ulang)
+				nY = doc.lastAutoTable.finalY + 6;
+				const rincianUrut = urutan.filter(k => ttlPerBidang[k]).map(k => ({
+					kode:k, bidang:KAMUS_AUM[k]||k,
+					pct: Math.round(yesPerBidang[k]/ttlPerBidang[k]),
+					skor: skorPerBidang[k]
+				}));
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("B. Rincian Pemetaan Seluruh Area Masalah Kelas", mL, nY);
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Bidang','Area Kebutuhan / Masalah','Rata-rata Kelas','Total Skor']],
+					body: rincianUrut.map(x => [getBidangLayanan(x.bidang), x.bidang, `${x.pct}%`, `${x.skor} Indikator`]),
+					theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
+					columnStyles:{1:{halign:'left'}}
+				});
+
+				// Bagian C — Peta Risiko
+				nY = doc.lastAutoTable.finalY + 6;
+				if (nY > (297 - mB - 30)) { doc.addPage(); nY = mT; cW = doc.internal.pageSize.getWidth(); cX = cW/2; }
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("C. Peta Risiko Kelas", mL, nY);
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Kategori','Jumlah Siswa','Persentase','Rentang','Keterangan']],
+					body:[
+						['STABIL',  `${stabil} Siswa`,  `${Math.round((stabil /hasilKelas.length)*100)}%`, '0% - 40%', 'Kondisi adaptif, bimbingan preventif.'],
+						['WASPADA', `${waspada} Siswa`, `${Math.round((waspada/hasilKelas.length)*100)}%`, '41% - 70%', 'Ada indikasi hambatan, perlu pemantauan.'],
+						['KRISIS',  `${krisis} Siswa`,  `${Math.round((krisis /hasilKelas.length)*100)}%`, '> 71%', 'Perlu konseling individual segera.']
+					],
+					theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
+					columnStyles:{ 
+						0:{cellWidth:22}, 
+						1:{cellWidth:28}, 
+						2:{cellWidth:20}, 
+						3:{cellWidth:22},
+						4:{halign:'left'}
+					},
+				});
+
+				// ================================================================
+				// HALAMAN LANDSCAPE — Bagian D
+				// ================================================================
+				doc.addPage("a4","landscape");
+				cW = doc.internal.pageSize.getWidth(); cX = cW/2; nY = mT;
+
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("D. Rekomendasi Program Layanan Kelas (Seluruh Area, Diurutkan Prioritas Tertinggi)", mL, nY);
+				const bodyD = rincianKelas.map(x => {
+					const p = rakitProg(x.kode);
+					return [getBidangLayanan(x.bidang), `${x.bidang}\n(${x.pct}%)`, `${p.kat}\n(${p.strat})`, p.topik, p.tjn, p.met, p.ev];
+				});
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Bidang','Fokus Masalah','Kategori (Strategi)','Topik Materi','Tujuan Intervensi','Metode & Media','Evaluasi']],
+					body: bodyD, theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
+					columnStyles:{3:{halign:'left'},4:{halign:'left'},5:{halign:'left'},6:{halign:'left'}}
+				});
+
+				// ================================================================
+				// HALAMAN PORTRAIT — Bagian E, F, G & TTD
+				// ================================================================
+				doc.addPage("a4","portrait");
+				cW = doc.internal.pageSize.getWidth(); cX = cW/2; nY = mT;
+
+				// Bagian E
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("E. Analisis Proporsi Komponen Kategori Layanan (Kelas)", mL, nY);
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Komponen Kategori Layanan BK','Jumlah Indikator Kelas','Persentase Beban']],
+					body: dataKategoriKelas.map(x => [x.nama, `${x.skor} Indikator`, `${x.pct}%`]),
+					theme:'grid', headStyles:corpHeadStyles, styles:corpStyles
+				});
+				nY = doc.lastAutoTable.finalY + 4;
+				doc.setFont("times","italic"); doc.setFontSize(10);
+				const tekE = `Kesimpulan: Beban penanganan tertinggi di kelas ${namaKelas} menunjukkan kebutuhan layanan ${topKatKelas.nama} sebesar ${topKatKelas.pct}%.`;
+				doc.text(doc.splitTextToSize(tekE, cW-mL-mR), mL, nY);
+				nY += (doc.splitTextToSize(tekE, cW-mL-mR).length * 4) + 6;
+
+				if (nY > (297-mB-40)) { doc.addPage("a4","portrait"); nY = mT; cW = doc.internal.pageSize.getWidth(); }
+
+				// Bagian F
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("F. Analisis Proporsi Strategi Layanan (Kelas)", mL, nY);
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Rekomendasi Strategi Layanan','Jumlah Indikator Kelas','Skala Kesesuaian']],
+					body: dataStrategiKelas.map(x => [x.nama, `${x.skor} Indikator`, `${x.pct}%`]),
+					theme:'grid', headStyles:corpHeadStyles, styles:corpStyles
+				});
+				nY = doc.lastAutoTable.finalY + 4;
+				doc.setFont("times","italic"); doc.setFontSize(10);
+				const tekF = `Kesimpulan: Strategi intervensi paling relevan untuk kelas ${namaKelas} adalah ${topStratKelas.nama} dengan skala kesesuaian ${topStratKelas.pct}%.`;
+				doc.text(doc.splitTextToSize(tekF, cW-mL-mR), mL, nY);
+				nY += (doc.splitTextToSize(tekF, cW-mL-mR).length * 4) + 8;
+
+				if (nY > (297-mB-40)) { doc.addPage("a4","portrait"); nY = mT; cW = doc.internal.pageSize.getWidth(); }
+
+				// Bagian G — Daftar Seluruh Siswa
+				const semuaSiswaG = hasilKelas.map(h => {
+					const s = dbSiswa.find(x => x.ID_Siswa === h.ID_Siswa) || { Nama_Siswa: h.ID_Siswa };
+					let bdl = {}; try { bdl = JSON.parse(h.Skor_Akhir); } catch(e) {}
+					const allPct = (bdl.seluruh || []).map(x => x.pct);
+					const rata = allPct.length ? Math.round(allPct.reduce((a,b) => a+b, 0) / allPct.length) : 0;
+					const status = rata >= 71 ? "KRISIS" : (rata >= 41 ? "WASPADA" : "STABIL");
+					const ket = rata >= 71 ? "Konseling Individual Segera" : (rata >= 41 ? "Pemantauan Proaktif" : "Bimbingan Preventif");
+					return { nama: s.Nama_Siswa, rata, status, ket };
+				}).sort((a,b) => b.rata - a.rata);
+
+				belumPartisipasi.forEach(s => {
+					semuaSiswaG.push({ nama: s.Nama_Siswa, rata: null, status: "-", ket: "Belum Mengisi" });
+				});
+
+				const bodyG = semuaSiswaG.map((s,i) => [
+					i+1,
+					s.nama,
+					namaKelas,
+					s.rata !== null ? `${s.rata}%` : "-",
+					s.status,
+					s.ket
+				]);
+
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("G. Daftar Seluruh Siswa Berdasarkan Tingkat Kebutuhan", mL, nY);
+				doc.autoTable({
+					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['No.','Nama Siswa','Kelas','Rata-rata Kebutuhan','Status Risiko','Keterangan']],
+					body: bodyG, theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
+					columnStyles:{1:{halign:'left'}, 5:{halign:'left'}}
+				});
+
+				// Tanda tangan
+				nY = doc.lastAutoTable.finalY + 12;
+				if (nY > (297-mB-30)) { doc.addPage("a4","portrait"); nY = mT; }
+				doc.setFont("times","normal"); doc.setFontSize(10);
+				const signX = cW - mR - 65;
+				doc.text(`Makassar, ${formatTglTtd}`, signX, nY);
+				doc.text("Guru Bimbingan dan Konseling,", signX, nY+5);
+				doc.setFont("times","bold");
+				doc.text(document.getElementById('guruProfileName').innerText, signX, nY+25);
+				doc.setFont("times","normal");
+				doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, signX, nY+30);
+
+				window.open(doc.output('bloburl'), '_blank');
+				loadHide();
+
+			} catch(err) {
+				loadHide();
+				Swal.fire('Gagal Mencetak', err.message, 'error');
+			}
+		}
+		
+		const modLihat = new bootstrap.Modal(document.getElementById('modalLihatToken'));
+
+		function bukaModalLihat(tkn) {
+			const t = dbTokens.find(x => x.Token === tkn);
+			if(!t) return;
+			const namaTkt = (dbTingkat.find(x=>x.ID_Tingkat===t.ID_Tingkat)||{}).Nama_Tingkat||t.ID_Tingkat;
+			const namaThn = (dbTahun.find(x=>x.ID_Tahun===t.ID_Tahun)||{}).Nama_Tahun||t.ID_Tahun;
+
+			// Info token
+			document.getElementById('lihatTokenInfo').innerHTML=`
+				<div class="col-6"><div style="font-size:11px;color:var(--ink-400);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Token</div><div style="font-size:16px;font-weight:800;color:var(--gold-400);letter-spacing:0.1em;">${t.Token}</div></div>
+				<div class="col-6"><div style="font-size:11px;color:var(--ink-400);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Kelas</div><div style="font-size:15px;font-weight:700;color:var(--ink-000);">${t.Nama_Kelas}</div></div>
+				<div class="col-4 mt-2"><div style="font-size:11px;color:var(--ink-400);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Tingkat</div><div style="font-size:14px;font-weight:600;color:var(--ink-100);">${namaTkt}</div></div>
+				<div class="col-4 mt-2"><div style="font-size:11px;color:var(--ink-400);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Tahun Ajaran</div><div style="font-size:14px;font-weight:600;color:var(--ink-100);">${namaThn}</div></div>
+				<div class="col-4 mt-2"><div style="font-size:11px;color:var(--ink-400);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Status</div><div><span class="${t.Status==='Aktif'?'badge-aktif':'badge-selesai'}">${t.Status}</span></div></div>
+			`;
+
+			// Bangun data siswa
+			const siswaKelas = dbSiswa.filter(s=>s.Kelas===t.Nama_Kelas&&s.ID_Tingkat===t.ID_Tingkat);
+			const dataSiswaModal = [];
+
+			// Siswa sudah mengisi
+			siswaKelas.forEach(s=>{
+				const hasil = dbHasil.find(h=>h.ID_Siswa===s.ID_Siswa&&h.ID_Tahun===t.ID_Tahun);
+				if(hasil){
+					let bdl={}; try{bdl=JSON.parse(hasil.Skor_Akhir);}catch(e){}
+					const allPct=(bdl.seluruh||[]).map(x=>x.pct);
+					const rata=allPct.length?Math.round(allPct.reduce((a,b)=>a+b,0)/allPct.length):0;
+					dataSiswaModal.push({ nama:s.Nama_Siswa, rata, sudah:true });
+				}
+			});
+
+			// Siswa belum mengisi
+			siswaKelas.forEach(s=>{
+				const sudah=dbHasil.some(h=>h.ID_Siswa===s.ID_Siswa&&h.ID_Tahun===t.ID_Tahun);
+				if(!sudah) dataSiswaModal.push({ nama:s.Nama_Siswa, rata:null, sudah:false });
+			});
+
+			// Tambah div pagination di dalam modal jika belum ada
+			if(!document.getElementById('infoLihatSiswa')){
+				const tblWrap = document.querySelector('#tblLihatSiswa').closest('.table-responsive');
+				tblWrap.insertAdjacentHTML('afterend',`
+					<div class="pagination-wrap" id="paginasiLihatSiswa">
+						<div class="pagination-info" id="infoLihatSiswa"></div>
+						<div class="pagination-btns" id="btnLihatSiswa"></div>
+					</div>
+				`);
+			}
+
+			buatPaginasi(dataSiswaModal, (slice, start) => {
+				const tbody = document.querySelector('#tblLihatSiswa tbody');
+				tbody.innerHTML='';
+				slice.forEach((s,i)=>{
+					if(s.sudah){
+						const status=s.rata>=71
+							?'<span style="color:#FCA5A5;font-weight:700;">KRISIS</span>'
+							:(s.rata>=41
+								?'<span style="color:#FDE68A;font-weight:700;">WASPADA</span>'
+								:'<span style="color:#6EE7B7;font-weight:700;">STABIL</span>');
+						tbody.innerHTML+=`<tr>
+							<td>${start+i+1}</td>
+							<td style="font-weight:600;color:var(--ink-000);">${s.nama}</td>
+							<td>${status}</td>
+							<td>${s.rata}%</td>
+						</tr>`;
+					} else {
+						tbody.innerHTML+=`<tr>
+							<td>${start+i+1}</td>
+							<td style="font-weight:600;color:var(--ink-000);">${s.nama}</td>
+							<td><span style="color:var(--ink-400);font-weight:700;">-</span></td>
+							<td><span style="color:var(--ink-400);">Belum Mengisi</span></td>
+						</tr>`;
+					}
+				});
+			}, 'infoLihatSiswa', 'btnLihatSiswa', 10);
+
+			modLihat.show();
+		}
+		
+		// ================================================================
+		// PAGINATION UTILITY
+		// ================================================================
+		function buatPaginasi(data, renderFn, infoId, btnId, perPage=5) {
+			let halaman = 1;
+			const total = () => Math.ceil(data.length / perPage);
+
+			function render() {
+				const start = (halaman-1)*perPage;
+				const slice = data.slice(start, start+perPage);
+				renderFn(slice, start);
+
+				// Info
+				document.getElementById(infoId).innerText =
+					`Menampilkan ${start+1}–${Math.min(start+perPage, data.length)} dari ${data.length} data`;
+
+				// Tombol
+				const wrap = document.getElementById(btnId);
+				wrap.innerHTML='';
+				const prev = document.createElement('button');
+				prev.className='btn-page'; prev.innerText='← Sebelumnya';
+				prev.disabled = halaman===1;
+				prev.onclick = ()=>{ halaman--; render(); };
+				wrap.appendChild(prev);
+
+				for(let i=1;i<=total();i++){
+					const b=document.createElement('button');
+					b.className='btn-page'+(i===halaman?' active':'');
+					b.innerText=i;
+					b.onclick=(()=>{ const p=i; return ()=>{ halaman=p; render(); }; })();
+					wrap.appendChild(b);
+				}
+
+				const next = document.createElement('button');
+				next.className='btn-page'; next.innerText='Selanjutnya →';
+				next.disabled = halaman===total();
+				next.onclick = ()=>{ halaman++; render(); };
+				wrap.appendChild(next);
+			}
+			render();
+		}
+
+		function renderTblHasilPage(slice, start) {
+			const b = document.querySelector('#tblHasil tbody');
+			b.innerHTML='';
+			slice.forEach((h,i)=>{
+				const n=(dbSiswa.find(s=>s.ID_Siswa===h.ID_Siswa)||{}).Nama_Siswa||h.ID_Siswa;
+				const kls=(dbSiswa.find(s=>s.ID_Siswa===h.ID_Siswa)||{}).Kelas||'-';
+				let t='-'; try{t=JSON.parse(h.Skor_Akhir).top3[0].bidang;}catch(e){}
+				b.innerHTML+=`<tr>
+					<td style="color:var(--ink-400);font-weight:700;">${start+i+1}</td>
+					<td style="color:var(--ink-400);font-size:12px;">${new Date(h.Timestamp).toLocaleDateString('id')}</td>
+					<td style="font-weight:700;color:var(--ink-000);">${n}</td>
+					<td>${kls}</td>
+					<td style="color:#FCA5A5;font-weight:600;font-size:12px;">${t}</td>
+					<td style="text-align:right;"><button class="btn-print-sm" onclick="cetakPDF('${h.ID_Hasil}')"><i class="fas fa-print"></i> Cetak</button></td>
+				</tr>`;
+			});
+		}
+
+		function renderTblKelasPage(slice, start) {
+			const tbody = document.querySelector('#tblCetakKelas tbody');
+			tbody.innerHTML='';
+			slice.forEach((g,i)=>{
+				const namaTingkatTbl=(dbTingkat.find(t=>t.ID_Tingkat===g.tingkat)||{}).Nama_Tingkat||g.tingkat;
+				const namaTahunTbl=(dbTahun.find(t=>t.ID_Tahun===g.tahun)||{}).Nama_Tahun||g.tahun;
+				tbody.innerHTML+=`<tr
+					data-kelas="${g.kelas}"
+					data-tahun="${g.tahun}">
+					<td style="font-weight:700;color:var(--ink-400);">${start+i+1}</td>
+					<td style="font-weight:700;color:var(--ink-000);">${g.kelas}</td>
+					<td>${namaTingkatTbl}</td>
+					<td>${namaTahunTbl}</td>
+					<td><span class="badge-aktif">${g.hasilList.length} Siswa</span></td>
+					<td>${g.terdaftar} Siswa</td>
+					<td style="text-align:right;">
+						<button class="btn-print-sm" onclick="cetakPDFKelas('${g.kelas}','${g.tahun}','${g.tingkat}')">
+							<i class="fas fa-print"></i> Cetak PDF
+						</button>
+					</td>
+				</tr>`;
+			});
+		}
+		
+		function filterCetakSiswa() {
+			const kelas  = document.getElementById('filterKelasHasil').value;
+			const idSis  = document.getElementById('filterNamaHasil').value;
+			const cari   = document.getElementById('cariSiswaHasil').value.toLowerCase().trim();
+
+			// Update dropdown nama menyesuaikan kelas
+			const selNama = document.getElementById('filterNamaHasil');
+			const nilaiNamaSekarang = selNama.value;
+			const siswaFilter = kelas
+				? dbSiswa.filter(s=>s.Kelas===kelas)
+				: dbSiswa;
+			selNama.innerHTML='<option value="">— Semua Siswa —</option>';
+			siswaFilter.forEach(s=>{
+				const adaHasil = dbHasil.some(h=>h.ID_Siswa===s.ID_Siswa);
+				if(adaHasil) selNama.innerHTML+=`<option value="${s.ID_Siswa}" ${nilaiNamaSekarang===s.ID_Siswa?'selected':''}>${s.Nama_Siswa}</option>`;
+			});
+
+			// Filter data
+			const filtered = dbHasil.filter(h=>{
+				const s = dbSiswa.find(x=>x.ID_Siswa===h.ID_Siswa)||{};
+				const cocokKelas = !kelas  || s.Kelas===kelas;
+				const cocokNama  = !idSis  || h.ID_Siswa===idSis;
+				const cocokCari  = !cari   || (s.Nama_Siswa||'').toLowerCase().includes(cari);
+				return cocokKelas && cocokNama && cocokCari;
+			});
+
+			buatPaginasi(filtered, renderTblHasilPage, 'infoHasil', 'btnHasil');
+		}
+		
+		async function urlToBase64(url) {
+			try {
+				const res = await fetch(url);
+				const blob = await res.blob();
+				return new Promise((resolve, reject) => {
+					const reader = new FileReader();
+					reader.onloadend = () => resolve(reader.result);
+					reader.onerror = reject;
+					reader.readAsDataURL(blob);
+				});
+			} catch(e) { return null; }
+		}
 
         function logout(){
             Swal.fire({title:'Akhiri Sesi?',icon:'warning',showCancelButton:true,confirmButtonColor:'#C9A84C',cancelButtonColor:'#1E2840'}).then(r=>{if(r.isConfirmed) location.reload();});
