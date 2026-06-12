@@ -1367,9 +1367,14 @@
 
                     <!-- PANEL: Analytics -->
                     <div id="panel-analytics" class="guru-panel active">
-                        <h3 style="font-size:22px;font-weight:800;color:var(--ink-000);margin-bottom:20px;">
-                            Ringkasan <span style="color:var(--gold-400);">Sistem Pusat</span>
-                        </h3>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:20px;">
+                            <h3 style="font-size:22px;font-weight:800;color:var(--ink-000);margin-bottom:0;">
+                                Ringkasan <span style="color:var(--gold-400);">Sistem Pusat</span>
+                            </h3>
+                            <button class="btn-action-blue" onclick="modalCetakBankSoal()">
+                                <i class="fas fa-print"></i> Cetak Analisis Bank Soal
+                            </button>
+                        </div>
 
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
@@ -2307,10 +2312,11 @@
 				doc.text(`${dbSekolah.Pemerintah || 'PEMERINTAH DAERAH'}`, mCenter, mTop, { align: "center" });
 				doc.text(`${dbSekolah.Instansi || 'DINAS PENDIDIKAN DAN KEBUDAYAAN'}`, mCenter, mTop + 6, { align: "center" });
 				doc.setFontSize(16); doc.text(`${dbSekolah.Nama_Sekolah || 'SEKOLAH KITA'}`, mCenter, mTop + 13, { align: "center" });
+				doc.setFontSize(14); doc.text('BIMBINGAN DAN KONSELING', mCenter, mTop + 19, { align: "center" });
 				doc.setFont("times", "normal"); doc.setFontSize(10);
-				doc.text(`${dbSekolah.Alamat || 'Alamat Sekolah'}`, mCenter, mTop + 18, { align: "center" });
-				doc.setLineWidth(0.8); doc.line(mLeft, mTop + 22, currentWidth - mRight, mTop + 22);
-				doc.setLineWidth(0.3); doc.line(mLeft, mTop + 23.5, currentWidth - mRight, mTop + 23.5);
+				doc.text(`${dbSekolah.Alamat || 'Alamat Sekolah'}`, mCenter, mTop + 24, { align: "center" });
+				doc.setLineWidth(0.8); doc.line(mLeft, mTop + 28, currentWidth - mRight, mTop + 28);
+				doc.setLineWidth(0.3); doc.line(mLeft, mTop + 29.5, currentWidth - mRight, mTop + 29.5);
 				
 				doc.setFont("times", "bold"); doc.setFontSize(12);
 				doc.text("LAPORAN ANALISIS PROFIL KEBUTUHAN SISWA (AUM - ONLINE)", mCenter, mTop + 35, { align: "center" });
@@ -2873,17 +2879,19 @@
 				if(logoKananB64) doc.addImage(logoKananB64, 'PNG', cW-mR-22,    mT-4, 22, 22);
 
 				doc.setFont("times","bold"); doc.setFontSize(14);
-				doc.text(dbSekolah.Pemerintah  || 'PEMERINTAH DAERAH',               cX, mT,    {align:"center"});
-				doc.text(dbSekolah.Instansi    || 'DINAS PENDIDIKAN DAN KEBUDAYAAN', cX, mT+6,  {align:"center"});
+				doc.text(dbSekolah.Pemerintah   || 'PEMERINTAH DAERAH',               cX, mT,     {align:"center"});
+				doc.text(dbSekolah.Instansi     || 'DINAS PENDIDIKAN DAN KEBUDAYAAN', cX, mT+6,   {align:"center"});
 				doc.setFontSize(16);
-				doc.text(dbSekolah.Nama_Sekolah|| 'SEKOLAH KITA',                    cX, mT+13, {align:"center"});
+				doc.text(dbSekolah.Nama_Sekolah || 'SEKOLAH KITA',                    cX, mT+13,  {align:"center"});
+				doc.setFontSize(14);
+				doc.text('BIMBINGAN DAN KONSELING',                                   cX, mT+19,  {align:"center"});
 				doc.setFont("times","normal"); doc.setFontSize(10);
-				doc.text(dbSekolah.Alamat      || '',                                 cX, mT+18, {align:"center"});
-				doc.setLineWidth(0.8); doc.line(mL, mT+22, cW-mR, mT+22);
-				doc.setLineWidth(0.3); doc.line(mL, mT+23.5, cW-mR, mT+23.5);
+				doc.text(dbSekolah.Alamat       || '',                                cX, mT+24,  {align:"center"});
+				doc.setLineWidth(0.8); doc.line(mL, mT+28, cW-mR, mT+28);
+				doc.setLineWidth(0.3); doc.line(mL, mT+29.5, cW-mR, mT+29.5);
 
 				doc.setFont("times","bold"); doc.setFontSize(12);
-				doc.text("LAPORAN ANALISIS KEBUTUHAN SISWA PER TINGKATAN (AUM - ONLINE)", cX, mT+33, {align:"center"});
+				doc.text("LAPORAN ANALISIS KEBUTUHAN SISWA PER TINGKATAN (AUM - ONLINE)", cX, mT+35, {align:"center"});
 
 				doc.autoTable({
 					startY: mT+38, margin:{left:mL,right:mR},
@@ -3280,13 +3288,14 @@
 				doc.text(`${dbSekolah.Pemerintah || 'PEMERINTAH DAERAH'}`, cX, mT, { align:"center" });
 				doc.text(`${dbSekolah.Instansi   || 'DINAS PENDIDIKAN DAN KEBUDAYAAN'}`, cX, mT+6, { align:"center" });
 				doc.setFontSize(16); doc.text(`${dbSekolah.Nama_Sekolah || 'SEKOLAH KITA'}`, cX, mT+13, { align:"center" });
+				doc.setFontSize(14); doc.text('BIMBINGAN DAN KONSELING', cX, mT+19, { align:"center" });
 				doc.setFont("times","normal"); doc.setFontSize(10);
-				doc.text(`${dbSekolah.Alamat || ''}`, cX, mT+18, { align:"center" });
-				doc.setLineWidth(0.8); doc.line(mL, mT+22, cW-mR, mT+22);
-				doc.setLineWidth(0.3); doc.line(mL, mT+23.5, cW-mR, mT+23.5);
+				doc.text(`${dbSekolah.Alamat || ''}`, cX, mT+24, { align:"center" });
+				doc.setLineWidth(0.8); doc.line(mL, mT+28, cW-mR, mT+28);
+				doc.setLineWidth(0.3); doc.line(mL, mT+29.5, cW-mR, mT+29.5);
 
 				doc.setFont("times","bold"); doc.setFontSize(12);
-				doc.text("LAPORAN ANALISIS KEBUTUHAN SISWA PERKELAS (AUM - ONLINE)", cX, mT+33, { align:"center" });
+				doc.text("LAPORAN ANALISIS KEBUTUHAN SISWA PERKELAS (AUM - ONLINE)", cX, mT+35, { align:"center" });
 
 				// Identitas kelas
 				doc.autoTable({
@@ -4168,10 +4177,11 @@
 					doc.text(dbSekolah.Pemerintah || 'PEMERINTAH DAERAH', cX, mT, {align:"center"});
 					doc.text(dbSekolah.Instansi || 'DINAS PENDIDIKAN', cX, mT+6, {align:"center"});
 					doc.setFontSize(16); doc.text(dbSekolah.Nama_Sekolah || 'NAMA SEKOLAH', cX, mT+13, {align:"center"});
+					doc.setFontSize(14); doc.text('BIMBINGAN DAN KONSELING', cX, mT+19, {align:"center"});
 					doc.setFont("times","normal"); doc.setFontSize(10);
-					doc.text(dbSekolah.Alamat || '', cX, mT+18, {align:"center"});
-					doc.setLineWidth(0.8); doc.line(mL, mT+22, cW-mR, mT+22);
-					doc.setLineWidth(0.3); doc.line(mL, mT+23.5, cW-mR, mT+23.5);
+					doc.text(dbSekolah.Alamat || '', cX, mT+24, {align:"center"});
+					doc.setLineWidth(0.8); doc.line(mL, mT+28, cW-mR, mT+28);
+					doc.setLineWidth(0.3); doc.line(mL, mT+29.5, cW-mR, mT+29.5);
 
 					nY = mT + 45;
 					doc.setFont('times','bold'); doc.setFontSize(14);
@@ -4447,7 +4457,10 @@
 						});
 
 						nY = doc.lastAutoTable.finalY + 3;
-					});
+					}); // <--- INI ADALAH TUTUP LOOPING TABEL
+
+					// ── MEMANGGIL FUNGSI HALAMAN AKADEMIS (HANYA 1 KALI DI LUAR LOOP) ──
+					nY = renderPoinTambahan(doc, nY, namaTingkat, namaTahun, subTertinggi, subTertinggiPct, mL, mR, cW, mT);
 				}
 				// =========================================================================
 				// BATAS BAGIAN PENDAHULUAN (SELESAI)
@@ -4734,6 +4747,325 @@
             modAnggaran.hide();
             Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Anggaran disiapkan untuk cetak.', showConfirmButton: false, timer: 2000 });
         }
+		
+		// =========================================================================
+		// FUNGSI HELPER: HALAMAN TUJUAN, STRATEGI, DAN EVALUASI (BAHASA SMP/SMA)
+		// =========================================================================
+		function renderPoinTambahan(doc, nY, namaTingkat, namaTahun, subTertinggi, subTertinggiPct, mL, mR, cW_old, mT) {
+			
+			// Hitung ulang lebar kertas karena posisinya kembali Portrait
+			let cW = doc.internal.pageSize.getWidth(); 
+			let cX = cW / 2;
+			let ind = 7; // Jarak indentasi (spasi gantung) untuk penomoran
+
+			// ── HALAMAN 8: TUJUAN DAN FUNGSI PROGRAM ──────────────
+			doc.addPage('a4', 'portrait');
+			cW = doc.internal.pageSize.getWidth(); cX = cW/2;
+			nY = mT + 10;
+			
+			doc.setFont('times','bold'); doc.setFontSize(14);
+			doc.text('TUJUAN DAN FUNGSI PROGRAM', cX, nY, {align:'center'});
+			
+			nY += 15;
+			doc.setFont('times','bold'); doc.setFontSize(12);
+			doc.text('1.', mL, nY);
+			doc.text('Tujuan Program', mL + ind, nY);
+			nY += 8;
+			
+			doc.setFont('times','normal');
+			let teksTujuan = `Program Bimbingan dan Konseling ini bertujuan untuk membantu peserta didik mencapai perkembangan yang optimal dan mandiri, baik dalam hal pribadi, sosial, belajar, maupun karier. Secara khusus, berdasarkan hasil pengisian Alat Ungkap Masalah (AUM), program ini difokuskan untuk membantu mengatasi masalah tertinggi yang dialami siswa pada bidang ${subTertinggi} sebesar ${subTertinggiPct}%. Dengan adanya layanan ini, diharapkan peserta didik dapat mengenali potensi dirinya, mengatasi berbagai hambatan yang ada, serta tumbuh menjadi individu yang lebih baik dan bahagia di sekolah.`;
+			doc.text(teksTujuan, mL + ind, nY, { maxWidth: cW - mL - mR - ind, align: 'justify' });
+			nY += (doc.splitTextToSize(teksTujuan, cW - mL - mR - ind).length * 5.5) + 6;
+			
+			doc.setFont('times','bold');
+			doc.text('2.', mL, nY);
+			doc.text('Fungsi Layanan Bimbingan dan Konseling', mL + ind, nY);
+			nY += 8;
+			doc.setFont('times','normal');
+			
+			let fList = [
+				{ no: 'a.', teks: 'Fungsi Pemahaman: Membantu peserta didik agar lebih memahami potensi, bakat, dan minat dirinya, serta memahami keadaan lingkungan di sekitarnya dengan baik.' },
+				{ no: 'b.', teks: 'Fungsi Preventif (Pencegahan): Melakukan langkah-langkah pencegahan agar peserta didik terhindar dari berbagai masalah yang dapat mengganggu belajarnya di sekolah.' },
+				{ no: 'c.', teks: 'Fungsi Kuratif (Pengentasan): Memberikan bantuan secara langsung dan nyata untuk menyelesaikan masalah yang sedang dialami oleh peserta didik.' },
+				{ no: 'd.', teks: 'Fungsi Pemeliharaan dan Pengembangan: Menciptakan lingkungan sekolah yang aman, nyaman, dan mendukung, sehingga peserta didik dapat terus mengembangkan bakat dan kemampuannya.' }
+			];
+			
+			fList.forEach(item => {
+				doc.text(item.no, mL + ind, nY);
+				doc.text(item.teks, mL + ind + ind, nY, { maxWidth: cW - mL - mR - (ind * 2), align: 'justify' });
+				nY += (doc.splitTextToSize(item.teks, cW - mL - mR - (ind * 2)).length * 5.5) + 3;
+			});
+
+			// ── HALAMAN 9: SASARAN DAN STRATEGI PELAYANAN ──────────────
+			doc.addPage('a4', 'portrait');
+			cW = doc.internal.pageSize.getWidth(); cX = cW/2;
+			nY = mT + 10;
+
+			doc.setFont('times','bold'); doc.setFontSize(14);
+			doc.text('SASARAN DAN STRATEGI PELAYANAN', cX, nY, {align:'center'});
+			
+			nY += 15;
+			doc.setFontSize(12);
+			
+			// Sub-judul rata kiri seperti permintaan Bapak
+			doc.text('1.', mL, nY);
+			doc.text('Sasaran Layanan', mL + ind, nY);
+			nY += 8;
+			
+			doc.setFont('times','normal');
+			let teksSasaran = `Program layanan Bimbingan dan Konseling ini ditujukan untuk seluruh peserta didik di tingkat ${namaTingkat} pada Tahun Ajaran ${namaTahun}. Layanan BK di sekolah bukan hanya diperuntukkan bagi siswa yang memiliki masalah atau melanggar aturan saja, melainkan untuk seluruh siswa. Tujuannya adalah memastikan setiap siswa mendapatkan bimbingan yang tepat untuk mengembangkan bakatnya, merencanakan masa depan, dan mampu beradaptasi dengan baik di lingkungan sekolah dan pertemanannya.`;
+			doc.text(teksSasaran, mL + ind, nY, { maxWidth: cW - mL - mR - ind, align: 'justify' });
+			nY += (doc.splitTextToSize(teksSasaran, cW - mL - mR - ind).length * 5.5) + 6;
+
+			doc.setFont('times','bold');
+			doc.text('2.', mL, nY);
+			doc.text('Strategi Pelayanan', mL + ind, nY);
+			nY += 8;
+			
+			doc.setFont('times','normal');
+			let teksPengantarStrategi = `Agar tujuan program ini dapat tercapai dengan baik, pelaksanaan layanan dibagi ke dalam empat komponen utama, yaitu:`;
+			doc.text(teksPengantarStrategi, mL + ind, nY, { maxWidth: cW - mL - mR - ind, align: 'justify' });
+			nY += (doc.splitTextToSize(teksPengantarStrategi, cW - mL - mR - ind).length * 5.5) + 3;
+
+			let stratList = [
+				{ no: 'a.', teks: 'Layanan Dasar: Diberikan kepada seluruh siswa melalui kegiatan tatap muka terjadwal di dalam kelas (Bimbingan Klasikal), diskusi bersama kelompok kecil (Bimbingan Kelompok), serta pemberian informasi bermanfaat melalui papan bimbingan sekolah atau media sosial.' },
+				{ no: 'b.', teks: 'Layanan Responsif: Diberikan khusus untuk siswa yang sedang menghadapi masalah dan membutuhkan bantuan segera. Kegiatannya meliputi konseling individu (tatap muka 4 mata), konseling kelompok, pertemuan membahas masalah siswa bersama wali kelas dan pihak terkait (Konferensi Kasus), menengahi perselisihan antarsiswa (Mediasi), serta merujuk ke ahli lain seperti psikolog atau dokter (Alih Tangan Kasus) jika dibutuhkan.' },
+				{ no: 'c.', teks: 'Peminatan dan Perencanaan Individual: Membantu siswa untuk mengenali minat, bakat, dan kemampuan aslinya. Layanan ini berguna agar siswa tidak bingung dalam memilih ekstrakurikuler, menentukan jurusan, atau merencanakan pendidikan dan pekerjaan di masa depan.' },
+				{ no: 'd.', teks: 'Dukungan Sistem: Kegiatan pendukung agar pelayanan BK berjalan lancar, seperti melakukan kunjungan ke rumah siswa (Home Visit) jika diperlukan, bekerja sama erat dengan wali kelas dan orang tua, merapikan data administrasi siswa, serta mengikuti kegiatan MGBK untuk meningkatkan ilmu Guru BK.' }
+			];
+
+			stratList.forEach(item => {
+				doc.text(item.no, mL + ind, nY);
+				doc.text(item.teks, mL + ind + ind, nY, { maxWidth: cW - mL - mR - (ind * 2), align: 'justify' });
+				nY += (doc.splitTextToSize(item.teks, cW - mL - mR - (ind * 2)).length * 5.5) + 3;
+			});
+
+			// ── HALAMAN 10: EVALUASI, PELAPORAN, & TINDAK LANJUT ──────────────
+			doc.addPage('a4', 'portrait');
+			cW = doc.internal.pageSize.getWidth(); cX = cW/2;
+			nY = mT + 10;
+
+			doc.setFont('times','bold'); doc.setFontSize(14);
+			doc.text('EVALUASI, PELAPORAN, DAN TINDAK LANJUT', cX, nY, {align:'center'});
+			
+			nY += 15;
+			doc.setFontSize(12);
+
+			let evalList = [
+				{ judul: '1. Evaluasi Proses', teks: 'Evaluasi proses dilakukan pada saat kegiatan layanan BK sedang berlangsung. Tujuannya adalah untuk melihat bagaimana keaktifan, semangat, dan tanggapan siswa saat mengikuti kegiatan. Dari evaluasi ini, Guru BK bisa menilai apakah materi yang disampaikan menarik, mudah dipahami, dan sesuai dengan apa yang dibutuhkan oleh siswa di kelas.' },
+				{ judul: '2. Evaluasi Hasil', teks: 'Evaluasi hasil dilakukan setelah layanan BK selesai diberikan untuk melihat apakah ada perubahan positif pada diri siswa. Penilaiannya dilihat dari tiga hal: apakah siswa mendapatkan pengetahuan baru (understanding), apakah siswa merasa lebih lega dan nyaman (comfort), serta apakah ada perubahan sikap dan tindakan nyata yang lebih baik setelah mendapat layanan (action).' },
+				{ judul: '3. Pelaporan', teks: 'Semua kegiatan bimbingan, konseling, dan evaluasi yang telah dilakukan akan dicatat dan disusun menjadi sebuah laporan resmi. Laporan ini akan diserahkan secara rutin kepada Kepala Sekolah sebagai bukti bahwa tugas dan tanggung jawab pelayanan Bimbingan dan Konseling telah dilaksanakan dengan baik, tertib, dan transparan.' },
+				{ judul: '4. Tindak Lanjut', teks: 'Tindak lanjut adalah langkah yang diambil berdasarkan hasil pelaporan dan evaluasi. Jika masih ada siswa yang membutuhkan pendampingan, Guru BK akan segera merencanakan jadwal pertemuan lanjutan. Selain itu, hasil evaluasi ini akan dijadikan bahan pelajaran untuk memperbaiki dan menyusun program BK yang lebih baik dan lebih bermanfaat di tahun ajaran berikutnya.' }
+			];
+
+			evalList.forEach(item => {
+				doc.setFont('times','bold');
+				// Penomoran Rata Kiri
+				doc.text(item.judul.split(' ')[0], mL, nY);
+				// Judul Rata Kiri dengan Indent
+				doc.text(item.judul.substring(3), mL + ind, nY); 
+				nY += 6;
+				
+				doc.setFont('times','normal');
+				doc.text(item.teks, mL + ind, nY, { maxWidth: cW - mL - mR - ind, align: 'justify' });
+				nY += (doc.splitTextToSize(item.teks, cW - mL - mR - ind).length * 5.5) + 6;
+			});
+
+			return nY;
+		}
+		
+		// =========================================================================
+		// FUNGSI CETAK BANK SOAL & ANALISIS BUTIR SOAL (PORTRAIT + TANDA TANGAN)
+		// =========================================================================
+		async function modalCetakBankSoal() {
+			let optTingkat = dbTingkat.map(t => `<option value="${t.ID_Tingkat}">${t.Nama_Tingkat}</option>`).join('');
+			let optTahun = dbTahun.map(t => `<option value="${t.ID_Tahun}">${t.Nama_Tahun}</option>`).join('');
+
+			const { value: formValues } = await Swal.fire({
+				title: 'Cetak Instrumen & Analisis',
+				html: `
+					<select id="swal-tingkat" class="swal2-input" style="width:85%; font-size:14px; background:var(--ink-700); color:var(--ink-100); border-color:var(--ink-600);">
+						<option value="">— Pilih Tingkatan —</option>
+						${optTingkat}
+					</select>
+					<select id="swal-tahun" class="swal2-input" style="width:85%; font-size:14px; background:var(--ink-700); color:var(--ink-100); border-color:var(--ink-600); margin-top:10px;">
+						<option value="">— Pilih Tahun Ajaran —</option>
+						${optTahun}
+					</select>
+				`,
+				background: 'var(--ink-800)', color: 'var(--ink-100)',
+				focusConfirm: false,
+				showCancelButton: true,
+				confirmButtonText: '<i class="fas fa-print"></i> Cetak PDF',
+				cancelButtonText: 'Batal',
+				preConfirm: () => {
+					const tk = document.getElementById('swal-tingkat').value;
+					const th = document.getElementById('swal-tahun').value;
+					if(!tk || !th) { Swal.showValidationMessage('Harap pilih Tingkatan dan Tahun Ajaran'); }
+					return { tingkat: tk, tahun: th };
+				}
+			});
+
+			if (formValues) {
+				prosesCetakBankSoal(formValues.tingkat, formValues.tahun);
+			}
+		}
+
+		async function prosesCetakBankSoal(idTingkat, idTahun) {
+			try {
+				loadShow("Menyiapkan Dokumen Analisis Soal...");
+
+				// 1. Tarik Data Bank Soal dari Server
+				const resSoal = await fetchAPI("read&sheet=Bank Soal");
+				const allSoal = resSoal.data || [];
+				const soalTingkat = allSoal.filter(s => s.ID_Tingkat === idTingkat);
+
+				if(soalTingkat.length === 0) {
+					loadHide();
+					return Swal.fire('Data Kosong', 'Belum ada bank soal untuk tingkatan ini di server.', 'info');
+				}
+
+				// 2. Ambil referensi Tingkat & Tahun
+				const namaTingkat = (dbTingkat.find(t => t.ID_Tingkat === idTingkat) || {}).Nama_Tingkat || idTingkat;
+				const namaTahun   = (dbTahun.find(t => t.ID_Tahun === idTahun) || {}).Nama_Tahun || idTahun;
+
+				// 3. Filter Data Hasil & Hitung Persentase per Butir Soal
+				const hasilFilter = dbHasil.filter(h => h.ID_Tingkat === idTingkat && h.ID_Tahun === idTahun);
+				const totalSiswa = hasilFilter.length;
+				
+				let countYa = new Array(soalTingkat.length).fill(0);
+
+				hasilFilter.forEach(h => {
+					try {
+						let bdl = JSON.parse(h.Skor_Akhir);
+						(bdl.seluruh || []).forEach(x => {
+							if(x.item_ya && Array.isArray(x.item_ya)) {
+								x.item_ya.forEach(nomor => {
+									if(nomor - 1 >= 0 && nomor - 1 < countYa.length) {
+										countYa[nomor - 1]++;
+									}
+								});
+							}
+						});
+					} catch(e) {}
+				});
+
+				// 4. Siapkan Data Tabel (Sesuai Urutan Asli Database)
+				const getBidangLayanan = (nama) => {
+					const t = String(nama).toLowerCase();
+					if (t.includes("kesehatan")||t.includes("spiritual")||t.includes("fisik")||t.includes("mental")||t.includes("moral")||t.includes("jasmani")||t.includes("psikologis")||t.includes("agama")) return "Pribadi";
+					if (t.includes("teman")||t.includes("keluarga")||t.includes("sosial")||t.includes("digital")||t.includes("asuh")||t.includes("pergaulan")||t.includes("hubungan")||t.includes("etika")) return "Sosial";
+					if (t.includes("belajar")||t.includes("waktu")||t.includes("akademik")||t.includes("literasi")||t.includes("motivasi")||t.includes("prestasi")||t.includes("kebiasaan")) return "Belajar";
+					return "Karier";
+				};
+
+				const dataTabel = soalTingkat.map((s, idx) => {
+					let namaSub = KAMUS_AUM[s.ID_Bidang_Tes] || s.ID_Bidang_Tes;
+					let bidangLayanan = getBidangLayanan(namaSub);
+					let persentase = totalSiswa > 0 ? Math.round((countYa[idx] / totalSiswa) * 100) : 0;
+					
+					return [
+						idx + 1,
+						bidangLayanan.toUpperCase(),
+						namaSub,
+						s.Teks_Soal,
+						`${persentase}%`
+					];
+				});
+
+				// 5. Eksekusi Cetak PDF (Portrait)
+				const { jsPDF } = window.jspdf;
+				const doc = new jsPDF('p', 'mm', 'a4'); // 'p' DIUBAH MENJADI PORTRAIT
+				const mL = 15, mR = 15, mT = 15, mB = 15; // Margin disesuaikan
+				const cW = doc.internal.pageSize.getWidth();
+				const cX = cW / 2;
+
+				// Kop Surat
+				const [logoKiriB64, logoKananB64] = await Promise.all([
+					urlToBase64(dbSekolah.Logo_Kiri  || ''),
+					urlToBase64(dbSekolah.Logo_Kanan || '')
+				]);
+
+				if(logoKiriB64)  doc.addImage(logoKiriB64,  'PNG', mL, mT, 24, 24);
+				if(logoKananB64) doc.addImage(logoKananB64, 'PNG', cW-mR-24, mT, 24, 24);
+
+				doc.setFont("times","bold"); doc.setFontSize(14);
+				doc.text(dbSekolah.Pemerintah || 'PEMERINTAH DAERAH', cX, mT+4, {align:"center"});
+				doc.text(dbSekolah.Instansi || 'DINAS PENDIDIKAN DAN KEBUDAYAAN', cX, mT+10, {align:"center"});
+				doc.setFontSize(16);
+				doc.text(dbSekolah.Nama_Sekolah || 'NAMA SEKOLAH', cX, mT+17, {align:"center"});
+				doc.setFontSize(14);
+				doc.text('BIMBINGAN DAN KONSELING', cX, mT+24, {align:"center"});
+				doc.setFont("times","normal"); doc.setFontSize(10);
+				doc.text(dbSekolah.Alamat || 'Alamat Sekolah', cX, mT+30, {align:"center"});
+
+				// Garis Penutup Kop
+				doc.setLineWidth(0.8); doc.line(mL, mT+34, cW-mR, mT+34);
+				doc.setLineWidth(0.3); doc.line(mL, mT+35.5, cW-mR, mT+35.5);
+
+				// Judul Dokumen
+				let nY = mT + 48;
+				doc.setFont("times","bold"); doc.setFontSize(13);
+				doc.text("DOKUMEN INSTRUMEN ALAT UNGKAP MASALAH (AUM) & ANALISIS BUTIR SOAL", cX, nY, {align:"center"});
+				
+				nY += 6;
+				doc.setFont("times","normal"); doc.setFontSize(11);
+				doc.text(`Tingkatan: ${namaTingkat}   |   Tahun Ajaran: ${namaTahun}   |   Total Responden: ${totalSiswa} Siswa`, cX, nY, {align:"center"});
+
+				// Tabel Cetak
+				nY += 8;
+				doc.autoTable({
+					startY: nY,
+					margin: { left: mL, right: mR, bottom: mB },
+					head: [['No.', 'Bidang', 'Fokus / Sub-Bidang', 'Pernyataan Instrumen AUM', 'Hasil ("YA")']],
+					body: dataTabel,
+					theme: 'grid',
+					headStyles: {
+						fillColor: [230, 230, 230], textColor: [0, 0, 0], fontStyle: 'bold',
+						halign: 'center', valign: 'middle', lineColor: [0, 0, 0], lineWidth: 0.2
+					},
+					styles: {
+						font: 'times', fontSize: 9, halign: 'center', valign: 'middle',
+						lineColor: [0, 0, 0], lineWidth: 0.2, textColor: [0, 0, 0], cellPadding: 2
+					},
+					columnStyles: {
+						0: { cellWidth: 12 },  // No.
+						1: { cellWidth: 20 }, // Bidang
+						2: { cellWidth: 32 }, // Sub-Bidang
+						3: { halign: 'left' }, // Teks Pernyataan (Sisa ruang kertas)
+						4: { cellWidth: 22, fontStyle: 'bold' } // Hasil Kebutuhan
+					}
+				});
+
+				// 6. PENAMBAHAN TANDA TANGAN (Otomatis & Presisi)
+				let finalY = doc.lastAutoTable.finalY + 15;
+				
+				// Cek apakah sisa halaman cukup untuk tanda tangan (butuh sekitar 40mm)
+				if (finalY > (doc.internal.pageSize.getHeight() - 45)) {
+					doc.addPage('a4', 'portrait');
+					finalY = mT + 20; // Mulai dari atas di halaman baru
+				}
+
+				const formatTglTtd = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+
+				doc.setFont('times', 'normal');
+				doc.setFontSize(11);
+				doc.text(`Makassar, ${formatTglTtd}`, cX, finalY, {align: 'center'});
+				doc.text('Guru Bimbingan dan Konseling,', cX, finalY + 6, {align: 'center'});
+
+				doc.setFont('times', 'bold');
+				doc.text(document.getElementById('guruProfileName').innerText, cX, finalY + 28, {align: 'center'});
+				doc.setFont('times', 'normal');
+				doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, cX, finalY + 33, {align: 'center'});
+
+				window.open(doc.output('bloburl'), '_blank');
+				loadHide();
+
+			} catch(err) {
+				loadHide();
+				Swal.fire('Gagal Mencetak', err.message, 'error');
+			}
+		}
 		
 		async function urlToBase64(url) {
 			try {
