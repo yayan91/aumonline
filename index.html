@@ -934,6 +934,139 @@
 		.btn-page:disabled { opacity:0.35; cursor:not-allowed; }
 		.btn-page.active { background:var(--blue-600); border-color:var(--blue-400); color:white; }
 		
+		/* =============================================
+		   PROGRAM TAHUNAN — TABLE BULAN
+		============================================= */
+		.prog-table-wrap { overflow-x: auto; }
+		.prog-table {
+			width: 100%; border-collapse: collapse;
+			font-size: 12px; min-width: 900px;
+		}
+		.prog-table th {
+			background: var(--ink-700);
+			color: var(--ink-400);
+			font-size: 10px; font-weight: 700;
+			letter-spacing: 0.08em; text-transform: uppercase;
+			padding: 10px 8px; border: 1px solid var(--ink-600);
+			text-align: center; white-space: nowrap;
+		}
+		.prog-table th.col-komponen { width: 120px; text-align: left; }
+		.prog-table th.col-kegiatan { width: 160px; text-align: left; }
+		.prog-table th.col-topik    { width: 160px; text-align: left; }
+		.prog-table th.col-bulan    { width: 44px; }
+		.prog-table td {
+			padding: 10px 8px;
+			border: 1px solid var(--ink-700);
+			vertical-align: middle;
+			color: var(--ink-100); font-size: 12px;
+		}
+		.prog-table td.td-komponen {
+			font-weight: 700; color: var(--ink-000);
+			background: var(--ink-800);
+			font-size: 11px; letter-spacing: 0.04em;
+		}
+		.prog-table td.td-kegiatan {
+			color: var(--ink-100); font-weight: 600;
+			background: var(--ink-800);
+		}
+		.prog-table td.td-topik {
+			color: var(--ink-300); font-size: 11px;
+			background: var(--ink-800);
+		}
+		.prog-table td.td-bulan {
+			text-align: center; background: var(--ink-900); padding: 6px 4px;
+		}
+		.prog-table tr.row-komponen td {
+			background: rgba(37,99,235,0.08);
+			border-top: 2px solid rgba(37,99,235,0.3);
+		}
+		.prog-table tr.row-komponen td.td-komponen {
+			color: var(--blue-300); font-size: 12px; letter-spacing: 0.06em;
+		}
+		.prog-table th.sem-ganjil {
+			background: rgba(37,99,235,0.15); color: var(--blue-300);
+			border-top: 2px solid var(--blue-500);
+		}
+		.prog-table th.sem-genap {
+			background: rgba(201,168,76,0.10); color: var(--gold-400);
+			border-top: 2px solid var(--gold-500);
+		}
+		.bulan-check { display: none; }
+		.bulan-label {
+			display: flex; align-items: center; justify-content: center;
+			width: 28px; height: 28px; border-radius: 8px;
+			border: 1.5px solid var(--ink-600);
+			background: var(--ink-800); cursor: pointer; margin: 0 auto;
+			transition: all 0.2s; font-size: 11px; font-weight: 700;
+			color: var(--ink-500);
+		}
+		.bulan-label:hover { border-color: var(--blue-400); color: var(--blue-300); }
+		.bulan-check:checked + .bulan-label {
+			background: var(--blue-600);
+			border-color: var(--blue-400);
+			color: white;
+		}
+		input.bulan-check.genap:checked + .bulan-label {
+			background: rgba(201,168,76,0.2) !important;
+			border-color: var(--gold-500) !important;
+			color: var(--gold-300) !important;
+		}
+		.prog-toolbar {
+			display: flex; gap: 10px; flex-wrap: wrap;
+			align-items: center; margin-bottom: 20px;
+		}
+		.prog-filter-group { display: flex; gap: 10px; flex: 1; flex-wrap: wrap; }
+		.prog-action-group { display: flex; gap: 8px; }
+		.btn-save-prog {
+			background: linear-gradient(135deg, var(--green-500), #059669);
+			border: none; border-radius: 10px; padding: 10px 20px;
+			color: white; font-size: 13px; font-weight: 700;
+			cursor: pointer; transition: all 0.2s;
+			display: flex; align-items: center; gap: 8px;
+		}
+		.btn-save-prog:hover { filter: brightness(1.1); box-shadow: 0 6px 18px rgba(16,185,129,0.3); }
+		.btn-cetak-tahunan {
+			background: linear-gradient(135deg, var(--blue-500), var(--blue-400));
+			border: none; border-radius: 10px; padding: 10px 18px;
+			color: white; font-size: 13px; font-weight: 700;
+			cursor: pointer; transition: all 0.2s;
+			display: flex; align-items: center; gap: 8px;
+		}
+		.btn-cetak-tahunan:hover { filter: brightness(1.1); box-shadow: 0 6px 18px var(--blue-glow); }
+		.btn-cetak-ganjil {
+			background: rgba(37,99,235,0.15); border: 1px solid rgba(59,130,246,0.4);
+			border-radius: 10px; padding: 10px 18px;
+			color: var(--blue-300); font-size: 13px; font-weight: 700;
+			cursor: pointer; transition: all 0.2s;
+			display: flex; align-items: center; gap: 8px;
+		}
+		.btn-cetak-ganjil:hover { background: rgba(37,99,235,0.25); }
+		.btn-cetak-genap {
+			background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35);
+			border-radius: 10px; padding: 10px 18px;
+			color: var(--gold-400); font-size: 13px; font-weight: 700;
+			cursor: pointer; transition: all 0.2s;
+			display: flex; align-items: center; gap: 8px;
+		}
+		.btn-cetak-genap:hover { background: rgba(201,168,76,0.22); }
+		.sem-badge-row { display: flex; gap: 12px; margin-bottom: 12px; }
+		.sem-badge {
+			display: flex; align-items: center; gap: 6px;
+			padding: 6px 14px; border-radius: 8px;
+			font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+		}
+		.sem-badge-ganjil {
+			background: rgba(37,99,235,0.12); border: 1px solid rgba(59,130,246,0.3);
+			color: var(--blue-300);
+		}
+		.sem-badge-genap {
+			background: rgba(201,168,76,0.10); border: 1px solid rgba(201,168,76,0.3);
+			color: var(--gold-400);
+		}
+		.prog-empty { text-align: center; padding: 48px 24px; color: var(--ink-400); }
+		.prog-empty i { font-size: 40px; margin-bottom: 12px; display: block; }
+		.prog-empty p { font-size: 14px; }
+		
     </style>
 </head>
 <body>
@@ -1218,6 +1351,14 @@
 							<div class="link-icon"><i class="fas fa-users"></i></div>
 							Cetak Kelas
 						</a>
+						<a class="sidebar-link" onclick="switchGuruMenu('panel-cetak-tingkatan',this)">
+							<div class="link-icon"><i class="fas fa-school"></i></div>
+							Cetak Tingkatan
+						</a>
+						<a class="sidebar-link" onclick="switchGuruMenu('panel-program-tahunan',this)">
+							<div class="link-icon"><i class="fas fa-calendar-alt"></i></div>
+							Program Tahunan
+						</a>
 					</div>
                 </div>
 
@@ -1404,6 +1545,129 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- PANEL: Cetak Per Tingkatan -->
+					<div id="panel-cetak-tingkatan" class="guru-panel">
+						<div class="panel-content">
+							<div class="panel-header">
+								<div class="panel-title">
+									<div class="panel-title-icon" style="background:rgba(16,185,129,0.12);color:var(--green-500);">
+										<i class="fas fa-school"></i>
+									</div>
+									Cetak Laporan Per Tingkatan
+								</div>
+							</div>
+
+							<div class="row g-3 mb-4">
+								<div class="col-md-5">
+									<label class="field-label">Filter Tahun Ajaran</label>
+									<select class="field-input" id="filterTahunTingkatan">
+										<option value="">— Semua Tahun —</option>
+									</select>
+								</div>
+								<div class="col-md-5">
+									<label class="field-label">Filter Tingkatan</label>
+									<select class="field-input" id="filterNamaTingkatan">
+										<option value="">— Semua Tingkatan —</option>
+									</select>
+								</div>
+								<div class="col-md-2 d-flex align-items-end">
+									<button class="btn-action-blue w-100" onclick="filterTabelCetakTingkatan()">
+										<i class="fas fa-filter"></i> Tampilkan
+									</button>
+								</div>
+							</div>
+
+							<div class="table-responsive">
+								<table class="table-dark-clean" id="tblCetakTingkatan">
+									<thead>
+										<tr>
+											<th>No.</th>
+											<th>Tingkatan</th>
+											<th>Tahun Ajaran</th>
+											<th>Jumlah Kelas</th>
+											<th>Peserta Mengisi</th>
+											<th>Terdaftar</th>
+											<th style="text-align:right;">Aksi</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+
+								<div class="pagination-wrap" id="paginasiTingkatan">
+									<div class="pagination-info" id="infoTingkatan"></div>
+									<div class="pagination-btns" id="btnTingkatan"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- PANEL: Program Tahunan -->
+					<div id="panel-program-tahunan" class="guru-panel">
+						<div class="panel-content">
+							<div class="panel-header">
+								<div class="panel-title">
+									<div class="panel-title-icon"
+										 style="background:rgba(201,168,76,0.12);color:var(--gold-400);">
+										<i class="fas fa-calendar-alt"></i>
+									</div>
+									Program Tahunan Bimbingan &amp; Konseling
+								</div>
+							</div>
+
+							<div class="prog-toolbar">
+								<div class="prog-filter-group">
+									<div style="min-width:180px;">
+										<label class="field-label">Tingkatan</label>
+										<select class="field-input" id="progTingkat" onchange="loadProgramTahunan()">
+											<option value="">— Pilih Tingkatan —</option>
+										</select>
+									</div>
+									<div style="min-width:180px;">
+										<label class="field-label">Tahun Ajaran</label>
+										<select class="field-input" id="progTahun" onchange="loadProgramTahunan()">
+											<option value="">— Pilih Tahun —</option>
+										</select>
+									</div>
+								</div>
+								<div class="prog-action-group" style="align-self:flex-end;">
+									<button class="btn-save-prog" onclick="simpanProgramSemester()">
+										<i class="fas fa-save"></i> Simpan
+									</button>
+									<button class="btn-action-blue" onclick="bukaModalAnggaran()" style="border-radius:10px;">
+										<i class="fas fa-coins"></i> Anggaran
+									</button>
+									<button class="btn-cetak-tahunan" onclick="cetakProgramTahunan('tahunan')">
+										<i class="fas fa-print"></i> Tahunan
+									</button>
+									<button class="btn-cetak-ganjil" onclick="cetakProgramTahunan('ganjil')">
+										<i class="fas fa-print"></i> Ganjil
+									</button>
+									<button class="btn-cetak-genap" onclick="cetakProgramTahunan('genap')">
+										<i class="fas fa-print"></i> Genap
+									</button>
+								</div>
+							</div>
+
+							<div class="sem-badge-row">
+								<div class="sem-badge sem-badge-ganjil">
+									<i class="fas fa-circle" style="font-size:7px;"></i>
+									Semester Ganjil: Juli — Desember
+								</div>
+								<div class="sem-badge sem-badge-genap">
+									<i class="fas fa-circle" style="font-size:7px;"></i>
+									Semester Genap: Januari — Juni
+								</div>
+							</div>
+
+							<div id="progTableArea">
+								<div class="prog-empty">
+									<i class="fas fa-calendar-plus" style="color:var(--ink-600);"></i>
+									<p>Pilih Tingkatan dan Tahun Ajaran untuk memuat program.</p>
+								</div>
+							</div>
+						</div>
+					</div>
 
                 </div>
             </div>
@@ -1501,12 +1765,48 @@
             </div>
         </div>
     </div>
+	
+	<!-- MODAL ANGGARAN -->
+    <div class="modal fade" id="modalAnggaran" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-content-dark">
+                <div class="modal-header-dark">
+                    <span class="modal-title-dark"><i class="fas fa-coins me-2"></i>Rencana Anggaran BK</span>
+                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body-dark">
+                    <div class="table-responsive">
+                        <table class="table-dark-clean" id="tblAnggaran">
+                            <thead>
+                                <tr>
+                                    <th>Nama Kegiatan / Barang</th>
+                                    <th style="width:100px;">Vol</th>
+                                    <th style="width:150px;">Harga Satuan</th>
+                                    <th style="width:60px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyAnggaran"></tbody>
+                        </table>
+                    </div>
+                    <button class="btn-action-blue mt-3" onclick="tambahBarisAnggaran()">
+                        <i class="fas fa-plus"></i> Tambah Item
+                    </button>
+                </div>
+                <div class="modal-footer-dark">
+                    <button class="btn-modal-cancel" data-bs-dismiss="modal">Tutup</button>
+                    <button class="btn-modal-save" onclick="simpanAnggaranLokal()">
+                        <i class="fas fa-check me-1"></i> Simpan Anggaran
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ================================================================
          JAVASCRIPT — IDENTIK DENGAN ASLI, HANYA RENDERING DISESUAIKAN
     ================================================================ -->
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbysJhjZsJ9z_hU-Z3yNzpFFMwvMPc0jzEmGha5VlFE8M2owbO_R5RDfO5Md6bRiBkvoIg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwXPKMyFR5aPLB7W_EtQ2J-xmtR4EfjJ9I9sXPHQsC3gR2rM-pQ5bknMnY8Zgo1ub1ukg/exec";
         const API_KEY = "SobatBK16_Secret";
 
         const KAMUS_AUM = {
@@ -1774,7 +2074,8 @@
                 document.getElementById('guruAvatarImg').src=`https://ui-avatars.com/api/?name=${encodeURIComponent(matchAdmin.Nama_Guru||'Admin')}&background=1A3A6B&color=C9A84C&bold=true`;
                 document.getElementById('statResponden').innerText=dbHasil.length;
                 document.getElementById('statToken').innerText=dbTokens.filter(x=>x.Status==="Aktif").length;
-                renderChart(); renderTblToken(); renderTblHasil(); renderTabelCetakKelas();
+                renderChart(); renderTblToken(); renderTblHasil(); renderTabelCetakKelas(); renderTabelCetakTingkatan();
+				initDropdownProgram();
                 loadHide(); switchView('view-dashboard-guru');
             } catch(e){ loadHide(); Swal.fire('Ditolak',e.message,'error'); }
         }
@@ -1942,17 +2243,24 @@
 					if (programs.length === 0) return { kat: "-", strat: "-", topik: "-", tjn: "-", met: "-", ev: "-" };
 					if (programs.length === 1) {
 						let p = programs[0];
-						return { kat: p.Kategori || "-", strat: p.Strategi_Layanan || "-", topik: p.Topik_Materi || "-", tjn: p.Tujuan_Layanan || "-", met: `${p.Metode || "-"}\n(${p.Media || "-"})`, ev: p.Evaluasi || "-" };
+						return {
+							kat:   p.Kategori          || "-",
+							strat: p.Strategi_Layanan  || "-",
+							topik: p.Topik_Materi      || "-",
+							tjn:   p.Tujuan_Layanan    || "-",
+							met:   `${p.Metode || "-"} (${p.Media || "-"})`,
+							ev:    p.Evaluasi          || "-"
+						};
 					}
 					let res = { kat: "", strat: "", topik: "", tjn: "", met: "", ev: "" };
 					programs.forEach((p, idx) => {
-						let no = `${idx + 1}. `;
-						let enter = idx < programs.length - 1 ? "\n" : "";
-						if (idx === 0) { res.kat = p.Kategori || "-"; res.strat = p.Strategi_Layanan || "-"; }
-						res.topik += `${no}${p.Topik_Materi || "-"}${enter}`;
-						res.tjn += `${no}${p.Tujuan_Layanan || "-"}${enter}`;
-						res.met += `${no}${p.Metode || "-"} (${p.Media || "-"})${enter}`;
-						res.ev += `${no}${p.Evaluasi || "-"}${enter}`;
+						const no = `${idx + 1}. `, br = idx < programs.length - 1 ? "\n" : "";
+						res.kat   += `${no}${p.Kategori         || "-"}${br}`;
+						res.strat += `${no}${p.Strategi_Layanan || "-"}${br}`;
+						res.topik += `${no}${p.Topik_Materi     || "-"}${br}`;
+						res.tjn   += `${no}${p.Tujuan_Layanan   || "-"}${br}`;
+						res.met   += `${no}${p.Metode || "-"} (${p.Media || "-"})${br}`;
+						res.ev    += `${no}${p.Evaluasi         || "-"}${br}`;
 					});
 					return res;
 				};
@@ -2061,23 +2369,204 @@
 				// HALAMAN LANDSCAPE (KHUSUS BAGIAN C)
 				// =========================================================
 				doc.addPage("a4", "landscape");
-				currentWidth = doc.internal.pageSize.getWidth(); 
+				currentWidth = doc.internal.pageSize.getWidth();
 				nY = mTop;
 
-				let bodyTop3 = bdl.top3.map(x => { let p = rakitProgramLayanan(x.kode, h.ID_Tingkat); return [getBidangLayanan(x.bidang), `${x.bidang}\n(${x.pct}%)`, `${p.kat}\n(${p.strat})`, p.topik, p.tjn, p.met, p.ev]; });
-				doc.setFont("times", "bold"); doc.text("C. Rekomendasi Program Intervensi Prioritas (3 Masalah Tertinggi)", mLeft, nY);
-				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Bidang', 'Fokus Masalah', 'Kategori (Strategi)', 'Topik Materi', 'Tujuan Intervensi', 'Metode & Media', 'Evaluasi']], body: bodyTop3, theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles, columnStyles: { 3: { halign: 'left' }, 4: { halign: 'left' }, 5: { halign: 'left' }, 6: { halign: 'left' } } });
+				doc.setFont("times", "bold"); doc.setFontSize(11);
+				doc.text("C. Rekomendasi Program Intervensi Prioritas (3 Masalah Tertinggi)", mLeft, nY);
+				nY += 5;
+
+				const usableWLandscape = currentWidth - mLeft - mRight;
+
+				// Gaya header grup — abu-abu + tengah (sama seperti cetakPDFKelas)
+				const styleGrupHeadC = {
+					font: 'times', fontSize: 9, fontStyle: 'bold',
+					halign: 'center', valign: 'middle',
+					fillColor: [230, 230, 230],
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: { top: 2.5, bottom: 2.5, left: 3, right: 3 }
+				};
+
+				// Gaya sub-header
+				const styleSubHeadC = {
+					font: 'times', fontSize: 8, fontStyle: 'bold',
+					halign: 'center', valign: 'middle',
+					fillColor: [230, 230, 230],
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: 1.5
+				};
+
+				// Gaya isi
+				const styleIsiC = {
+					font: 'times', fontSize: 8,
+					halign: 'left', valign: 'top',
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: { top: 2, bottom: 2, left: 3, right: 3 }
+				};
+
+				const colWC = {
+					kat:   33,
+					strat: 38,
+					topik: 38,
+					tjn:   52,
+					met:   48,
+					ev:    48,
+				};
+
+				bdl.top3.forEach((x, idx) => {
+					const p = rakitProgramLayanan(x.kode, h.ID_Tingkat);
+					const labelBidang = `${idx + 1}.   ${getBidangLayanan(x.bidang).toUpperCase()}  —  ${x.bidang}  (${x.pct}%)`;
+
+					const estimasiTinggi = 30;
+					if (nY + estimasiTinggi > (doc.internal.pageSize.getHeight() - mBottom)) {
+						doc.addPage("a4", "landscape");
+						currentWidth = doc.internal.pageSize.getWidth();
+						nY = mTop;
+					}
+
+					doc.autoTable({
+						startY: nY,
+						margin: { left: mLeft, right: mRight, bottom: mBottom },
+						head: [
+							[{
+								content: labelBidang,
+								colSpan: 6,
+								styles: styleGrupHeadC
+							}],
+							[
+								{ content: 'Kategori',          styles: styleSubHeadC },
+								{ content: 'Strategi Layanan',  styles: styleSubHeadC },
+								{ content: 'Topik Materi',      styles: styleSubHeadC },
+								{ content: 'Tujuan Intervensi', styles: styleSubHeadC },
+								{ content: 'Metode & Media',    styles: styleSubHeadC },
+								{ content: 'Evaluasi',          styles: styleSubHeadC },
+							]
+						],
+						body: [[
+							{ content: p.kat,   styles: styleIsiC },
+							{ content: p.strat, styles: styleIsiC },
+							{ content: p.topik, styles: styleIsiC },
+							{ content: p.tjn,   styles: styleIsiC },
+							{ content: p.met,   styles: styleIsiC },
+							{ content: p.ev,    styles: styleIsiC },
+						]],
+						theme: 'plain',
+						columnStyles: {
+							0: { cellWidth: colWC.kat   },
+							1: { cellWidth: colWC.strat },
+							2: { cellWidth: colWC.topik },
+							3: { cellWidth: colWC.tjn   },
+							4: { cellWidth: colWC.met   },
+							5: { cellWidth: 'auto'      },
+						},
+						showHead: 'firstPage',
+					});
+
+					nY = doc.lastAutoTable.finalY + 3;
+				});
 
 				// =========================================================
 				// HALAMAN LANDSCAPE (KHUSUS BAGIAN D) - SELALU HALAMAN BARU
 				// =========================================================
-				doc.addPage("a4", "landscape"); 
+				doc.addPage("a4", "landscape");
+				currentWidth = doc.internal.pageSize.getWidth();
 				nY = mTop;
 
-				let bodyBot3 = bdl.bot3.map(x => { let p = rakitProgramLayanan(x.kode, h.ID_Tingkat); return [getBidangLayanan(x.bidang), `${x.bidang}\n(${x.pct}%)`, `${p.kat}\n(${p.strat})`, p.topik, p.tjn, p.met, p.ev]; });
-				doc.setFont("times", "bold"); doc.text("D. Rekomendasi Program Preventif & Pemeliharaan ", mLeft, nY);
-				doc.autoTable({ startY: nY + 2, margin: { left: mLeft, right: mRight, bottom: mBottom }, head: [['Bidang', 'Fokus Penguatan', 'Kategori (Strategi)', 'Topik Materi', 'Tujuan Pembinaan', 'Metode & Media', 'Evaluasi']], body: bodyBot3, theme: 'grid', headStyles: corpHeadStyles, styles: corpStyles, columnStyles: { 3: { halign: 'left' }, 4: { halign: 'left' }, 5: { halign: 'left' }, 6: { halign: 'left' } } });
+				doc.setFont("times", "bold"); doc.setFontSize(11);
+				doc.text("D. Rekomendasi Program Preventif & Pemeliharaan", mLeft, nY);
+				nY += 5;
 
+				// Gaya identik dengan C — deklarasi ulang agar tidak konflik scope
+				const styleGrupHeadD = {
+					font: 'times', fontSize: 9, fontStyle: 'bold',
+					halign: 'center', valign: 'middle',
+					fillColor: [230, 230, 230],
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: { top: 2.5, bottom: 2.5, left: 3, right: 3 }
+				};
+
+				const styleSubHeadD = {
+					font: 'times', fontSize: 8, fontStyle: 'bold',
+					halign: 'center', valign: 'middle',
+					fillColor: [230, 230, 230],
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: 1.5
+				};
+
+				const styleIsiD = {
+					font: 'times', fontSize: 8,
+					halign: 'left', valign: 'top',
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: { top: 2, bottom: 2, left: 3, right: 3 }
+				};
+
+				const colWD = {
+					kat:   33,
+					strat: 38,
+					topik: 38,
+					tjn:   52,
+					met:   48,
+					ev:    48,
+				};
+
+				bdl.bot3.forEach((x, idx) => {
+					const p = rakitProgramLayanan(x.kode, h.ID_Tingkat);
+					const labelBidang = `${idx + 1}.   ${getBidangLayanan(x.bidang).toUpperCase()}  —  ${x.bidang}  (${x.pct}%)`;
+
+					const estimasiTinggi = 30;
+					if (nY + estimasiTinggi > (doc.internal.pageSize.getHeight() - mBottom)) {
+						doc.addPage("a4", "landscape");
+						currentWidth = doc.internal.pageSize.getWidth();
+						nY = mTop;
+					}
+
+					doc.autoTable({
+						startY: nY,
+						margin: { left: mLeft, right: mRight, bottom: mBottom },
+						head: [
+							[{
+								content: labelBidang,
+								colSpan: 6,
+								styles: styleGrupHeadD
+							}],
+							[
+								{ content: 'Kategori',         styles: styleSubHeadD },
+								{ content: 'Strategi Layanan', styles: styleSubHeadD },
+								{ content: 'Topik Materi',     styles: styleSubHeadD },
+								{ content: 'Tujuan Pembinaan', styles: styleSubHeadD },
+								{ content: 'Metode & Media',   styles: styleSubHeadD },
+								{ content: 'Evaluasi',         styles: styleSubHeadD },
+							]
+						],
+						body: [[
+							{ content: p.kat,   styles: styleIsiD },
+							{ content: p.strat, styles: styleIsiD },
+							{ content: p.topik, styles: styleIsiD },
+							{ content: p.tjn,   styles: styleIsiD },
+							{ content: p.met,   styles: styleIsiD },
+							{ content: p.ev,    styles: styleIsiD },
+						]],
+						theme: 'plain',
+						columnStyles: {
+							0: { cellWidth: colWD.kat   },
+							1: { cellWidth: colWD.strat },
+							2: { cellWidth: colWD.topik },
+							3: { cellWidth: colWD.tjn   },
+							4: { cellWidth: colWD.met   },
+							5: { cellWidth: 'auto'      },
+						},
+						showHead: 'firstPage',
+					});
+
+					nY = doc.lastAutoTable.finalY + 3;
+				});
+				
 				// =========================================================
 				// KEMBALI KE HALAMAN PORTRAIT UNTUK BAGIAN E, F, G & TTD
 				// =========================================================
@@ -2167,6 +2656,439 @@
 		}
 		
 		// ================================================================
+		// CETAK PER TINGKATAN — Render Tabel
+		// ================================================================
+		function renderTabelCetakTingkatan() {
+			const selTahun = document.getElementById('filterTahunTingkatan');
+			const selTingkat = document.getElementById('filterNamaTingkatan');
+
+			// Isi dropdown tahun
+			const tahunSet = [...new Set(dbHasil.map(h => h.ID_Tahun).filter(Boolean))];
+			selTahun.innerHTML = '<option value="">— Semua Tahun —</option>';
+			tahunSet.forEach(id => {
+				const nama = (dbTahun.find(t => t.ID_Tahun === id) || {}).Nama_Tahun || id;
+				selTahun.innerHTML += `<option value="${id}">${nama}</option>`;
+			});
+
+			// Isi dropdown tingkatan
+			const tingkatSet = [...new Set(dbHasil.map(h => h.ID_Tingkat).filter(Boolean))];
+			selTingkat.innerHTML = '<option value="">— Semua Tingkatan —</option>';
+			tingkatSet.forEach(id => {
+				const nama = (dbTingkat.find(t => t.ID_Tingkat === id) || {}).Nama_Tingkat || id;
+				selTingkat.innerHTML += `<option value="${id}">${nama}</option>`;
+			});
+
+			// Bangun data: group by ID_Tingkat + ID_Tahun
+			const grouped = {};
+			dbHasil.forEach(h => {
+				const siswa = dbSiswa.find(s => s.ID_Siswa === h.ID_Siswa) || {};
+				const key = `${h.ID_Tingkat}||${h.ID_Tahun}`;
+				if (!grouped[key]) {
+					grouped[key] = {
+						idTingkat: h.ID_Tingkat,
+						idTahun:   h.ID_Tahun,
+						kelasList: new Set(),
+						hasilList: []
+					};
+				}
+				if (siswa.Kelas) grouped[key].kelasList.add(siswa.Kelas);
+				grouped[key].hasilList.push(h);
+			});
+
+			const dataTingkatan = Object.keys(grouped).sort().map(key => {
+				const g = grouped[key];
+				g.terdaftar = dbSiswa.filter(s => s.ID_Tingkat === g.idTingkat).length;
+				g.jumlahKelas = g.kelasList.size;
+				return g;
+			});
+
+			buatPaginasi(dataTingkatan, renderTblTingkatanPage, 'infoTingkatan', 'btnTingkatan');
+		}
+
+		function renderTblTingkatanPage(slice, start) {
+			const tbody = document.querySelector('#tblCetakTingkatan tbody');
+			tbody.innerHTML = '';
+			slice.forEach((g, i) => {
+				const namaTingkatTbl = (dbTingkat.find(t => t.ID_Tingkat === g.idTingkat) || {}).Nama_Tingkat || g.idTingkat;
+				const namaTahunTbl   = (dbTahun.find(t => t.ID_Tahun === g.idTahun) || {}).Nama_Tahun || g.idTahun;
+				tbody.innerHTML += `<tr
+					data-tingkat="${g.idTingkat}"
+					data-tahun="${g.idTahun}">
+					<td style="font-weight:700;color:var(--ink-400);">${start + i + 1}</td>
+					<td style="font-weight:700;color:var(--ink-000);">${namaTingkatTbl}</td>
+					<td>${namaTahunTbl}</td>
+					<td><span class="badge-aktif">${g.jumlahKelas} Kelas</span></td>
+					<td><span class="badge-aktif">${g.hasilList.length} Siswa</span></td>
+					<td>${g.terdaftar} Siswa</td>
+					<td style="text-align:right;">
+						<button class="btn-print-sm" onclick="cetakPDFTingkatan('${g.idTingkat}','${g.idTahun}')">
+							<i class="fas fa-print"></i> Cetak PDF
+						</button>
+					</td>
+				</tr>`;
+			});
+		}
+
+		function filterTabelCetakTingkatan() {
+			const tahun   = document.getElementById('filterTahunTingkatan').value;
+			const tingkat = document.getElementById('filterNamaTingkatan').value;
+			document.querySelectorAll('#tblCetakTingkatan tbody tr').forEach(tr => {
+				const cocokTahun   = !tahun   || tr.dataset.tahun   === tahun;
+				const cocokTingkat = !tingkat || tr.dataset.tingkat === tingkat;
+				tr.style.display = cocokTahun && cocokTingkat ? '' : 'none';
+			});
+		}
+
+		// ================================================================
+		// CETAK PER TINGKATAN — Fungsi PDF
+		// ================================================================
+		async function cetakPDFTingkatan(idTingkat, idTahun) {
+			try {
+				loadShow("Menyiapkan Data Tingkatan...");
+
+				const [resThn, resTingkatRef, resProg] = await Promise.all([
+					fetchAPI("read&sheet=Tahun Ajaran"),
+					fetchAPI("read&sheet=Tingkat Kelas"),
+					fetchAPI("read&sheet=Program Layanan")
+				]);
+				const dbProg      = resProg.data || [];
+				const namaTahun   = ((resThn.data || []).find(t => t.ID_Tahun   === idTahun)   || {}).Nama_Tahun   || idTahun;
+				const namaTingkat = ((resTingkatRef.data || []).find(t => t.ID_Tingkat === idTingkat) || {}).Nama_Tingkat || idTingkat;
+
+				// Kumpulkan semua hasil untuk tingkatan ini
+				const hasilTingkat = dbHasil.filter(h => h.ID_Tingkat === idTingkat && h.ID_Tahun === idTahun);
+				if (!hasilTingkat.length) {
+					loadHide();
+					return Swal.fire('Info', 'Belum ada data untuk tingkatan ini.', 'info');
+				}
+
+				const siswaTingkat = dbSiswa.filter(s => s.ID_Tingkat === idTingkat);
+				const kelasList    = [...new Set(siswaTingkat.map(s => s.Kelas).filter(Boolean))].sort();
+
+				// ── Helper ──────────────────────────────────────────────
+				const getBidang = (nama) => {
+					const t = String(nama).toLowerCase();
+					if (t.includes("kesehatan")||t.includes("spiritual")||t.includes("fisik")||t.includes("mental")||t.includes("moral")||t.includes("jasmani")||t.includes("psikologis")||t.includes("agama")) return "Pribadi";
+					if (t.includes("teman")||t.includes("keluarga")||t.includes("sosial")||t.includes("digital")||t.includes("asuh")||t.includes("pergaulan")||t.includes("hubungan")||t.includes("etika")) return "Sosial";
+					if (t.includes("belajar")||t.includes("waktu")||t.includes("akademik")||t.includes("literasi")||t.includes("motivasi")||t.includes("prestasi")||t.includes("kebiasaan")) return "Belajar";
+					return "Karier";
+				};
+
+				const rakitProgT = (kodeBidang) => {
+					const programs = dbProg.filter(p => p.ID_Bidang_Tes === kodeBidang && p.ID_Tingkat === idTingkat);
+					if (!programs.length) return { kat:"-", strat:"-", topik:"-", tjn:"-", met:"-", ev:"-" };
+					if (programs.length === 1) {
+						const p = programs[0];
+						return { kat: p.Kategori||"-", strat: p.Strategi_Layanan||"-", topik: p.Topik_Materi||"-", tjn: p.Tujuan_Layanan||"-", met: `${p.Metode||"-"} (${p.Media||"-"})`, ev: p.Evaluasi||"-" };
+					}
+					let r = { kat:"", strat:"", topik:"", tjn:"", met:"", ev:"" };
+					programs.forEach((p, i) => {
+						const no = `${i+1}. `, br = i < programs.length-1 ? "\n" : "";
+						r.kat   += `${no}${p.Kategori||"-"}${br}`;
+						r.strat += `${no}${p.Strategi_Layanan||"-"}${br}`;
+						r.topik += `${no}${p.Topik_Materi||"-"}${br}`;
+						r.tjn   += `${no}${p.Tujuan_Layanan||"-"}${br}`;
+						r.met   += `${no}${p.Metode||"-"} (${p.Media||"-"})${br}`;
+						r.ev    += `${no}${p.Evaluasi||"-"}${br}`;
+					});
+					return r;
+				};
+
+				// ── Agregasi Skor Tingkatan ──────────────────────────────
+				const ttlPerBidang = {}, yesPerBidang = {}, skorPerBidang = {};
+				hasilTingkat.forEach(h => {
+					let bdl = {}; try { bdl = JSON.parse(h.Skor_Akhir); } catch(e) { return; }
+					(bdl.seluruh || []).forEach(x => {
+						ttlPerBidang[x.kode]  = (ttlPerBidang[x.kode]  || 0) + 1;
+						yesPerBidang[x.kode]  = (yesPerBidang[x.kode]  || 0) + x.pct;
+						skorPerBidang[x.kode] = (skorPerBidang[x.kode] || 0) + x.skor;
+					});
+				});
+
+				const urutan = Object.keys(KAMUS_AUM);
+				const rincianTingkat = urutan
+					.filter(k => ttlPerBidang[k])
+					.map(k => ({
+						kode:  k,
+						bidang: KAMUS_AUM[k] || k,
+						pct:   Math.round(yesPerBidang[k] / ttlPerBidang[k]),
+						skor:  skorPerBidang[k]
+					}))
+					.sort((a, b) => b.pct - a.pct);
+
+				// Rekap 4 bidang
+				const rekap4 = { "Pribadi":{total:0,count:0}, "Sosial":{total:0,count:0}, "Belajar":{total:0,count:0}, "Karier":{total:0,count:0} };
+				rincianTingkat.forEach(x => { const b = getBidang(x.bidang); rekap4[b].total += x.pct; rekap4[b].count += 1; });
+
+				// Peta risiko
+				let stabil=0, waspada=0, krisis=0, siswaKrisis=[];
+				hasilTingkat.forEach(h => {
+					let bdl={}; try{bdl=JSON.parse(h.Skor_Akhir);}catch(e){}
+					const allPct=(bdl.seluruh||[]).map(x=>x.pct);
+					const rata=allPct.length?Math.round(allPct.reduce((a,b)=>a+b,0)/allPct.length):0;
+					const siswa=dbSiswa.find(s=>s.ID_Siswa===h.ID_Siswa)||{Nama_Siswa:h.ID_Siswa,Kelas:'-'};
+					if(rata>=71){krisis++; siswaKrisis.push({nama:siswa.Nama_Siswa,kelas:siswa.Kelas,rata});}
+					else if(rata>=41) waspada++;
+					else stabil++;
+				});
+
+				// Proporsi E & F
+				let totalSkorYa=0, mapKat={}, mapStrat={};
+				rincianTingkat.forEach(x => {
+					totalSkorYa += x.skor;
+					const ref = dbProg.find(p=>p.ID_Bidang_Tes===x.kode&&p.ID_Tingkat===idTingkat)||{};
+					const kat   = ref.Kategori         || "Belum Terpetakan";
+					const strat = ref.Strategi_Layanan || "Belum Terpetakan";
+					mapKat[kat]   = (mapKat[kat]   || 0) + x.skor;
+					mapStrat[strat] = (mapStrat[strat] || 0) + x.skor;
+				});
+				const dataKat   = Object.keys(mapKat).map(k=>({nama:k,skor:mapKat[k],pct:totalSkorYa>0?Math.round((mapKat[k]/totalSkorYa)*100):0})).sort((a,b)=>b.pct-a.pct);
+				const dataStrat = Object.keys(mapStrat).map(k=>({nama:k,skor:mapStrat[k],pct:totalSkorYa>0?Math.round((mapStrat[k]/totalSkorYa)*100):0})).sort((a,b)=>b.pct-a.pct);
+				const topKat   = dataKat[0]   || {nama:"-",pct:0};
+				const topStrat = dataStrat[0] || {nama:"-",pct:0};
+
+				const descMap = { "Pribadi":"Pengembangan potensi diri, penyelesaian masalah psikologis.", "Sosial":"Kemampuan beradaptasi dan berinteraksi sehat.", "Belajar":"Pembentukan kebiasaan belajar efektif, motivasi.", "Karier":"Pemetaan bakat, minat, serta perencanaan masa depan." };
+				const formatTglTtd = new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+
+				// ── Setup Gaya PDF ───────────────────────────────────────
+				const { jsPDF } = window.jspdf;
+				const doc = new jsPDF('p','mm','a4');
+				const mL=20, mR=20, mT=20, mB=20;
+				let cW=doc.internal.pageSize.getWidth(), cX=cW/2;
+
+				const cSty  = { font:'times', fontSize:8.5, halign:'center', valign:'middle', lineColor:[0,0,0], lineWidth:0.2, textColor:[0,0,0], cellPadding:1.5 };
+				const cHead = { fillColor:[230,230,230], textColor:[0,0,0], fontStyle:'bold', halign:'center', valign:'middle', lineColor:[0,0,0], lineWidth:0.2, cellPadding:1.5 };
+
+				const sGrp  = { font:'times', fontSize:9, fontStyle:'bold', halign:'center', valign:'middle', fillColor:[230,230,230], textColor:[0,0,0], lineColor:[0,0,0], lineWidth:0.2, cellPadding:{top:2.5,bottom:2.5,left:3,right:3} };
+				const sSub  = { font:'times', fontSize:8, fontStyle:'bold', halign:'center', valign:'middle', fillColor:[230,230,230], textColor:[0,0,0], lineColor:[0,0,0], lineWidth:0.2, cellPadding:1.5 };
+				const sIsi  = { font:'times', fontSize:8, halign:'left', valign:'top', textColor:[0,0,0], lineColor:[0,0,0], lineWidth:0.2, cellPadding:{top:2,bottom:2,left:3,right:3} };
+				const colW  = { kat:33, strat:38, topik:38, tjn:52, met:48 };
+
+				// ── KOP SURAT ────────────────────────────────────────────
+				const [logoKiriB64, logoKananB64] = await Promise.all([
+					urlToBase64(dbSekolah.Logo_Kiri  || ''),
+					urlToBase64(dbSekolah.Logo_Kanan || '')
+				]);
+				if(logoKiriB64)  doc.addImage(logoKiriB64,  'PNG', mL,          mT-4, 22, 22);
+				if(logoKananB64) doc.addImage(logoKananB64, 'PNG', cW-mR-22,    mT-4, 22, 22);
+
+				doc.setFont("times","bold"); doc.setFontSize(14);
+				doc.text(dbSekolah.Pemerintah  || 'PEMERINTAH DAERAH',               cX, mT,    {align:"center"});
+				doc.text(dbSekolah.Instansi    || 'DINAS PENDIDIKAN DAN KEBUDAYAAN', cX, mT+6,  {align:"center"});
+				doc.setFontSize(16);
+				doc.text(dbSekolah.Nama_Sekolah|| 'SEKOLAH KITA',                    cX, mT+13, {align:"center"});
+				doc.setFont("times","normal"); doc.setFontSize(10);
+				doc.text(dbSekolah.Alamat      || '',                                 cX, mT+18, {align:"center"});
+				doc.setLineWidth(0.8); doc.line(mL, mT+22, cW-mR, mT+22);
+				doc.setLineWidth(0.3); doc.line(mL, mT+23.5, cW-mR, mT+23.5);
+
+				doc.setFont("times","bold"); doc.setFontSize(12);
+				doc.text("LAPORAN ANALISIS KEBUTUHAN SISWA PER TINGKATAN (AUM - ONLINE)", cX, mT+33, {align:"center"});
+
+				doc.autoTable({
+					startY: mT+38, margin:{left:mL,right:mR},
+					body:[
+						['Tingkatan',':', namaTingkat, 'Tahun Ajaran', ':', namaTahun],
+						['Total Kelas',':', `${kelasList.length} Kelas`, 'Peserta Mengisi', ':', `${hasilTingkat.length} dari ${siswaTingkat.length} Siswa`]
+					],
+					theme:'plain',
+					styles:{font:'times',fontSize:10,cellPadding:1,textColor:[0,0,0]},
+					columnStyles:{0:{fontStyle:'bold',cellWidth:28},1:{cellWidth:3},2:{cellWidth:55},3:{fontStyle:'bold',cellWidth:35},4:{cellWidth:3},5:{cellWidth:35}}
+				});
+
+				let nY = doc.lastAutoTable.finalY + 6;
+
+				// ── BAGIAN A — Partisipasi Per Kelas ─────────────────────
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("A. Rekapitulasi Partisipasi Per Kelas", mL, nY);
+				const dataA = kelasList.map(k => {
+					const terdaftar = dbSiswa.filter(s=>s.Kelas===k&&s.ID_Tingkat===idTingkat).length;
+					const mengisi   = hasilTingkat.filter(h=>{const s=dbSiswa.find(x=>x.ID_Siswa===h.ID_Siswa)||{}; return s.Kelas===k;}).length;
+					const pct       = terdaftar>0 ? Math.round((mengisi/terdaftar)*100) : 0;
+					return [k, `${terdaftar} Siswa`, `${mengisi} Siswa`, `${pct}%`];
+				});
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Kelas','Terdaftar','Mengisi','Partisipasi']],
+					body:dataA, theme:'grid', headStyles:cHead, styles:cSty
+				});
+
+				// ── BAGIAN B — Peta Risiko ────────────────────────────────
+				nY = doc.lastAutoTable.finalY + 6;
+				if(nY>(297-mB-30)){doc.addPage();nY=mT;cW=doc.internal.pageSize.getWidth();}
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("B. Peta Risiko Tingkatan", mL, nY);
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Kategori','Jumlah Siswa','Persentase','Rentang','Keterangan']],
+					body:[
+						['STABIL',  `${stabil} Siswa`,  `${Math.round((stabil /hasilTingkat.length)*100)}%`,'0% - 40%', 'Kondisi adaptif, bimbingan preventif.'],
+						['WASPADA', `${waspada} Siswa`, `${Math.round((waspada/hasilTingkat.length)*100)}%`,'41% - 70%','Ada indikasi hambatan, perlu pemantauan.'],
+						['KRISIS',  `${krisis} Siswa`,  `${Math.round((krisis /hasilTingkat.length)*100)}%`,'> 71%',    'Perlu konseling individual segera.']
+					],
+					theme:'grid', headStyles:cHead, styles:cSty,
+					columnStyles:{0:{cellWidth:22},1:{cellWidth:28},2:{cellWidth:20},3:{cellWidth:22},4:{halign:'left'}}
+				});
+
+				// ── BAGIAN C — Rekapitulasi 4 Bidang ─────────────────────
+				nY = doc.lastAutoTable.finalY + 6;
+				if(nY>(297-mB-30)){doc.addPage();nY=mT;cW=doc.internal.pageSize.getWidth();}
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("C. Rekapitulasi 4 Bidang Layanan Dasar (Rata-rata Tingkatan)", mL, nY);
+				const dataC = Object.keys(rekap4).map(k=>{
+					const avg=rekap4[k].count>0?Math.round(rekap4[k].total/rekap4[k].count):0;
+					const ket=avg>=60?"Tinggi (Prioritas)":(avg>=30?"Sedang (Perhatian)":"Rendah (Stabil)");
+					return [k, descMap[k]||"-", `${avg}%`, ket];
+				});
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Bidang Layanan','Deskripsi / Fokus Pembinaan','Rata-rata','Keterangan']],
+					body:dataC, theme:'grid', headStyles:cHead, styles:cSty,
+					columnStyles:{1:{halign:'left'}}
+				});
+
+				// ── BAGIAN D — Rincian Area Masalah ──────────────────────
+				nY = doc.lastAutoTable.finalY + 6;
+				if(nY>(297-mB-30)){doc.addPage();nY=mT;cW=doc.internal.pageSize.getWidth();}
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("D. Rincian Pemetaan Seluruh Area Masalah Tingkatan", mL, nY);
+				const rincianUrut = urutan.filter(k=>ttlPerBidang[k]).map(k=>({
+					kode:k, bidang:KAMUS_AUM[k]||k,
+					pct:Math.round(yesPerBidang[k]/ttlPerBidang[k]),
+					skor:skorPerBidang[k]
+				}));
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Bidang','Area Kebutuhan / Masalah','Rata-rata Tingkatan','Total Skor']],
+					body:rincianUrut.map(x=>[getBidang(x.bidang),x.bidang,`${x.pct}%`,`${x.skor} Indikator`]),
+					theme:'grid', headStyles:cHead, styles:cSty,
+					columnStyles:{1:{halign:'left'}}
+				});
+
+				// ── BAGIAN E — Program Layanan Seluruh Area (Landscape) ──
+				doc.addPage("a4","landscape");
+				cW=doc.internal.pageSize.getWidth(); nY=mT;
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("E. Rekomendasi Program Layanan Tingkatan (Seluruh Area, Diurutkan Prioritas Tertinggi)", mL, nY);
+				nY += 5;
+
+				rincianTingkat.forEach((x, idx) => {
+					const p   = rakitProgT(x.kode);
+					const lbl = `${idx + 1}.   ${getBidang(x.bidang).toUpperCase()}  —  ${x.bidang}  (${x.pct}%)`;
+
+					if (nY + 30 > (doc.internal.pageSize.getHeight() - mB)) {
+						doc.addPage("a4", "landscape");
+						cW = doc.internal.pageSize.getWidth();
+						nY = mT;
+					}
+
+					doc.autoTable({
+						startY: nY,
+						margin: { left: mL, right: mR, bottom: mB },
+						head: [
+							[{ content: lbl, colSpan: 6, styles: sGrp }],
+							[
+								{ content: 'Kategori',          styles: sSub },
+								{ content: 'Strategi Layanan',  styles: sSub },
+								{ content: 'Topik Materi',      styles: sSub },
+								{ content: 'Tujuan Intervensi', styles: sSub },
+								{ content: 'Metode & Media',    styles: sSub },
+								{ content: 'Evaluasi',          styles: sSub },
+							]
+						],
+						body: [[
+							{ content: p.kat,   styles: sIsi },
+							{ content: p.strat, styles: sIsi },
+							{ content: p.topik, styles: sIsi },
+							{ content: p.tjn,   styles: sIsi },
+							{ content: p.met,   styles: sIsi },
+							{ content: p.ev,    styles: sIsi },
+						]],
+						theme: 'plain',
+						columnStyles: {
+							0: { cellWidth: colW.kat   },
+							1: { cellWidth: colW.strat },
+							2: { cellWidth: colW.topik },
+							3: { cellWidth: colW.tjn   },
+							4: { cellWidth: colW.met   },
+							5: { cellWidth: 'auto'     },
+						},
+						showHead: 'firstPage',
+					});
+
+					nY = doc.lastAutoTable.finalY + 3;
+				});
+
+				// ── BAGIAN G — Proporsi Kategori & Strategi (Portrait) ───
+				doc.addPage("a4","portrait");
+				cW=doc.internal.pageSize.getWidth(); cX=cW/2; nY=mT;
+
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("G. Analisis Proporsi Komponen Kategori Layanan (Tingkatan)", mL, nY);
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Komponen Kategori Layanan BK','Jumlah Indikator','Persentase Beban']],
+					body:dataKat.map(x=>[x.nama,`${x.skor} Indikator`,`${x.pct}%`]),
+					theme:'grid', headStyles:cHead, styles:cSty
+				});
+				nY=doc.lastAutoTable.finalY+4;
+				doc.setFont("times","italic"); doc.setFontSize(10);
+				const tG=`Kesimpulan: Beban penanganan tertinggi di tingkatan ${namaTingkat} menunjukkan kebutuhan layanan ${topKat.nama} sebesar ${topKat.pct}%.`;
+				doc.text(doc.splitTextToSize(tG,cW-mL-mR),mL,nY);
+				nY+=(doc.splitTextToSize(tG,cW-mL-mR).length*4)+6;
+
+				if(nY>(297-mB-40)){doc.addPage("a4","portrait");nY=mT;cW=doc.internal.pageSize.getWidth();}
+
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("H. Analisis Proporsi Strategi Layanan (Tingkatan)", mL, nY);
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['Rekomendasi Strategi Layanan','Jumlah Indikator','Skala Kesesuaian']],
+					body:dataStrat.map(x=>[x.nama,`${x.skor} Indikator`,`${x.pct}%`]),
+					theme:'grid', headStyles:cHead, styles:cSty
+				});
+				nY=doc.lastAutoTable.finalY+4;
+				doc.setFont("times","italic"); doc.setFontSize(10);
+				const tH=`Kesimpulan: Strategi intervensi paling relevan untuk tingkatan ${namaTingkat} adalah ${topStrat.nama} dengan skala kesesuaian ${topStrat.pct}%.`;
+				doc.text(doc.splitTextToSize(tH,cW-mL-mR),mL,nY);
+				nY+=(doc.splitTextToSize(tH,cW-mL-mR).length*4)+8;
+
+				// ── BAGIAN I — Daftar Siswa Prioritas (KRISIS) ───────────
+				if(nY>(297-mB-40)){doc.addPage("a4","portrait");nY=mT;cW=doc.internal.pageSize.getWidth();}
+				doc.setFont("times","bold"); doc.setFontSize(11);
+				doc.text("I. Daftar Siswa Prioritas Penanganan (Status KRISIS)", mL, nY);
+				const dataI = siswaKrisis.length>0
+					? siswaKrisis.sort((a,b)=>b.rata-a.rata).map((s,i)=>[i+1,s.nama,s.kelas,`${s.rata}%`,"Konseling Individual Segera"])
+					: [["-","Tidak ada siswa berstatus KRISIS","-","-","-"]];
+				doc.autoTable({
+					startY:nY+2, margin:{left:mL,right:mR,bottom:mB},
+					head:[['No.','Nama Siswa','Kelas','Rata-rata Kebutuhan','Keterangan']],
+					body:dataI, theme:'grid', headStyles:cHead, styles:cSty,
+					columnStyles:{1:{halign:'left'},4:{halign:'left'}}
+				});
+
+				// ── TANDA TANGAN ─────────────────────────────────────────
+				nY=doc.lastAutoTable.finalY+12;
+				if(nY>(297-mB-30)){doc.addPage("a4","portrait");nY=mT;}
+				doc.setFont("times","normal"); doc.setFontSize(10);
+				const signX=cW-mR-65;
+				doc.text(`Makassar, ${formatTglTtd}`, signX, nY);
+				doc.text("Guru Bimbingan dan Konseling,", signX, nY+5);
+				doc.setFont("times","bold");
+				doc.text(document.getElementById('guruProfileName').innerText, signX, nY+25);
+				doc.setFont("times","normal");
+				doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, signX, nY+30);
+
+				window.open(doc.output('bloburl'), '_blank');
+				loadHide();
+
+			} catch(err) {
+				loadHide();
+				Swal.fire('Gagal Mencetak', err.message, 'error');
+			}
+		}
+		
+		// ================================================================
 		// CETAK PERKELAS — Render Tabel & Fungsi PDF
 		// ================================================================
 
@@ -2250,16 +3172,24 @@
 					if (!programs.length) return { kat: "-", strat: "-", topik: "-", tjn: "-", met: "-", ev: "-" };
 					if (programs.length === 1) {
 						const p = programs[0];
-						return { kat: p.Kategori || "-", strat: p.Strategi_Layanan || "-", topik: p.Topik_Materi || "-", tjn: p.Tujuan_Layanan || "-", met: `${p.Metode || "-"} (${p.Media || "-"})`, ev: p.Evaluasi || "-" };
+						return {
+							kat:   p.Kategori          || "-",
+							strat: p.Strategi_Layanan  || "-",
+							topik: p.Topik_Materi      || "-",
+							tjn:   p.Tujuan_Layanan    || "-",
+							met:   `${p.Metode || "-"} (${p.Media || "-"})`,
+							ev:    p.Evaluasi          || "-"
+						};
 					}
 					let r = { kat: "", strat: "", topik: "", tjn: "", met: "", ev: "" };
 					programs.forEach((p, i) => {
 						const no = `${i + 1}. `, br = i < programs.length - 1 ? "\n" : "";
-						if (i === 0) { r.kat = p.Kategori || "-"; r.strat = p.Strategi_Layanan || "-"; }
-						r.topik += `${no}${p.Topik_Materi || "-"}${br}`;
-						r.tjn   += `${no}${p.Tujuan_Layanan || "-"}${br}`;
+						r.kat   += `${no}${p.Kategori         || "-"}${br}`;
+						r.strat += `${no}${p.Strategi_Layanan || "-"}${br}`;
+						r.topik += `${no}${p.Topik_Materi     || "-"}${br}`;
+						r.tjn   += `${no}${p.Tujuan_Layanan   || "-"}${br}`;
 						r.met   += `${no}${p.Metode || "-"} (${p.Media || "-"})${br}`;
-						r.ev    += `${no}${p.Evaluasi || "-"}${br}`;
+						r.ev    += `${no}${p.Evaluasi         || "-"}${br}`;
 					});
 					return r;
 				};
@@ -2444,22 +3374,117 @@
 				});
 
 				// ================================================================
-				// HALAMAN LANDSCAPE — Bagian D
+				// HALAMAN LANDSCAPE — Bagian D (Model Grouped Header) — FIXED
 				// ================================================================
 				doc.addPage("a4","landscape");
 				cW = doc.internal.pageSize.getWidth(); cX = cW/2; nY = mT;
 
 				doc.setFont("times","bold"); doc.setFontSize(11);
 				doc.text("D. Rekomendasi Program Layanan Kelas (Seluruh Area, Diurutkan Prioritas Tertinggi)", mL, nY);
-				const bodyD = rincianKelas.map(x => {
+				nY += 5;
+
+				const usableW = cW - mL - mR;
+
+				// Lebar kolom — total harus = usableW (±1mm toleransi)
+				// usableW landscape A4 = 297 - 20 - 20 = 257mm
+				const colW = {
+					kat:   33,
+					strat: 38,
+					topik: 38,
+					tjn:   52,   // lebar
+					met:   48,   // lebar
+					ev:    48,   // lebar — sisa diisi 'auto' nanti
+				};
+
+				// Gaya header grup — abu-abu + tengah
+				const styleGrupHead = {
+					font: 'times', fontSize: 9, fontStyle: 'bold',
+					halign: 'center',             // ← tengah
+					valign: 'middle',
+					fillColor: [230, 230, 230],   // ← abu-abu sama dengan sub-header
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: { top: 2.5, bottom: 2.5, left: 3, right: 3 }
+				};
+
+				// Gaya sub-header
+				const styleSubHead = {
+					font: 'times', fontSize: 8, fontStyle: 'bold',
+					halign: 'center', valign: 'middle',
+					fillColor: [230, 230, 230],
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: 1.5
+				};
+
+				// Gaya isi konten
+				const styleIsi = {
+					font: 'times', fontSize: 8,
+					halign: 'left', valign: 'top',
+					textColor: [0, 0, 0],
+					lineColor: [0, 0, 0], lineWidth: 0.2,
+					cellPadding: { top: 2, bottom: 2, left: 3, right: 3 }
+				};
+
+				rincianKelas.forEach((x, idx) => {
 					const p = rakitProg(x.kode);
-					return [getBidangLayanan(x.bidang), `${x.bidang}\n(${x.pct}%)`, `${p.kat}\n(${p.strat})`, p.topik, p.tjn, p.met, p.ev];
-				});
-				doc.autoTable({
-					startY: nY+2, margin:{left:mL,right:mR,bottom:mB},
-					head:[['Bidang','Fokus Masalah','Kategori (Strategi)','Topik Materi','Tujuan Intervensi','Metode & Media','Evaluasi']],
-					body: bodyD, theme:'grid', headStyles:corpHeadStyles, styles:corpStyles,
-					columnStyles:{3:{halign:'left'},4:{halign:'left'},5:{halign:'left'},6:{halign:'left'}}
+					const labelBidang = `${idx + 1}.   ${getBidangLayanan(x.bidang).toUpperCase()}  —  ${x.bidang}  (${x.pct}%)`;
+
+					// Cek sisa ruang halaman
+					const estimasiTinggi = 30;
+					if (nY + estimasiTinggi > (doc.internal.pageSize.getHeight() - mB)) {
+						doc.addPage("a4", "landscape");
+						cW = doc.internal.pageSize.getWidth();
+						nY = mT;
+					}
+
+					doc.autoTable({
+						startY: nY,
+						margin: { left: mL, right: mR, bottom: mB },
+
+						// Tidak pakai tableWidth — biarkan kolom mengisi otomatis
+						// lewat cellWidth di columnStyles
+
+						head: [
+							// Baris 1: Label bidang — merged, abu-abu, tengah
+							[{
+								content: labelBidang,
+								colSpan: 6,
+								styles: styleGrupHead
+							}],
+							// Baris 2: Sub-header kolom
+							[
+								{ content: 'Kategori',         styles: styleSubHead },
+								{ content: 'Strategi Layanan', styles: styleSubHead },
+								{ content: 'Topik Materi',     styles: styleSubHead },
+								{ content: 'Tujuan Intervensi',styles: styleSubHead },
+								{ content: 'Metode & Media',   styles: styleSubHead },
+								{ content: 'Evaluasi',         styles: styleSubHead },
+							]
+						],
+
+						body: [[
+							{ content: p.kat,   styles: styleIsi },
+							{ content: p.strat, styles: styleIsi },
+							{ content: p.topik, styles: styleIsi },
+							{ content: p.tjn,   styles: styleIsi },
+							{ content: p.met,   styles: styleIsi },
+							{ content: p.ev,    styles: styleIsi },
+						]],
+
+						theme: 'plain',
+						columnStyles: {
+							0: { cellWidth: colW.kat   },
+							1: { cellWidth: colW.strat },
+							2: { cellWidth: colW.topik },
+							3: { cellWidth: colW.tjn   },
+							4: { cellWidth: colW.met   },
+							5: { cellWidth: 'auto'     }, // ← kolom Evaluasi isi sisa ruang hingga tepi kanan
+						},
+						showHead: 'firstPage',
+					});
+
+					nY = doc.lastAutoTable.finalY + 3;
 				});
 
 				// ================================================================
@@ -2747,6 +3772,968 @@
 
 			buatPaginasi(filtered, renderTblHasilPage, 'infoHasil', 'btnHasil');
 		}
+		
+		// ================================================================
+		// PROGRAM TAHUNAN — DATA & KONSTANTA
+		// ================================================================
+
+		const BULAN_GANJIL = ['Jul','Agu','Sep','Okt','Nov','Des'];
+		const BULAN_GENAP  = ['Jan','Feb','Mar','Apr','Mei','Jun'];
+		const BULAN_SEMUA  = [...BULAN_GANJIL, ...BULAN_GENAP];
+
+		const TEMPLATE_PROGRAM = [
+			{
+				komponen: 'ASESMEN',
+				baris: [
+					{ kegiatan: 'Pelaksanaan AUM Online',       topik: 'Pengisian instrumen AUM oleh siswa', id_bidang: '' },
+					{ kegiatan: 'Pengolahan & Analisis Data',   topik: 'Rekapitulasi dan analisis hasil AUM', id_bidang: '' },
+					{ kegiatan: 'Penyusunan Program BK',        topik: 'Penyusunan program berdasarkan hasil AUM', id_bidang: '' },
+				]
+			},
+			{
+				komponen: 'LAYANAN DASAR',
+				baris: [] // diisi otomatis dari AUM
+			},
+			{
+				komponen: 'LAYANAN RESPONSIF',
+				baris: [
+					{ kegiatan: 'Konseling Individual',  topik: 'Penanganan masalah siswa secara personal', id_bidang: '' },
+					{ kegiatan: 'Konseling Kelompok',    topik: 'Penanganan masalah kelompok kecil siswa',  id_bidang: '' },
+					{ kegiatan: 'Referal & Alih Tangan', topik: 'Rujukan ke ahli apabila diperlukan',       id_bidang: '' },
+				]
+			},
+			{
+				komponen: 'PEMINATAN & PERENCANAAN INDIVIDUAL',
+				baris: [
+					{ kegiatan: 'Bimbingan Kelompok Karier', topik: 'Eksplorasi bakat, minat, dan rencana karier', id_bidang: '' },
+					{ kegiatan: 'Konsultasi Perencanaan',    topik: 'Pendampingan rencana studi lanjut',           id_bidang: '' },
+				]
+			},
+			{
+				komponen: 'DUKUNGAN SISTEM',
+				baris: [
+					{ kegiatan: 'Kolaborasi Wali Kelas',        topik: 'Koordinasi data dan penanganan siswa',    id_bidang: '' },
+					{ kegiatan: 'Kolaborasi Orang Tua',         topik: 'Home visit dan konsultasi orang tua',     id_bidang: '' },
+					{ kegiatan: 'Pengembangan Profesi Guru BK', topik: 'Pelatihan, seminar, dan MGBK',            id_bidang: '' },
+					{ kegiatan: 'Manajemen & Administrasi BK',  topik: 'Pengelolaan dokumen dan laporan BK',      id_bidang: '' },
+				]
+			}
+		];
+
+		let dbProgramSemester = [];
+		let progTingkatAktif  = '';
+		let progTahunAktif    = '';
+
+		// ================================================================
+		// INISIALISASI DROPDOWN PROGRAM TAHUNAN
+		// ================================================================
+		function initDropdownProgram() {
+			const selTingkat = document.getElementById('progTingkat');
+			const selTahun   = document.getElementById('progTahun');
+
+			selTingkat.innerHTML = '<option value="">— Pilih Tingkatan —</option>';
+			dbTingkat.forEach(t => {
+				selTingkat.innerHTML += `<option value="${t.ID_Tingkat}">${t.Nama_Tingkat}</option>`;
+			});
+
+			selTahun.innerHTML = '<option value="">— Pilih Tahun —</option>';
+			dbTahun.forEach(t => {
+				selTahun.innerHTML += `<option value="${t.ID_Tahun}">${t.Nama_Tahun}</option>`;
+			});
+		}
+
+		// ================================================================
+		// LOAD PROGRAM TAHUNAN — GABUNGKAN DATA AUM + TEMPLATE + SIMPANAN
+		// ================================================================
+		async function loadProgramTahunan() {
+			const idTingkat = document.getElementById('progTingkat').value;
+			const idTahun   = document.getElementById('progTahun').value;
+			if (!idTingkat || !idTahun) return;
+
+			progTingkatAktif = idTingkat;
+			progTahunAktif   = idTahun;
+
+			try {
+				loadShow('Memuat Program Tahunan...');
+
+				const [resProg, resSimpan] = await Promise.all([
+					fetchAPI('read&sheet=Program Layanan'),
+					fetchAPI('read&sheet=Program Semester')
+				]);
+
+				const dbProg = resProg.data || [];
+				dbProgramSemester = (resSimpan.data || []).filter(
+					p => p.ID_Tingkat === idTingkat && p.ID_Tahun === idTahun
+				);
+
+				// Filter program layanan sesuai tingkatan
+				const progTingkat = dbProg.filter(p => p.ID_Tingkat === idTingkat);
+
+				// Kelompokkan berdasarkan Kategori
+				const grouped = {};
+				progTingkat.forEach(p => {
+					const kat = p.Kategori || 'Lainnya';
+					if (!grouped[kat]) grouped[kat] = [];
+					grouped[kat].push(p);
+				});
+
+				// Tambah komponen baku di awal dan akhir
+				const templateFinal = [];
+
+				// ASESMEN — selalu di awal, statis
+				templateFinal.push({
+					komponen: 'ASESMEN',
+					baris: [
+						{ kegiatan: 'Pelaksanaan AUM Online',     topik: 'Pengisian instrumen AUM oleh siswa',          id_bidang: '', strategi: '-' },
+						{ kegiatan: 'Pengolahan & Analisis Data', topik: 'Rekapitulasi dan analisis hasil AUM',          id_bidang: '', strategi: '-' },
+						{ kegiatan: 'Penyusunan Program BK',      topik: 'Penyusunan program berdasarkan Analisis AUM',          id_bidang: '', strategi: '-' },
+					]
+				});
+
+				// Komponen dari sheet Program Layanan, dikelompokkan per Kategori
+				const urutan = ['Layanan Dasar', 'Layanan Responsif', 'Layanan Peminatan & Perencanaan Individual'];
+				const kategoriLain = Object.keys(grouped).filter(k => !urutan.includes(k));
+				const kategoriUrut = [...urutan.filter(k => grouped[k]), ...kategoriLain];
+
+				kategoriUrut.forEach(kat => {
+					if (!grouped[kat]) return;
+					templateFinal.push({
+						komponen: kat.toUpperCase(),
+						baris: grouped[kat].map(p => ({
+							kegiatan:  p.Topik_Materi      || '-',
+							topik:     p.Tujuan_Layanan    || '-',
+							id_bidang: p.ID_Bidang_Tes     || '',
+							strategi:  p.Strategi_Layanan  || '-'
+						}))
+					});
+				});
+
+				// DUKUNGAN SISTEM — selalu di akhir, statis
+				templateFinal.push({
+					komponen: 'DUKUNGAN SISTEM',
+					baris: [
+						{ kegiatan: 'Kolaborasi Wali Kelas',        topik: 'Koordinasi data dan penanganan siswa',   id_bidang: '', strategi: '-' },
+						{ kegiatan: 'Kolaborasi Orang Tua',         topik: 'Home visit dan konsultasi orang tua',    id_bidang: '', strategi: '-' },
+						{ kegiatan: 'Pengembangan Profesi Guru BK', topik: 'Pelatihan, seminar, dan MGBK',           id_bidang: '', strategi: '-' },
+						{ kegiatan: 'Manajemen & Administrasi BK',  topik: 'Pengelolaan dokumen dan laporan BK',     id_bidang: '', strategi: '-' },
+					]
+				});
+
+				renderTabelProgram(templateFinal);
+				loadHide();
+
+			} catch(e) {
+				loadHide();
+				Swal.fire('Error', e.message, 'error');
+			}
+		}
+
+		// ================================================================
+		// RENDER TABEL PROGRAM BULAN
+		// ================================================================
+		function renderTabelProgram(template) {
+			const MAP_BIDANG = { PRB: 'Pribadi', SOS: 'Sosial', BLJ: 'Belajar', KAR: 'Karier' };
+			
+			// Counter global — kunci utama fix ID duplikat
+			let rowCounter = 0;
+
+			let html = `
+			<div class="prog-table-wrap">
+			<table class="prog-table">
+				<thead>
+					<tr>
+						<th class="col-komponen">Komponen</th>
+						<th class="col-kegiatan">Kegiatan / Layanan</th>
+						<th class="col-topik">Topik / Materi</th>
+						${BULAN_GANJIL.map(b => `<th class="col-bulan sem-ganjil">${b}</th>`).join('')}
+						${BULAN_GENAP.map(b  => `<th class="col-bulan sem-genap">${b}</th>`).join('')}
+					</tr>
+				</thead>
+				<tbody>`;
+
+			template.forEach(seksi => {
+				// Baris header komponen
+				html += `
+				<tr class="row-komponen">
+					<td class="td-komponen" colspan="3">
+						<i class="fas fa-chevron-right" style="font-size:9px;margin-right:6px;opacity:0.6;"></i>
+						${seksi.komponen}
+					</td>
+					${BULAN_SEMUA.map(() => '<td class="td-bulan"></td>').join('')}
+				</tr>`;
+
+				// Baris tiap kegiatan
+				seksi.baris.forEach((baris) => {
+					// Counter global naik — ID selalu unik di seluruh tabel
+					rowCounter++;
+
+					const simpan = dbProgramSemester.find(
+						p => p.Komponen === seksi.komponen && p.Kegiatan === baris.kegiatan
+					) || {};
+
+					// Nama bidang dari prefix kode
+					const prefixBidang = (baris.id_bidang || '').split('-')[0];
+					const namaBidang   = MAP_BIDANG[prefixBidang] || '—';
+
+					html += `<tr>
+						<td class="td-komponen" style="font-size:10px;color:var(--ink-400);padding-left:20px;">
+							${namaBidang}
+						</td>
+						<td class="td-kegiatan">${baris.kegiatan}</td>
+						<td class="td-topik">${baris.topik}</td>`;
+
+					BULAN_SEMUA.forEach(bulan => {
+						const isGenap  = BULAN_GENAP.includes(bulan);
+						// ID unik: pakai rowCounter bukan idx
+						const inputId  = `chk_row${rowCounter}_${bulan}`;
+						const checked  = simpan[bulan] == '1' ? 'checked' : '';
+						const kelasChk = isGenap ? 'bulan-check genap' : 'bulan-check';
+						html += `
+						<td class="td-bulan">
+							<input type="checkbox" id="${inputId}" class="${kelasChk}" ${checked}
+								   data-komponen="${seksi.komponen}"
+								   data-kegiatan="${baris.kegiatan}"
+								   data-topik="${baris.topik}"
+								   data-bidang="${baris.id_bidang || ''}"
+								   data-strategi="${baris.strategi || '-'}"
+								   data-bulan="${bulan}">
+							<label for="${inputId}" class="bulan-label">✓</label>
+						</td>`;
+					});
+
+					html += `</tr>`;
+				});
+			});
+
+			html += `</tbody></table></div>`;
+			document.getElementById('progTableArea').innerHTML = html;
+		}
+
+		// ================================================================
+		// SIMPAN PROGRAM SEMESTER KE GOOGLE SHEETS
+		// ================================================================
+		async function simpanProgramSemester() {
+			if (!progTingkatAktif || !progTahunAktif) {
+				return Swal.fire('Perhatian', 'Pilih Tingkatan dan Tahun Ajaran terlebih dahulu.', 'warning');
+			}
+
+			try {
+				loadShow('Menyimpan Program...');
+
+				const checkboxes = document.querySelectorAll('.bulan-check');
+				const mapData    = {};
+
+				checkboxes.forEach(chk => {
+					const key = `${chk.dataset.komponen}||${chk.dataset.kegiatan}`;
+					if (!mapData[key]) {
+						mapData[key] = {
+							ID_Tingkat:    progTingkatAktif,
+							ID_Tahun:      progTahunAktif,
+							Komponen:      chk.dataset.komponen,
+							Kegiatan:      chk.dataset.kegiatan,
+							Topik:         chk.dataset.topik,
+							ID_Bidang_Tes: chk.dataset.bidang,
+							Jul:'0', Agu:'0', Sep:'0', Okt:'0', Nov:'0', Des:'0',
+							Jan:'0', Feb:'0', Mar:'0', Apr:'0', Mei:'0', Jun:'0'
+						};
+					}
+					mapData[key][chk.dataset.bulan] = chk.checked ? '1' : '0';
+				});
+
+				// Kirim 1 request JSON batch ke backend baru
+				await fetchAPI('save_program_semester', {
+					ID_Tingkat: progTingkatAktif,
+					ID_Tahun:   progTahunAktif,
+					rows:       Object.values(mapData)
+				});
+
+				// Refresh data lokal
+				const resSimpan = await fetchAPI('read&sheet=Program Semester');
+				dbProgramSemester = (resSimpan.data || []).filter(
+					p => p.ID_Tingkat === progTingkatAktif && p.ID_Tahun === progTahunAktif
+				);
+
+				loadHide();
+				Swal.fire({ toast: true, position: 'top-end', icon: 'success',
+					title: 'Program berhasil disimpan!', showConfirmButton: false, timer: 2500 });
+
+			} catch(e) {
+				loadHide();
+				Swal.fire('Gagal Menyimpan', e.message, 'error');
+			}
+		}
+
+		async function cetakProgramTahunan(mode) {
+			if (!progTingkatAktif || !progTahunAktif) {
+				return Swal.fire('Perhatian', 'Pilih Tingkatan dan Tahun Ajaran terlebih dahulu.', 'warning');
+			}
+
+			try {
+				loadShow('Menyiapkan PDF Program Lengkap...');
+
+				// 1. TARIK DATA TAMBAHAN DARI BACKEND (Ditambah Program Layanan untuk AKPD Landscape)
+				const [resDH, resVM, resHasil, resProg] = await Promise.all([
+					fetchAPI("read&sheet=Dasar Hukum"),
+					fetchAPI("read&sheet=Visi Misi BK"),
+					fetchAPI("read&sheet=Hasil Skoring"),
+					fetchAPI("read&sheet=Program Layanan")
+				]);
+				const dbDH = resDH.data || [];
+				const dbVM = (resVM.data || [])[0] || {}; 
+				const hasilTingkat = (resHasil.data || []).filter(h => h.ID_Tingkat === progTingkatAktif && h.ID_Tahun === progTahunAktif);
+				const dbProg = resProg.data || [];
+
+				const namaTingkat  = (dbTingkat.find(t => t.ID_Tingkat === progTingkatAktif) || {}).Nama_Tingkat || progTingkatAktif;
+				const namaTahun    = (dbTahun.find(t => t.ID_Tahun === progTahunAktif)       || {}).Nama_Tahun   || progTahunAktif;
+				const judulMode    = mode === 'ganjil' ? 'SEMESTER GANJIL' : mode === 'genap' ? 'SEMESTER GENAP' : 'TAHUNAN';
+				const formatTglTtd = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+
+				const { jsPDF } = window.jspdf;
+				const doc = new jsPDF('p', 'mm', 'a4');
+				const mL = 20, mR = 20, mT = 20, mB = 20;
+				let cW = doc.internal.pageSize.getWidth();
+				let cX = cW / 2;
+				let nY = mT; 
+
+				const cSty  = { font:'times', fontSize:8, halign:'center', valign:'middle',
+								lineColor:[0,0,0], lineWidth:0.2, textColor:[0,0,0], cellPadding:1.5 };
+				const cHead = { fillColor:[230,230,230], textColor:[0,0,0], fontStyle:'bold',
+								halign:'center', valign:'middle', lineColor:[0,0,0], lineWidth:0.2, cellPadding:1.5 };
+				
+				const [logoKiriB64, logoKananB64] = await Promise.all([
+					urlToBase64(dbSekolah.Logo_Kiri  || ''),
+					urlToBase64(dbSekolah.Logo_Kanan || '')
+				]);
+
+				// =========================================================================
+				// BAGIAN COVER (MUNCUL UNTUK SEMUA MODE)
+				// =========================================================================
+					
+				// ── HALAMAN 1: COVER PORTRAIT ──────────────
+				doc.setDrawColor(0,0,0); doc.setLineWidth(1.5);
+				doc.rect(mL, mT, cW-mL-mR, doc.internal.pageSize.getHeight()-mT-mB);
+				doc.setLineWidth(0.5);
+				doc.rect(mL+3, mT+3, cW-mL-mR-6, doc.internal.pageSize.getHeight()-mT-mB-6);
+
+				// Posisi Y didorong ke bawah mulai dari 35 agar aman dari garis bingkai atas
+				doc.setFont('times','bold'); doc.setFontSize(13);
+				doc.text(dbSekolah.Pemerintah   || 'PEMERINTAH DAERAH',               cX, 35, {align:'center'});
+				doc.text(dbSekolah.Instansi     || 'DINAS PENDIDIKAN DAN KEBUDAYAAN', cX, 42, {align:'center'});
+				doc.setFontSize(15);
+				doc.text(dbSekolah.Nama_Sekolah || 'NAMA SEKOLAH',                    cX, 50, {align:'center'});
+				doc.setFont('times','normal'); doc.setFontSize(10);
+				doc.text(dbSekolah.Alamat       || '',                                  cX, 57, {align:'center'});
+				
+				// Garis kop diperpendek sedikit (mL+8) agar tidak menempel pada bingkai samping
+				doc.setLineWidth(0.8); doc.line(mL+8, 62, cW-mR-8, 62);
+				doc.setLineWidth(0.3); doc.line(mL+8, 64, cW-mR-8, 64);
+
+				// Logo dan teks lainnya ikut didorong proporsional ke bawah
+				if (logoKiriB64)  doc.addImage(logoKiriB64,  'PNG', cX-45, 75, 30, 30);
+				if (logoKananB64) doc.addImage(logoKananB64, 'PNG', cX+15, 75, 30, 30);
+
+				doc.setFont('times','bold'); doc.setFontSize(22);
+				doc.text(`PROGRAM ${judulMode}`,          cX, 120, {align:'center'});
+				doc.setFontSize(20);
+				doc.text('BIMBINGAN DAN KONSELING',       cX, 132, {align:'center'});
+
+				doc.setFont('times','normal'); doc.setFontSize(13);
+				doc.text(`Tingkatan    :  ${namaTingkat}`, cX, 155, {align:'center'});
+				doc.text(`Tahun Ajaran :  ${namaTahun}`,   cX, 163, {align:'center'});
+
+				doc.setLineWidth(0.4);
+				doc.rect(cX-55, 175, 110, 38);
+				doc.setFont('times','bold'); doc.setFontSize(12);
+				doc.text('Disusun Oleh :', cX, 184, {align:'center'});
+				doc.setFont('times','normal'); doc.setFontSize(12);
+				doc.text(document.getElementById('guruProfileName').innerText, cX, 193, {align:'center'});
+				doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, cX, 201, {align:'center'});
+
+				doc.setFont('times','bold'); doc.setFontSize(12);
+				doc.text(dbSekolah.Nama_Sekolah || 'NAMA SEKOLAH', cX, 235, {align:'center'});
+				doc.setFont('times','normal'); doc.setFontSize(11);
+				doc.text(String(namaTahun), cX, 244, {align:'center'});
+
+				// =========================================================================
+				// BAGIAN ISI PENDAHULUAN (BARU DIBATASI HANYA UNTUK TAHUNAN)
+				// =========================================================================
+				if (mode === 'tahunan') {
+
+					// ── HALAMAN 2: LEMBAR PENGESAHAN (KOP SEKOLAH LENGKAP & RAPI) ────────
+					doc.addPage('a4', 'portrait');
+					if(logoKiriB64)  doc.addImage(logoKiriB64,  'PNG', mL, mT-4, 22, 22);
+					if(logoKananB64) doc.addImage(logoKananB64, 'PNG', cW-mR-22, mT-4, 22, 22);
+
+					doc.setFont("times","bold"); doc.setFontSize(14);
+					doc.text(dbSekolah.Pemerintah || 'PEMERINTAH DAERAH', cX, mT, {align:"center"});
+					doc.text(dbSekolah.Instansi || 'DINAS PENDIDIKAN', cX, mT+6, {align:"center"});
+					doc.setFontSize(16); doc.text(dbSekolah.Nama_Sekolah || 'NAMA SEKOLAH', cX, mT+13, {align:"center"});
+					doc.setFont("times","normal"); doc.setFontSize(10);
+					doc.text(dbSekolah.Alamat || '', cX, mT+18, {align:"center"});
+					doc.setLineWidth(0.8); doc.line(mL, mT+22, cW-mR, mT+22);
+					doc.setLineWidth(0.3); doc.line(mL, mT+23.5, cW-mR, mT+23.5);
+
+					nY = mT + 45;
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('LEMBAR PENGESAHAN', cX, nY, {align:'center'});
+					
+					nY += 15;
+					doc.setFont('times','normal'); doc.setFontSize(12);
+					let teksSah = `     Program Tahunan Bimbingan dan Konseling untuk Tingkatan ${namaTingkat} Tahun Ajaran ${namaTahun} pada instansi ${dbSekolah.Nama_Sekolah} ini telah disusun berdasarkan hasil instrumen Alat Ungkap Masalah (AUM). Program ini telah diperiksa, dievaluasi, dan disahkan penggunaannya sebagai pedoman pelaksanaan layanan Bimbingan dan Konseling selama satu tahun ajaran penuh.`;
+					doc.text(teksSah, mL, nY, { maxWidth: cW - mL - mR, align: 'justify' });
+
+					nY += 40;
+					doc.text('Mengetahui,', mL+10, nY);
+					doc.text(`Makassar, ${formatTglTtd}`, cW-mR-65, nY);
+					doc.text('Kepala Sekolah,', mL+10, nY+6);
+					doc.text('Guru Bimbingan dan Konseling,', cW-mR-65, nY+6);
+
+					nY += 35;
+					doc.setFont('times','bold'); doc.setFontSize(11);
+					doc.text(dbSekolah.Nama_Kepsek || '______________________', mL+10, nY);
+					doc.text(document.getElementById('guruProfileName').innerText, cW-mR-65, nY);
+					doc.setFont('times','normal');
+					doc.text(`NIP. ${dbSekolah.NIP_Kepsek||'-'}`, mL+10, nY+6);
+					doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, cW-mR-65, nY+6);
+
+					// ── HALAMAN 3: KATA PENGANTAR ───────────────
+					doc.addPage('a4', 'portrait');
+					nY = mT + 10;
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('KATA PENGANTAR', cX, nY, {align:'center'});
+					
+					nY += 15;
+					doc.setFont('times','normal'); doc.setFontSize(12);
+					let p1 = `     Puji syukur senantiasa kita panjatkan kehadirat Tuhan Yang Maha Esa atas segala rahmat dan karunia-Nya, sehingga penyusunan Program Tahunan Bimbingan dan Konseling Tingkat ${namaTingkat} di ${dbSekolah.Nama_Sekolah} Tahun Ajaran ${namaTahun} ini dapat diselesaikan dengan baik.`;
+					let p2 = `     Program ini disusun sebagai kerangka acuan dan pedoman operasional bagi Guru Bimbingan dan Konseling dalam menyelenggarakan layanan yang responsif, terarah, dan terukur. Penyusunan program ini didasarkan pada hasil asesmen Alat Ungkap Masalah (AUM) yang diisi langsung oleh peserta didik, sehingga setiap komponen layanan yang direncanakan benar-benar berakar pada kebutuhan riil (Need Assessment) di lapangan.`;
+					let p3 = `     Kami menyadari bahwa keberhasilan program Bimbingan dan Konseling tidak lepas dari dukungan dan sinergi dari berbagai pihak. Oleh karena itu, kami mengucapkan terima kasih yang sebesar-besarnya kepada Kepala Sekolah, segenap dewan guru, wali kelas, serta orang tua peserta didik yang senantiasa mendukung optimalisasi layanan Bimbingan dan Konseling di sekolah ini.`;
+					let p4 = `     Akhir kata, semoga dokumen Program Tahunan ini dapat diimplementasikan dengan maksimal demi memfasilitasi pencapaian tugas perkembangan peserta didik secara utuh, mencakup aspek pribadi, sosial, belajar, dan karier.`;
+
+					// Spasi yang lebih rapat
+					[p1, p2, p3, p4].forEach(paragraf => {
+						doc.text(paragraf, mL, nY, { maxWidth: cW - mL - mR, align: 'justify' });
+						nY += (doc.splitTextToSize(paragraf, cW-mL-mR).length * 5.5) + 2; 
+					});
+
+					// Tanda Tangan Rata Tengah
+					nY += 12;
+					doc.text(`Makassar, ${formatTglTtd}`, cX, nY, {align: 'center'});
+					doc.text('Penyusun,', cX, nY+6, {align: 'center'});
+					doc.setFont('times','bold');
+					doc.text(document.getElementById('guruProfileName').innerText, cX, nY+30, {align: 'center'});
+
+					// ── HALAMAN 4: DASAR HUKUM ────────────────
+					doc.addPage('a4', 'portrait');
+					nY = mT + 10;
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('DASAR HUKUM', cX, nY, {align:'center'});
+					
+					nY += 15;
+					doc.setFont('times','normal'); doc.setFontSize(12);
+					let dhList = dbDH.length > 0 ? dbDH : [
+						{ Uraian: 'Undang-Undang Nomor 20 Tahun 2003 tentang Sistem Pendidikan Nasional.' },
+						{ Uraian: 'Permendikbud Nomor 111 Tahun 2014 tentang Bimbingan dan Konseling pada Pendidikan Dasar dan Menengah.' },
+						{ Uraian: 'Pedoman Operasional Penyelenggaraan (POP) Bimbingan dan Konseling dari Kementerian Pendidikan dan Kebudayaan.' }
+					];
+
+					dhList.forEach((dh, idx) => {
+						let nomorTxt = `${idx+1}.`;
+						let isiTxt = dh.Uraian || dh.Nomor;
+						doc.text(nomorTxt, mL + 5, nY);
+						doc.text(isiTxt, mL + 12, nY, { maxWidth: cW - mL - mR - 12, align: 'justify' });
+						nY += (doc.splitTextToSize(isiTxt, cW - mL - mR - 12).length * 6) + 4;
+					});
+
+					// ── HALAMAN 5: VISI MISI BK (KOTAK CANTIK BERWARNA) ──────────────────
+					doc.addPage('a4', 'portrait');
+					nY = mT + 10;
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('VISI DAN MISI BIMBINGAN DAN KONSELING', cX, nY, {align:'center'});
+					
+					nY += 12;
+					
+					let teksVisi = dbVM.Visi || 'Terwujudnya kehidupan kemanusiaan yang membahagiakan melalui tersedianya pelayanan bantuan dalam pemberian dukungan perkembangan dan pengentasan masalah agar peserta didik berkembang secara optimal, mandiri dan bahagia.';
+					const listMisi = [dbVM.Misi_1, dbVM.Misi_2, dbVM.Misi_3, dbVM.Misi_4, dbVM.Misi_5].filter(Boolean);
+					if (listMisi.length === 0) {
+						listMisi.push('Memfasilitasi pengembangan potensi dan kemandirian peserta didik.');
+						listMisi.push('Memberikan layanan responsif untuk mengentaskan masalah peserta didik secara efektif.');
+						listMisi.push('Membangun kolaborasi positif dengan pemangku kepentingan sekolah.');
+					}
+
+					doc.setFont('times','normal'); doc.setFontSize(12);
+					let boxPad = 8;
+					let textW = cW - mL - mR - (boxPad * 2);
+					
+					let tinggiVisi = doc.splitTextToSize(teksVisi, textW).length * 6;
+					let tinggiMisi = 0;
+					let arrMisiLines = [];
+					listMisi.forEach(misi => {
+						let lines = doc.splitTextToSize(misi, textW - 7);
+						arrMisiLines.push(lines.length);
+						tinggiMisi += (lines.length * 6) + 3;
+					});
+
+					let boxHeight = boxPad + 6 + 4 + tinggiVisi + 8 + 6 + 4 + tinggiMisi + boxPad;
+
+					doc.setFillColor(248, 250, 252); 
+					doc.setDrawColor(201, 168, 76);  
+					doc.setLineWidth(0.4);
+					doc.roundedRect(mL, nY, cW - mL - mR, boxHeight, 3, 3, 'FD');
+
+					nY += boxPad + 6;
+					
+					doc.setFont('times','bold');
+					doc.text('A. VISI', cX, nY, {align:'center'});
+					
+					nY += 6;
+					doc.setFont('times','normal');
+					doc.text(teksVisi, mL + boxPad, nY, { maxWidth: textW, align: 'justify' });
+					
+					nY += tinggiVisi + 6;
+					
+					doc.setFont('times','bold');
+					doc.text('B. MISI', cX, nY, {align:'center'});
+
+					nY += 6;
+					doc.setFont('times','normal');
+					listMisi.forEach((misi, i) => {
+						doc.text(`${i+1}.`, mL + boxPad, nY);
+						doc.text(misi, mL + boxPad + 7, nY, { maxWidth: textW - 7, align: 'justify' });
+						nY += (arrMisiLines[i] * 6) + 3;
+					});
+
+					// ── KALKULASI DATA AUM UNTUK RASIONAL & AKPD ─────────────────────────
+					let avgPribadi=0, avgSosial=0, avgBelajar=0, avgKarier=0;
+					let rekapCount = { Pribadi:0, Sosial:0, Belajar:0, Karier:0 };
+					let rekapTotal = { Pribadi:0, Sosial:0, Belajar:0, Karier:0 };
+					const ttlPerBidang = {}, yesPerBidang = {};
+
+					hasilTingkat.forEach(h => {
+						try {
+							let bdl = JSON.parse(h.Skor_Akhir);
+							(bdl.seluruh || []).forEach(x => {
+								let txt = String(x.bidang).toLowerCase();
+								let bid = "Karier";
+								if(txt.includes("kesehatan")||txt.includes("psikologis")||txt.includes("spiritual")) bid="Pribadi";
+								else if(txt.includes("sosial")||txt.includes("keluarga")||txt.includes("digital")) bid="Sosial";
+								else if(txt.includes("akademik")||txt.includes("belajar")||txt.includes("literasi")) bid="Belajar";
+								rekapTotal[bid] += x.pct; rekapCount[bid] += 1;
+
+								// Untuk AKPD Landscape
+								ttlPerBidang[x.kode]  = (ttlPerBidang[x.kode]  || 0) + 1;
+								yesPerBidang[x.kode]  = (yesPerBidang[x.kode]  || 0) + x.pct;
+							});
+						} catch(e){}
+					});
+					
+					if(rekapCount.Pribadi > 0) avgPribadi = Math.round(rekapTotal.Pribadi / rekapCount.Pribadi);
+					if(rekapCount.Sosial > 0) avgSosial = Math.round(rekapTotal.Sosial / rekapCount.Sosial);
+					if(rekapCount.Belajar > 0) avgBelajar = Math.round(rekapTotal.Belajar / rekapCount.Belajar);
+					if(rekapCount.Karier > 0) avgKarier = Math.round(rekapTotal.Karier / rekapCount.Karier);
+
+					let arrayBidang = [
+						{nama:'Pribadi', skor:avgPribadi}, {nama:'Sosial', skor:avgSosial},
+						{nama:'Belajar', skor:avgBelajar}, {nama:'Karier', skor:avgKarier}
+					].sort((a,b)=>b.skor-a.skor);
+					let masalahTertinggi = arrayBidang[0].skor > 0 ? arrayBidang[0].nama : "Layanan Dasar";
+
+					// ── PERSIAPAN DATA 12 SUB-BIDANG UNTUK RASIONAL ─────────────────────────
+					const getPct = (kode) => ttlPerBidang[kode] ? Math.round((yesPerBidang[kode] || 0) / ttlPerBidang[kode]) : 0;
+					
+					let subAll = Object.keys(KAMUS_AUM).map(k => ({ nama: KAMUS_AUM[k], pct: getPct(k) })).sort((a,b) => b.pct - a.pct);
+					let subTertinggi = subAll[0]?.nama || "Layanan Dasar";
+					let subTertinggiPct = subAll[0]?.pct || 0;
+
+					// ── HALAMAN 6: RASIONAL (Baku, Lengkap, Rata Kiri-Kanan) ────────────────────────────
+					doc.addPage('a4', 'portrait');
+					nY = mT + 10;
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('RASIONAL', cX, nY, {align:'center'});
+					
+					nY += 15;
+					doc.setFont('times','normal'); doc.setFontSize(12);
+
+					let r1 = `     Pelayanan Bimbingan dan Konseling merupakan komponen integral dari sistem pendidikan nasional yang diselenggarakan untuk memfasilitasi perkembangan peserta didik secara utuh dan optimal. Berdasarkan Peraturan Menteri Pendidikan dan Kebudayaan Nomor 111 Tahun 2014, layanan ini dirancang secara sistematis dan berkelanjutan guna mewujudkan kemandirian peserta didik dalam menavigasi dinamika kehidupan personal, sosial, akademik, hingga transisi karier di abad ke-21.`;
+					
+					let r2 = `     Berdasarkan hasil penyebaran instrumen Alat Ungkap Masalah (AUM) berbasis online kepada ${hasilTingkat.length} peserta didik tingkat ${namaTingkat} pada Tahun Ajaran ${namaTahun}, diperoleh profil empiris kebutuhan pada empat bidang utama: Bidang Pribadi (${avgPribadi}%), Bidang Sosial (${avgSosial}%), Bidang Belajar (${avgBelajar}%), dan Bidang Karier (${avgKarier}%). Secara terperinci, pemetaan 12 area masalah menunjukkan tingkat kebutuhan sebagai berikut: Jasmani dan Kesehatan (${getPct('PRB-01')}%), Kondisi Psikologis (${getPct('PRB-02')}%), Agama dan Spiritual (${getPct('PRB-03')}%), Pergaulan Sosial (${getPct('SOS-01')}%), Hubungan Keluarga (${getPct('SOS-02')}%), Etika Digital (${getPct('SOS-03')}%), Prestasi dan Akademik (${getPct('BLJ-01')}%), Kebiasaan dan Motivasi Belajar (${getPct('BLJ-02')}%), Literasi dan Cara Belajar (${getPct('BLJ-03')}%), Eksplorasi Karier (${getPct('KAR-01')}%), Perencanaan Masa Depan (${getPct('KAR-02')}%), serta Kemandirian dan Keputusan (${getPct('KAR-03')}%).`;
+					
+					let r3 = `     Analisis komprehensif terhadap konstelasi data tersebut menunjukkan bahwa dominasi masalah tertinggi berada pada area ${subTertinggi} (${subTertinggiPct}%). Hal ini menuntut adanya distribusi intervensi yang presisi dan proporsional. Oleh karena itu, program ini dirancang dengan menitikberatkan pada Layanan Dasar sebagai langkah preventif dan developmental, Layanan Responsif untuk penanganan masalah yang memerlukan bantuan segera (kuratif), Peminatan dan Perencanaan Individual (PPI) untuk mengoptimalkan potensi, serta didukung oleh Dukungan Sistem melalui kolaborasi dengan berbagai pemangku kepentingan di sekolah.`;
+					
+					let r4 = `     Secara keseluruhan, rancangan program ini diharapkan tidak sekadar menjadi dokumen administratif, melainkan wujud nyata dari pelayanan bimbingan dan konseling yang terukur, adaptif, dan akuntabel. Melalui intervensi yang tepat guna ini, diharapkan tercipta iklim sekolah yang kondusif guna mendukung kesejahteraan psikologis (psychological well-being) dan kemandirian peserta didik secara paripurna.`;
+					
+					[r1, r2, r3, r4].forEach(paragraf => {
+						doc.text(paragraf, mL, nY, { maxWidth: cW - mL - mR, align: 'justify' });
+						nY += (doc.splitTextToSize(paragraf, cW-mL-mR).length * 5.5) + 3;
+					});
+
+					// ── HALAMAN 7: DESKRIPSI KEBUTUHAN / AKPD (LANDSCAPE) ────────────────────────────
+					doc.addPage('a4', 'landscape');
+					cW = doc.internal.pageSize.getWidth(); cX = cW/2;
+					nY = mT + 10;
+
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('DESKRIPSI KEBUTUHAN (PROFIL LAYANAN)', cX, nY, {align:'center'});
+					nY += 12;
+
+					const rincianTingkat = Object.keys(KAMUS_AUM).filter(k=>ttlPerBidang[k]).map(k=>({
+						kode: k, bidang: KAMUS_AUM[k], pct: Math.round(yesPerBidang[k]/ttlPerBidang[k])
+					})).sort((a,b)=>b.pct-a.pct);
+
+					const getBidangLayanan = (nama) => {
+						const t = String(nama).toLowerCase();
+						if (t.includes("kesehatan")||t.includes("spiritual")||t.includes("fisik")||t.includes("mental")||t.includes("moral")||t.includes("jasmani")||t.includes("psikologis")||t.includes("agama")) return "Pribadi";
+						if (t.includes("teman")||t.includes("keluarga")||t.includes("sosial")||t.includes("digital")||t.includes("asuh")||t.includes("pergaulan")||t.includes("hubungan")||t.includes("etika")) return "Sosial";
+						if (t.includes("belajar")||t.includes("waktu")||t.includes("akademik")||t.includes("literasi")||t.includes("motivasi")||t.includes("prestasi")||t.includes("kebiasaan")) return "Belajar";
+						return "Karier";
+					};
+
+					const rakitProgT = (kodeBidang) => {
+						const programs = dbProg.filter(p => p.ID_Bidang_Tes === kodeBidang && p.ID_Tingkat === progTingkatAktif);
+						if (!programs.length) return { strat:"-", topik:"-", tjn:"-" };
+						if (programs.length === 1) {
+							const p = programs[0];
+							return { strat: p.Strategi_Layanan||"-", topik: p.Topik_Materi||"-", tjn: p.Tujuan_Layanan||"-" };
+						}
+						let r = { strat:"", topik:"", tjn:"" };
+						programs.forEach((p, i) => {
+							const no = `${i+1}. `, br = i < programs.length-1 ? "\n" : "";
+							r.strat += `${no}${p.Strategi_Layanan||"-"}${br}`;
+							r.topik += `${no}${p.Topik_Materi||"-"}${br}`;
+							r.tjn   += `${no}${p.Tujuan_Layanan||"-"}${br}`;
+						});
+						return r;
+					};
+
+					const sGrp  = { font:'times', fontSize:9, fontStyle:'bold', halign:'center', valign:'middle', fillColor:[230,230,230], textColor:[0,0,0], lineColor:[0,0,0], lineWidth:0.2, cellPadding:{top:2.5,bottom:2.5,left:3,right:3} };
+					const sSub  = { font:'times', fontSize:8, fontStyle:'bold', halign:'center', valign:'middle', fillColor:[230,230,230], textColor:[0,0,0], lineColor:[0,0,0], lineWidth:0.2, cellPadding:1.5 };
+					const sIsi  = { font:'times', fontSize:8, halign:'left', valign:'top', textColor:[0,0,0], lineColor:[0,0,0], lineWidth:0.2, cellPadding:{top:2,bottom:2,left:3,right:3} };
+
+					rincianTingkat.forEach((x, idx) => {
+						const p   = rakitProgT(x.kode);
+						const lbl = `${idx + 1}.   ${getBidangLayanan(x.bidang).toUpperCase()}  —  ${x.bidang}  (${x.pct}%)`;
+
+						if (nY + 25 > (doc.internal.pageSize.getHeight() - mB)) {
+							doc.addPage("a4", "landscape");
+							cW = doc.internal.pageSize.getWidth();
+							nY = mT;
+						}
+
+						doc.autoTable({
+							startY: nY,
+							margin: { left: mL, right: mR, bottom: mB },
+							head: [
+								[{ content: lbl, colSpan: 4, styles: sGrp }],
+								[
+									{ content: 'Strategi Layanan',  styles: sSub },
+									{ content: 'Topik Materi',      styles: sSub },
+									{ content: 'Tujuan Intervensi', styles: sSub },
+									{ content: 'Kebutuhan (%)',     styles: sSub }
+								]
+							],
+							body: [[
+								{ content: p.strat, styles: sIsi },
+								{ content: p.topik, styles: sIsi },
+								{ content: p.tjn,   styles: sIsi },
+								{ content: `${x.pct}%`, styles: {...sIsi, halign: 'center', valign: 'middle', fontStyle: 'bold', fontSize: 10} }
+							]],
+							theme: 'plain',
+							columnStyles: {
+								0: { cellWidth: 50 },
+								1: { cellWidth: 70 },
+								2: { cellWidth: 'auto' },
+								3: { cellWidth: 25 },
+							},
+							showHead: 'firstPage',
+						});
+
+						nY = doc.lastAutoTable.finalY + 3;
+					});
+				}
+				// =========================================================================
+				// BATAS BAGIAN PENDAHULUAN (SELESAI)
+				// =========================================================================
+
+
+				// ── KODE HELPER TABEL LANDSCAPE INTI ─────────────────────────
+				const buatTabelSemester = (bulanList, labelSemester, warnaCek) => {
+					const MAP_BIDANG = { PRB:'Pribadi', SOS:'Sosial', BLJ:'Belajar', KAR:'Karier' };
+					doc.addPage('a4', 'landscape');
+					cW = doc.internal.pageSize.getWidth(); cX = cW / 2;
+
+					// Kop ringkas
+					doc.setFont('times','bold'); doc.setFontSize(10);
+					doc.text(`${dbSekolah.Nama_Sekolah||'SEKOLAH'} — PROGRAM BK ${judulMode} | ${labelSemester}`, cX, mT+4, {align:'center'});
+					doc.setFont('times','normal'); doc.setFontSize(8.5);
+					doc.text(`Tingkatan: ${namaTingkat}  |  Tahun Ajaran: ${namaTahun}`, cX, mT+10, {align:'center'});
+					doc.setLineWidth(0.4); doc.line(mL, mT+13, cW-mR, mT+13);
+
+					// Kumpulkan data dari checkbox UI
+					const checkboxes = document.querySelectorAll('.bulan-check');
+					const mapRows    = {};
+					checkboxes.forEach(chk => {
+						const key = `${chk.dataset.komponen}||${chk.dataset.kegiatan}`;
+						if (!mapRows[key]) {
+							mapRows[key] = {
+								komponen: chk.dataset.komponen,
+								kegiatan: chk.dataset.kegiatan,
+								topik:    chk.dataset.topik,
+								strategi: chk.dataset.strategi || '-',
+								bidang:   chk.dataset.bidang   || '',
+								bulan:    {}
+							};
+						}
+						if (bulanList.includes(chk.dataset.bulan)) {
+							mapRows[key].bulan[chk.dataset.bulan] = chk.checked;
+						}
+					});
+
+					// Head tabel
+					const headRow1 = [
+						{ content:'No.',      rowSpan:2, styles:cHead },
+						{ content:'Komponen', rowSpan:2, styles:{...cHead, cellWidth:22} },
+						{ content:'Strategi Layanan', rowSpan:2, styles:{...cHead, cellWidth:28} },
+						{ content:'Kegiatan / Topik', rowSpan:2, styles:{...cHead, cellWidth:55} },
+						{ content:'Tujuan Layanan',   rowSpan:2, styles:{...cHead, cellWidth:55} },
+						{ content: labelSemester, colSpan: bulanList.length,
+						  styles: {...cHead, fillColor: warnaCek} }
+					];
+					const headRow2 = bulanList.map(b => ({ content:b, styles:{...cHead, cellWidth:14} }));
+
+					// Body tabel
+					let no = 0;
+					const bodyRows = [];
+
+					// Kelompokkan per komponen
+					const groupedRows = {};
+					const urutan = [];
+					Object.values(mapRows).forEach(row => {
+						if (!groupedRows[row.komponen]) {
+							groupedRows[row.komponen] = [];
+							urutan.push(row.komponen);
+						}
+						groupedRows[row.komponen].push(row);
+					});
+
+					urutan.forEach(komponen => {
+						const semuaBaris = groupedRows[komponen];
+
+						// Filter: hanya baris yang punya minimal 1 bulan dicentang
+						const barisTampil = semuaBaris.filter(row =>
+							bulanList.some(b => row.bulan[b] === true)
+						);
+
+						// Header komponen selalu tampil
+						bodyRows.push([{
+							content:  komponen,
+							colSpan:  5 + bulanList.length,
+							styles:   { ...cSty, fontStyle:'bold', halign:'left',
+										fillColor:[210,220,235], fontSize:8.5 }
+						}]);
+
+						if (barisTampil.length === 0) {
+							// Tidak ada yang dicentang — tampilkan info kosong
+							bodyRows.push([{
+								content: '— Tidak ada kegiatan yang dijadwalkan —',
+								colSpan: 5 + bulanList.length,
+								styles:  { ...cSty, halign:'center', textColor:[160,160,160],
+										   fontStyle:'italic', fontSize:7.5 }
+							}]);
+						} else {
+							barisTampil.forEach(row => {
+								no++;
+								const bulanCells = bulanList.map(b => ({
+									content: row.bulan[b] ? '✓' : '',
+									styles:  { ...cSty,
+										fillColor: row.bulan[b] ? warnaCek : [255,255,255],
+										fontStyle: row.bulan[b] ? 'bold' : 'normal'
+									}
+								}));
+								bodyRows.push([
+									{ content: no,              styles: cSty },
+									{ content: MAP_BIDANG[(row.bidang||'').split('-')[0]] || '—', styles: {...cSty, fontSize:7} },
+									{ content: row.strategi,    styles: {...cSty, halign:'left', fontSize:7.5} },
+									{ content: row.kegiatan,    styles: {...cSty, halign:'left', fontSize:7.5} },
+									{ content: row.topik,       styles: {...cSty, halign:'left', fontSize:7} },
+									...bulanCells
+								]);
+							});
+						}
+					});
+
+					doc.autoTable({
+						startY:       mT + 16,
+						margin:       { left:mL, right:mR, bottom:mB },
+						head:         [headRow1, headRow2],
+						body:         bodyRows,
+						theme:        'plain',
+						columnStyles: {
+							0: { cellWidth:8  },
+							1: { cellWidth:22 },
+							2: { cellWidth:28 },
+							3: { cellWidth:55 },
+							4: { cellWidth:55 },
+							...Object.fromEntries(bulanList.map((_,i) => [5+i, {cellWidth:14}]))
+						},
+						showHead:     'everyPage',
+					});
+				};
+
+				// ── PEMANGGILAN TABEL ───────────────────────────────────
+				if (mode === 'tahunan' || mode === 'ganjil') {
+					buatTabelSemester(['Jul','Agu','Sep','Okt','Nov','Des'], 'SEMESTER GANJIL (Juli — Desember)', [200,215,240]);
+				}
+				if (mode === 'tahunan' || mode === 'genap') {
+					buatTabelSemester(['Jan','Feb','Mar','Apr','Mei','Jun'],  'SEMESTER GENAP (Januari — Juni)',   [245,235,200]);
+				}
+
+
+				// =========================================================================
+				// BAGIAN AKHIR / PENUTUP
+				// =========================================================================
+
+				if (mode === 'tahunan') {
+					// ── RENCANA ANGGARAN & PENUTUP (HANYA JIKA TAHUNAN) ──────────────────
+					doc.addPage('a4', 'portrait');
+					cW = doc.internal.pageSize.getWidth(); cX = cW / 2; nY = mT + 10;
+
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('RENCANA ANGGARAN', cX, nY, {align:'center'}); nY+=15;
+
+					let dataTableAnggaran = [];
+					let totalAnggaran = 0;
+					if(typeof dataAnggaranSementara !== 'undefined' && dataAnggaranSementara.length > 0) {
+						dataTableAnggaran = dataAnggaranSementara.map((d, i) => {
+							let sub = parseInt(d.vol) * parseInt(d.harga);
+							totalAnggaran += sub;
+							return [i+1, d.item, d.vol, `Rp ${parseInt(d.harga).toLocaleString('id-ID')}`, `Rp ${sub.toLocaleString('id-ID')}`];
+						});
+						dataTableAnggaran.push([{content:'Total Estimasi Anggaran', colSpan:4, styles:{fontStyle:'bold', halign:'right'}}, {content:`Rp ${totalAnggaran.toLocaleString('id-ID')}`, styles:{fontStyle:'bold'}}]);
+					} else {
+						dataTableAnggaran = [["-","(Anggaran belum ditambahkan via sistem)","-","-","-"]];
+					}
+
+					doc.autoTable({
+						startY: nY, margin:{left:mL, right:mR},
+						head:[['No.','Nama Kegiatan / Barang','Volume','Harga Satuan','Sub Total']],
+						body: dataTableAnggaran, theme:'grid', headStyles:cHead, styles:cSty,
+						columnStyles: { 1: { halign: 'left' }, 3: { halign: 'right' }, 4: { halign: 'right' } }
+					});
+
+					nY = doc.lastAutoTable.finalY + 20;
+					doc.setFont('times','bold'); doc.setFontSize(14);
+					doc.text('PENUTUP', cX, nY, {align:'center'}); nY+=15;
+					
+					doc.setFont('times','normal'); doc.setFontSize(12);
+					let teksPenutup = `     Demikian Program Bimbingan dan Konseling ini disusun sebagai pijakan operasional pelaksanaan layanan dasar, responsif, peminatan, dan dukungan sistem di sekolah. Kami menyadari bahwa keberhasilan dan efektivitas program ini sangat bergantung pada dedikasi pelaksanaan yang konsisten, sinergi yang harmonis antar komponen pemangku kepentingan sekolah, serta dukungan aktif dari orang tua peserta didik. Melalui kolaborasi yang sinergis, diharapkan seluruh rangkaian kegiatan yang telah direncanakan dapat terlaksana dengan optimal. Evaluasi dan tindak lanjut akan terus dilakukan secara berkala dan komprehensif sebagai bahan refleksi untuk peningkatan kualitas mutu layanan Bimbingan dan Konseling di masa yang akan datang.`;
+					doc.text(teksPenutup, mL, nY, { maxWidth: cW - mL - mR, align: 'justify' });
+				}
+
+				// ── HALAMAN TANDA TANGAN DINAMIS ─────────────────────────────────────────────
+				// ── HALAMAN TANDA TANGAN DINAMIS ─────────────────────────────────────────────
+				if (mode === 'tahunan') {
+					// UNTUK TAHUNAN: Tanda tangan berada di halaman Portrait, setelah Penutup
+					// Jarak diperlebar signifikan (45 point) agar tidak menabrak teks Penutup
+					nY += 45; 
+					
+					// Jika sisa kertas di bawah penutup kurang dari 50mm, otomatis buat halaman baru
+					if (nY > (doc.internal.pageSize.getHeight() - mB - 50)) {
+						doc.addPage('a4', 'portrait');
+						nY = mT + 15;
+					}
+					
+					let signX = doc.internal.pageSize.getWidth() - mR - 65;
+					
+					doc.setFont('times','normal'); doc.setFontSize(11);
+					doc.text('Mengetahui,', mL+20, nY);
+					doc.text(`Makassar, ${formatTglTtd}`, signX, nY);
+					doc.text('Kepala Sekolah,', mL+20, nY+6);
+					doc.text('Guru Bimbingan dan Konseling,', signX, nY+6);
+
+					doc.setFont('times','bold'); doc.setFontSize(11);
+					doc.text(dbSekolah.Nama_Kepsek || '______________________', mL+20, nY+28);
+					doc.setFont('times','normal');
+					doc.text(`NIP. ${dbSekolah.NIP_Kepsek||'-'}`, mL+20, nY+33);
+
+					doc.setFont('times','bold');
+					doc.text(document.getElementById('guruProfileName').innerText, signX, nY+28);
+					doc.setFont('times','normal');
+					doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, signX, nY+33);
+
+				} else {
+					// UNTUK SEMESTER: Tanda tangan langsung menyambung di bawah tabel Landscape
+					let ttdY = doc.lastAutoTable.finalY + 15;
+					
+					// Cek apakah tabel mentok sampai bawah kertas landscape
+					if (ttdY > (doc.internal.pageSize.getHeight() - mB - 45)) {
+						doc.addPage('a4', 'landscape');
+						ttdY = mT + 10;
+					}
+
+					let signX = doc.internal.pageSize.getWidth() - mR - 65;
+
+					doc.setFont('times','normal'); doc.setFontSize(11);
+					doc.text('Mengetahui,', mL+20, ttdY);
+					doc.text(`Makassar, ${formatTglTtd}`, signX, ttdY);
+					doc.text('Kepala Sekolah,', mL+20, ttdY+6);
+					doc.text('Guru Bimbingan dan Konseling,', signX, ttdY+6);
+
+					doc.setFont('times','bold'); doc.setFontSize(11);
+					doc.text(dbSekolah.Nama_Kepsek || '______________________', mL+20, ttdY+28);
+					doc.setFont('times','normal');
+					doc.text(`NIP. ${dbSekolah.NIP_Kepsek||'-'}`, mL+20, ttdY+33);
+
+					doc.setFont('times','bold');
+					doc.text(document.getElementById('guruProfileName').innerText, signX, ttdY+28);
+					doc.setFont('times','normal');
+					doc.text(`NIP. ${document.getElementById('guruProfileNIP').innerText.replace(/NIP[:.]\s*/i,'')}`, signX, ttdY+33);
+				}
+
+				window.open(doc.output('bloburl'), '_blank');
+				loadHide();
+
+			} catch(e) {
+				loadHide();
+				Swal.fire('Gagal Mencetak', e.message, 'error');
+			}
+		}
+		
+		// VARIABEL DAN LOGIKA ANGGARAN
+        let dataAnggaranSementara = [];
+        const modAnggaran = new bootstrap.Modal(document.getElementById('modalAnggaran'));
+
+        function bukaModalAnggaran() {
+            if (dataAnggaranSementara.length === 0) tambahBarisAnggaran(); // Minimal 1 baris
+            else renderTabelAnggaran();
+            modAnggaran.show();
+        }
+
+        function tambahBarisAnggaran() {
+            dataAnggaranSementara.push({ item: '', vol: 1, harga: 0 });
+            renderTabelAnggaran();
+        }
+
+        function hapusBarisAnggaran(idx) {
+            dataAnggaranSementara.splice(idx, 1);
+            renderTabelAnggaran();
+        }
+
+        function renderTabelAnggaran() {
+            let html = '';
+            dataAnggaranSementara.forEach((d, i) => {
+                html += `<tr>
+                    <td><input type="text" class="field-input py-1" value="${d.item}" onchange="dataAnggaranSementara[${i}].item=this.value" placeholder="Contoh: ATK / Konsumsi"></td>
+                    <td><input type="number" class="field-input py-1" value="${d.vol}" onchange="dataAnggaranSementara[${i}].vol=this.value"></td>
+                    <td><input type="number" class="field-input py-1" value="${d.harga}" onchange="dataAnggaranSementara[${i}].harga=this.value"></td>
+                    <td><button class="btn-edit-sm" style="color:var(--red-500);" onclick="hapusBarisAnggaran(${i})"><i class="fas fa-trash"></i></button></td>
+                </tr>`;
+            });
+            document.getElementById('bodyAnggaran').innerHTML = html;
+        }
+
+        function simpanAnggaranLokal() {
+            modAnggaran.hide();
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Anggaran disiapkan untuk cetak.', showConfirmButton: false, timer: 2000 });
+        }
 		
 		async function urlToBase64(url) {
 			try {
