@@ -1067,6 +1067,24 @@
 		.prog-empty i { font-size: 40px; margin-bottom: 12px; display: block; }
 		.prog-empty p { font-size: 14px; }
 		
+		/* Secondary Glass Button (Untuk Panduan) */
+        .btn-secondary-glass {
+            background: transparent;
+            border: 1px solid var(--ink-500);
+            border-radius: 12px;
+            padding: 12px 15px;
+            font-size: 13px; font-weight: 600;
+            color: var(--ink-300);
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; max-width: 280px; margin: 12px auto 0;
+        }
+        .btn-secondary-glass:hover {
+            border-color: var(--blue-400);
+            color: var(--blue-300);
+            background: rgba(59,130,246,0.1);
+        }
+		
     </style>
 </head>
 <body>
@@ -1081,7 +1099,7 @@
     <nav class="navbar-premium">
         <div class="container d-flex align-items-center justify-content-between">
             <a class="navbar-brand" href="#">
-                <div class="brand-icon"><i class="fas fa-brain"></i></div>
+                <img src="https://drive.google.com/thumbnail?id=1rQ6IlUOqaTEwmWB53hk4t5CXxMQolKS5" alt="Logo" style="width:40px; height:40px; border-radius:10px; object-fit:cover; box-shadow:0 0 12px rgba(201,168,76,0.4);">
                 AUM <span class="brand-accent">Online</span>
             </a>
             <button class="btn-logout" id="btnLogout" onclick="logout()">
@@ -1140,7 +1158,12 @@
 
                         <!-- FORM PANEL -->
                         <div class="login-form-panel">
-                            <div class="form-section-title">AUM Online</div>
+                            <div class="form-section-title d-flex align-items-center justify-content-between">
+                                AUM Online
+                                <button type="button" onclick="bukaModalInfo()" title="Informasi Aplikasi" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); color:var(--gold-400); width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s;">
+                                    <i class="fas fa-info"></i>
+                                </button>
+                            </div>
                             <div class="form-section-sub">Pilih jalur masuk sesuai hak akses Anda.</div>
 
                             <div class="login-tabs">
@@ -1148,7 +1171,7 @@
                                     <i class="fas fa-user-graduate"></i> Isi Aum (Siswa)
                                 </button>
                                 <button class="login-tab-btn" id="tabBtnGuru" onclick="gantiTabLogin('guru')">
-                                    <i class="fas fa-user-tie"></i> Guru BK
+                                    <i class="fas fa-user-shield"></i> Admin BK
                                 </button>
                             </div>
 
@@ -1212,12 +1235,12 @@
                     <div class="instruksi-box">
                         <div class="instruksi-title">
                             <i class="fas fa-circle-info"></i>
-                            Tata Cara Pengerjaan Asesmen
+                            Panduan Asesmen Profesional BK
                         </div>
                         <ul class="ps-0 mb-0">
-                            <li>Pilih <strong style="color:#6EE7B7;">YA</strong> jika pernyataan sesuai dengan kondisi Anda.</li>
-                            <li>Pilih <strong style="color:#FCA5A5;">TIDAK</strong> jika pernyataan tidak sesuai.</li>
-                            <li>Kerjakan dengan jujur — data dijamin kerahasiaannya oleh Guru BK.</li>
+                            <li><span><strong>Instrumen Profesional:</strong> Asesmen ini dirancang khusus untuk memahami kondisi Anda secara profesional, bukan untuk menilai prestasi akademik.</span></li>
+                            <li><span><strong>Cara Menjawab:</strong> Jawablah secara spontan. Pilih <strong style="color:#6EE7B7;">YA</strong> jika sesuai dengan apa yang Anda rasakan, dan pilih <strong style="color:#FCA5A5;">TIDAK</strong> jika tidak sesuai.</span></li>
+                            <li><span><strong>Asas Kerahasiaan:</strong> Kejujuran Anda adalah kunci. Privasi dan kerahasiaan jawaban Anda dilindungi penuh oleh sistem dan <strong>Kode Etik Guru BK</strong>.</span></li>
                         </ul>
                     </div>
 
@@ -1330,7 +1353,7 @@
                 <!-- SIDEBAR -->
                 <div class="sidebar-panel">
                     <div class="guru-profile-block">
-                        <img src="https://ui-avatars.com/api/?name=Admin+BK&background=1A3A6B&color=C9A84C&bold=true" class="guru-avatar" id="guruAvatarImg" alt="">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" class="guru-avatar" id="guruAvatarImg" alt="Admin BK">
                         <div class="guru-name" id="guruProfileName">Admin BK</div>
                         <div class="guru-nip" id="guruProfileNIP"><i class="fas fa-id-badge"></i> NIP: —</div>
                     </div>
@@ -1806,6 +1829,66 @@
             </div>
         </div>
     </div>
+	
+	<div class="modal fade" id="modalInfoAplikasi" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content modal-content-dark">
+				<div class="modal-header-dark" style="border-bottom:none; padding-bottom:0;">
+					<button type="button" class="btn-close btn-close-dark float-end" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body-dark text-center" style="padding-top:0;">
+					<div style="width:90px; height:90px; border-radius:50%; margin:0 auto 16px; border:3px solid var(--gold-500); padding:3px; box-shadow:0 0 20px var(--gold-glow);">
+						<img src="https://drive.google.com/thumbnail?id=1Dl4cdatannKZuzAV7iAWr69VEqhosUn_" alt="Creator" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+					</div>
+					<h4 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:800; color:var(--ink-000); margin-bottom:4px;">AUM Mappaguru Project</h4>
+					<p style="font-size:13px; color:var(--gold-400); font-weight:700; letter-spacing:0.05em; margin-bottom:20px;">CREATOR & DEVELOPER: MUHAMMAD HASRATUL</p>
+					
+					<div style="background:var(--ink-700); border:1px solid var(--ink-600); border-radius:14px; padding:16px; text-align:center; font-size:13px; color:var(--ink-100); line-height:1.7;">
+						Aplikasi ini dirancang eksklusif untuk memodernisasi asesmen Bimbingan dan Konseling di lingkungan sekolah. Menjadikan pemetaan kebutuhan peserta didik lebih <strong>cepat, akurat, dan berbasis data (Data-Driven)</strong>.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalPanduanAUM" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content modal-content-dark">
+				<div class="modal-header-dark">
+					<span class="modal-title-dark"><i class="fas fa-book-open me-2"></i>Panduan Pengisian AUM</span>
+					<button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body-dark" style="font-size:13px; line-height:1.7; color:var(--ink-100);">
+					<div style="background:rgba(37,99,235,0.1); border-left:3px solid var(--blue-400); padding:14px 18px; border-radius:8px; margin-bottom:20px;">
+						<h5 style="font-size:14px; font-weight:700; color:var(--blue-300); margin-bottom:6px;">Bukan Ujian Biasa!</h5>
+						Alat Ungkap Masalah (AUM) ini <strong>bukanlah tes atau ujian</strong>. Tidak ada jawaban yang benar atau salah, dan hasil isian ini <strong>tidak akan memengaruhi nilai rapormu.</strong>
+					</div>
+
+					<h5 style="font-size:14px; font-weight:700; color:var(--ink-000); margin-bottom:12px;"><i class="fas fa-crosshairs" style="color:var(--gold-400);"></i> 4 Bidang yang Kami Perhatikan:</h5>
+					<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:24px;">
+						<div style="background:var(--ink-700); padding:12px 16px; border-radius:10px; border:1px solid var(--ink-600);">
+							<strong style="color:var(--ink-000);">1. Bidang Pribadi:</strong> Seputar kesehatan fisikmu, perasaan/psikologismu, serta kegiatan ibadah dan spiritualmu.
+						</div>
+						<div style="background:var(--ink-700); padding:12px 16px; border-radius:10px; border:1px solid var(--ink-600);">
+							<strong style="color:var(--ink-000);">2. Bidang Sosial:</strong> Hubungan pergaulanmu dengan teman, keluargamu di rumah, serta caramu beretika di media sosial.
+						</div>
+						<div style="background:var(--ink-700); padding:12px 16px; border-radius:10px; border:1px solid var(--ink-600);">
+							<strong style="color:var(--ink-000);">3. Bidang Belajar:</strong> Motivasimu bersekolah, kebiasaan dan cara belajarmu, hingga pencapaian prestasimu.
+						</div>
+						<div style="background:var(--ink-700); padding:12px 16px; border-radius:10px; border:1px solid var(--ink-600);">
+							<strong style="color:var(--ink-000);">4. Bidang Karier:</strong> Pemetaan minat dan bakatmu, serta rencanamu mau melanjutkan studi atau bekerja setelah lulus nanti.
+						</div>
+					</div>
+
+					<h5 style="font-size:14px; font-weight:700; color:var(--green-500); margin-bottom:8px;"><i class="fas fa-shield-check"></i> Kerahasiaan 100% Terjamin</h5>
+					<p style="color:var(--ink-300);">Jangan ragu atau takut untuk menjawab <strong>"YA"</strong> pada hal-hal yang mengganggumu. Data ini dilindungi penuh oleh Guru BK. Semakin kamu jujur, semakin mudah Guru BK membantumu berkembang menjadi lebih baik dan bahagia di sekolah.</p>
+				</div>
+				<div class="modal-footer-dark text-center" style="display:block;">
+					<button class="btn-primary-blue" data-bs-dismiss="modal" style="width:auto; display:inline-flex;">Saya Mengerti</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- ================================================================
          JAVASCRIPT — IDENTIK DENGAN ASLI, HANYA RENDERING DISESUAIKAN
@@ -1911,26 +1994,58 @@
             sessionSiswa=dbSiswa.find(s=>s.ID_Siswa===idS);
             document.getElementById('dashNamaSiswa').innerText=sessionSiswa.Nama_Siswa;
             document.getElementById('dashMetaSiswa').innerText=`Kelas: ${sessionSiswa.Kelas}`;
-            document.getElementById('siswaAvatar').src=`https://ui-avatars.com/api/?name=${encodeURIComponent(sessionSiswa.Nama_Siswa)}&background=1A3A6B&color=C9A84C&bold=true`;
-            document.getElementById('cbtButtonArea').innerHTML=`<button class="btn-primary-gold" style="max-width:280px;margin:0 auto;" onclick="mulaiUjianCBT()"><i class="fas fa-play-circle"></i> Buka Lembar Soal</button>`;
+			// Menggunakan ikon avatar pelajar universal (netral)
+			document.getElementById('siswaAvatar').src = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png";
+            document.getElementById('cbtButtonArea').innerHTML = `
+                <button class="btn-primary-gold" style="max-width:280px;margin:0 auto;" onclick="mulaiUjianCBT()">
+                    <i class="fas fa-play-circle"></i> Buka Lembar Soal
+                </button>
+                <button class="btn-secondary-glass" onclick="bukaModalPanduan()">
+                    <i class="fas fa-book-open"></i> Tentang Tes & Cara Mengisi
+                </button>
+            `;
             switchView('view-dashboard-siswa');
         }
 
         async function mulaiUjianCBT() {
             try {
                 loadShow("Menyiapkan Instrumen...");
-                const rSoal=await fetchAPI("read&sheet=Bank Soal");
-                curSoal=(rSoal.data||[]).filter(s=>s.ID_Tingkat===sessionSiswa.ID_Tingkat);
-                if(curSoal.length===0) throw new Error("Bank soal kosong.");
-                curIdx=0; ansMap={};
-                const keyStorage=`SOBATBK_DRAFT_${sessionSiswa.ID_Siswa}`;
-                const savedData=localStorage.getItem(keyStorage);
-                if(savedData) ansMap=JSON.parse(savedData);
-                document.getElementById('cbtHeaderNama').innerText=sessionSiswa.Nama_Siswa;
-                document.getElementById('cbtHeaderMeta').innerText=`Kelas: ${sessionSiswa.Kelas}`;
-                renderPalette(); renderSoal(); loadHide(); switchView('view-cbt');
-                if(savedData) Swal.fire({toast:true,position:'top-end',icon:'info',title:'Draft jawaban Anda dipulihkan',showConfirmButton:false,timer:3000});
-            } catch(e){ loadHide(); Swal.fire('Error',e.message,'error'); }
+                const rSoal = await fetchAPI("read&sheet=Bank Soal");
+                let soalAsli = (rSoal.data || []).filter(s => s.ID_Tingkat === sessionSiswa.ID_Tingkat);
+                
+                if(soalAsli.length === 0) throw new Error("Bank soal kosong.");
+
+                // 1. SISIPKAN KTP ASLI (Nomor Urut Database) SEBELUM DIACAK
+                soalAsli = soalAsli.map((s, idx) => ({ ...s, Original_Index: idx + 1 }));
+
+                // 2. ACAK SOAL (Logika Fisher-Yates Shuffle agar soal melompat-lompat di layar)
+                for (let i = soalAsli.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [soalAsli[i], soalAsli[j]] = [soalAsli[j], soalAsli[i]];
+                }
+
+                // 3. Masukkan soal yang sudah diacak ke variabel utama
+                curSoal = soalAsli;
+                curIdx = 0; 
+                ansMap = {};
+
+                const keyStorage = `SOBATBK_DRAFT_${sessionSiswa.ID_Siswa}`;
+                const savedData = localStorage.getItem(keyStorage);
+                if(savedData) ansMap = JSON.parse(savedData);
+
+                document.getElementById('cbtHeaderNama').innerText = sessionSiswa.Nama_Siswa;
+                document.getElementById('cbtHeaderMeta').innerText = `Kelas: ${sessionSiswa.Kelas}`;
+                
+                renderPalette(); 
+                renderSoal(); 
+                loadHide(); 
+                switchView('view-cbt');
+
+                if(savedData) Swal.fire({toast:true, position:'top-end', icon:'info', title:'Draft jawaban Anda dipulihkan', showConfirmButton:false, timer:3000});
+            } catch(e) { 
+                loadHide(); 
+                Swal.fire('Error', e.message, 'error'); 
+            }
         }
 
         function renderPalette() {
@@ -1983,7 +2098,7 @@
 
         async function kunciDanKirim() {
 			if(Object.keys(ansMap).length < curSoal.length){
-				return Swal.fire('Belum Selesai','Anda wajib menjawab seluruh soal sebelum mengirim. Cek palet nomor yang masih kosong.','warning');
+				return Swal.fire('Belum Selesai', 'Anda wajib menjawab seluruh soal sebelum mengirim. Cek palet nomor yang masih kosong.', 'warning');
 			}
 			
 			Swal.fire({
@@ -1997,12 +2112,11 @@
 					try {
 						loadShow("Mengirim Data...");
 						
-						// --- BAGIAN YANG DIPERBARUI: Pelacakan Butir Soal ---
 						let ttl = {}, yes = {}, butirYa = {};
 						
-						// Menghitung jumlah soal, jawaban YA, dan melacak nomor urut soal
-						curSoal.forEach((s, index) => {
-							let nomorUrutSoal = index + 1;
+						// --- KUNCI KONSEP 1: Gunakan Original_Index (KTP Asli), bukan posisi index layar ---
+						curSoal.forEach((s) => {
+							let nomorUrutSoal = s.Original_Index; // Mengambil nomor urut asli dari database
 							ttl[s.ID_Bidang_Tes] = (ttl[s.ID_Bidang_Tes] || 0) + 1;
 							
 							if(ansMap[s.ID_Soal] === "Ya") {
@@ -2012,15 +2126,14 @@
 							}
 						});
 						
-						// Merangking prioritas masalah dan menyisipkan data butir_ya
+						// Merangking prioritas masalah
 						let rank = Object.keys(ttl).map(k => ({
 							kode: k, 
 							bidang: KAMUS_AUM[k] || k, 
 							pct: Math.round(((yes[k] || 0) / ttl[k]) * 100), 
 							skor: yes[k] || 0,
-							item_ya: butirYa[k] || [] // <-- Ini data tambahan nomor soalnya
+							item_ya: butirYa[k] || [] 
 						})).sort((a,b) => b.pct - a.pct);
-						// ---------------------------------------------------
 						
 						let t3 = rank.slice(0,3);
 						let b3 = rank.slice(-3).reverse();
@@ -2047,7 +2160,9 @@
 						loadHide();
 						
 						Swal.fire({icon:'success', title:'Selesai', text:'Data sukses tersimpan di server.', allowOutsideClick:false});
-						document.getElementById('cbtButtonArea').innerHTML = `<div style="background:rgba(16,185,129,0.1);border:1px solid var(--green-500);border-radius:12px;padding:16px 24px;color:#6EE7B7;font-weight:700;display:flex;align-items:center;gap:10px;"><i class="fas fa-lock"></i> Tes Selesai. Sesi Pengisian Ditutup.</div>`;
+						
+                        // Mengunci tombol agar tidak bisa ujian lagi, tapi tetap di Dashboard Siswa
+                        document.getElementById('cbtButtonArea').innerHTML = `<div style="background:rgba(16,185,129,0.1);border:1px solid var(--green-500);border-radius:12px;padding:16px 24px;color:#6EE7B7;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;"><i class="fas fa-lock"></i> Tes Selesai. Terima kasih atas partisipasi Anda.</div>`;
 						switchView('view-dashboard-siswa');
 						
 					} catch(e) { 
@@ -2076,7 +2191,8 @@
                 if(!matchAdmin) throw new Error("Username atau Kata Sandi Salah.");
                 document.getElementById('guruProfileName').innerText=matchAdmin.Nama_Guru||"Admin BK";
                 document.getElementById('guruProfileNIP').innerHTML=`<i class="fas fa-id-badge"></i> NIP. ${matchAdmin.NIP||'-'}`;
-                document.getElementById('guruAvatarImg').src=`https://ui-avatars.com/api/?name=${encodeURIComponent(matchAdmin.Nama_Guru||'Admin')}&background=1A3A6B&color=C9A84C&bold=true`;
+                // Silakan ganti link di bawah agar sama dengan link foto di TITIK 1 tadi
+				document.getElementById('guruAvatarImg').src = "https://cdn-icons-png.flaticon.com/512/3135/3135810.png";
                 document.getElementById('statResponden').innerText=dbHasil.length;
                 document.getElementById('statToken').innerText=dbTokens.filter(x=>x.Status==="Aktif").length;
                 renderChart(); renderTblToken(); renderTblHasil(); renderTabelCetakKelas(); renderTabelCetakTingkatan();
@@ -5067,6 +5183,14 @@
 			}
 		}
 		
+		// FUNGSI MEMBUKA MODAL INFO & PANDUAN
+		function bukaModalInfo() {
+			new bootstrap.Modal(document.getElementById('modalInfoAplikasi')).show();
+		}
+		function bukaModalPanduan() {
+			new bootstrap.Modal(document.getElementById('modalPanduanAUM')).show();
+		}
+		
 		async function urlToBase64(url) {
 			try {
 				const res = await fetch(url);
@@ -5080,8 +5204,43 @@
 			} catch(e) { return null; }
 		}
 
-        function logout(){
-            Swal.fire({title:'Akhiri Sesi?',icon:'warning',showCancelButton:true,confirmButtonColor:'#C9A84C',cancelButtonColor:'#1E2840'}).then(r=>{if(r.isConfirmed) location.reload();});
+        function logout() {
+            // Mengecek apakah siswa sedang berada di dalam halaman CBT (sedang ujian)
+            const sedangUjian = document.getElementById('view-cbt').classList.contains('active');
+
+            if (sedangUjian) {
+                // KONDISI A: Sedang di dalam ujian dan menekan tombol keluar
+                Swal.fire({
+                    title: 'Tinggalkan Lembar Ujian?',
+                    text: 'Jawaban sementara Anda sudah tersimpan. Anda akan kembali ke Beranda Siswa.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#C9A84C',
+                    cancelButtonColor: '#1E2840',
+                    confirmButtonText: 'Ya, Ke Beranda',
+                    cancelButtonText: 'Batal'
+                }).then(r => {
+                    if(r.isConfirmed) {
+                        switchView('view-dashboard-siswa'); // Lari ke beranda siswa, BUKAN logout total
+                    }
+                });
+            } else {
+                // KONDISI B & C: Sedang di Dashboard (baik sebelum/sesudah tes) atau Guru BK
+                Swal.fire({
+                    title: 'Akhiri Sesi?',
+                    text: 'Anda akan keluar sepenuhnya dari aplikasi.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#C9A84C',
+                    cancelButtonColor: '#1E2840',
+                    confirmButtonText: 'Ya, Keluar',
+                    cancelButtonText: 'Batal'
+                }).then(r => {
+                    if(r.isConfirmed) {
+                        location.reload(); // Logout total dan kembali ke halaman login
+                    }
+                });
+            }
         }
     </script>
 
